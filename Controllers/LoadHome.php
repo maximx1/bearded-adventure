@@ -41,7 +41,11 @@ class LoadHome
 			}
 		}
 		
-		print "Count: ".count($combinedOrders);
+		print "Count: " . count($combinedOrders) . "<br>\n";
+		foreach($combinedOrders as $order)
+		{
+			print $order->CreateMealString() . "<br>\n";
+		}
 	}
 }
 

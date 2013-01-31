@@ -49,10 +49,10 @@ class Order
 	 */
 	public function CreateMealString()
 	{
-		$OrderString = $this->$USER_NAME + " : " + $this->$MEAL_NAME + " with " + $this->$RICE_TYPE + ".";
+		$OrderString = $this->$USER_NAME . " : " . $this->$MEAL_NAME . " with " . $this->$RICE_TYPE . ".";
 		foreach ($this->$MOB_OPTION as $value)
 		{
-			$OrderString += " " + $value;	
+			$OrderString .= " " . $value;	
 		}
 		return $OrderString;
 	}
