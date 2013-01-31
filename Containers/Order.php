@@ -29,7 +29,8 @@ class Order
 	 */
 	public function AddMobOption($mobOption)
 	{
-		array_push($this->MOB_OPTION, $mobOption);
+		foreach($mobOption as $var)
+		array_push($this->MOB_OPTION, $var);
 		return;
 	}
 	
