@@ -6,7 +6,6 @@ class LoadHome
 	function LoadDaysMeals()
 	{
 		$db = new DB();
-		$db->ConnectDB();
 		$OrderRows = $db->PullDaysMeals();
 		
 		//Testing output.

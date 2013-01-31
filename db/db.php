@@ -16,12 +16,12 @@ class DB
 {
 	private $db;	//The database connection.
 	
-	function ConnectDB()
+	function __construct()
 	{
 		try
 		{
-			$db = new PDO(DBI::host, DBI::username, DBI::password);
-			$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$this->$db = new PDO(DBI::host, DBI::username, DBI::password);
+			$this->$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		}
 		catch(PDOException $e)
 		{
