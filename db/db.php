@@ -16,7 +16,7 @@ class DB
 {
 	private $db;	//The database connection.
 	
-	function __construct()
+	public function __construct()
 	{
 		try
 		{
@@ -31,7 +31,7 @@ class DB
 		}
 	}
 	
-	function PullDaysMeals()
+	public function PullDaysMeals()
 	{
 		try
 		{
