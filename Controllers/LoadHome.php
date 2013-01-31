@@ -4,7 +4,8 @@ $db;
 
 function LoadDaysMeals()
 {
-	$db = ConnectDB();
+	if(!isset($db))
+		$db = ConnectDB();
 	try
 	{
 		$query = "select U.USER_NAME, M.MEAL_NAME, MOB.MOB_OPTION, R.RICE_TYPE, M.MEAL_PRICE from ORDERS O ".
