@@ -20,8 +20,8 @@ class DB
 	{
 		try
 		{
-			$this->$db = new PDO(DBI::host, DBI::username, DBI::password);
-			$this->$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$this->db = new PDO(DBI::host, DBI::username, DBI::password);
+			$this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			
 		}
 		catch(PDOException $e)
@@ -43,7 +43,7 @@ class DB
 					"inner join RICE R on R.RICE_ID = O.ORDER_RICE ".
 					"WHERE O.ORDER_DATE = CURDATE() ".
 					"order by U.USER_NAME, M.MEAL_NAME, MOB.MOB_OPTION, R.RICE_TYPE, M.MEAL_PRICE;";
-			$PStatement = $this->$db->prepare($query);
+			$PStatement = $this->db->prepare($query);
 			$PStatement->execute();
 			$OrderRows = $PStatement->fetchAll();
 			$PStatement->closeCursor();
