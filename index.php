@@ -5,7 +5,13 @@
 	<title>IDI Chinese Friday</title>
 </head>
 <body>
-	<?php LoadDaysMeals(); ?>
+	<?php
+	
+	$loader = new LoadHome();
+	
+	$loader->LoadDaysMeals();
+	
+	?>
 </body>
 </html>
 
