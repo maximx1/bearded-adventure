@@ -5,8 +5,8 @@ class LoadHome
 {
 	function LoadDaysMeals()
 	{
-		$db = new DB();
-		$OrderRows = $db->PullDaysMeals();
+		$tmp = new DB();
+		$OrderRows = $tmp->PullDaysMeals();
 		
 		//Testing output.
 		foreach ($OrderRows as $row)
