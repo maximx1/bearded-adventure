@@ -14,7 +14,6 @@ class LoadHome
 		//Combine the orders
 		foreach ($OrderRows as $row)
 		{
-			print "<p>".$row['USER_NAME']."&emsp;".$row['MEAL_NAME']."&emsp;".$row['MOB_OPTION']."</p>";
 			$nextOrder = new Order($row['USER_NAME'], $row['MEAL_NAME'], 
 					$row['MOB_OPTION'], $row['RICE_TYPE'], $row['MEAL_PRICE']);
 			
@@ -41,11 +40,7 @@ class LoadHome
 			}
 		}
 		
-		print "Count: " . count($combinedOrders) . "<br>\n";
-		foreach($combinedOrders as $order)
-		{
-			print $order->CreateMealString() . "<br>\n";
-		}
+		return($combinedOrders);
 	}
 }
 

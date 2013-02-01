@@ -29,8 +29,8 @@ class Order
 	 */
 	public function AddMobOption($mobOption)
 	{
-		foreach($mobOption as $var)
-		array_push($this->MOB_OPTION, $var);
+		//array_push($this->MOB_OPTION, $mobOption);
+		$this->MOB_OPTION = array_merge((array)$this->MOB_OPTION, (array)$mobOption);
 		return;
 	}
 	
@@ -50,12 +50,33 @@ class Order
 	 */
 	public function CreateMealString()
 	{
-		$OrderString = $this->USER_NAME . " : " . $this->MEAL_NAME . " with " . $this->RICE_TYPE . ".";
+		$OrderString = '<p>' . $this->USER_NAME . " : " . $this->MEAL_NAME . " with " . $this->RICE_TYPE . " rice.";
+		
+		$count = 1;
 		foreach ($this->MOB_OPTION as $value)
 		{
-			$OrderString .= " " . $value;	
+			if(count($this->MOB_OPTION) == 1)
+			{
+				$OrderString .= " " . $value . ".";
+			}
+			else
+			{
+				if($count == 1)
+				{
+					$OrderString .= " " . $value;
+				}
+				else if($count == count($this->MOB_OPTION))
+				{
+					$OrderString .= ", " . $value . ".";
+				}
+				else
+				{
+					$OrderString .= ", " . $value;
+				}
+			}
+			$count++;
 		}
-		return $OrderString;
+		return $OrderString.' - Price: $' . $this->MEAL_PRICE . '</p>';
 	}
 }
 

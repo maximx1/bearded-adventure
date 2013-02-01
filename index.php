@@ -1,17 +1,13 @@
-<?php require_once("Controllers/LoadHome.php"); ?>
 <!DOCTYPE html>
 <html>
 <head>
 	<title>IDI Chinese Friday</title>
 </head>
 <body>
-	<?php
+	<h1>Welcome to chinese friday unstyled beta.</h1>
 	
-	$loader = new LoadHome();
-	
-	$loader->LoadDaysMeals();
-	
-	?>
+	<a href="CreateOrder.php">Make An Order</a>
+	<a href="DisplayOrders.php">View Todays Orders</a>
 </body>
 </html>
 
