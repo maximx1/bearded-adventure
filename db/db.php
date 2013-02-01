@@ -16,6 +16,9 @@ class DB
 {
 	private $db;	//The database connection.
 	
+	/*
+	 * Constructor to connect to the database.
+	 */
 	public function __construct()
 	{
 		try
@@ -31,6 +34,9 @@ class DB
 		}
 	}
 	
+	/*
+	 * Pulls all of the orders for the day.
+	 */
 	public function PullDaysMeals()
 	{
 		try
@@ -52,7 +58,55 @@ class DB
 		}
 		catch(PDOException $er)
 		{
-			print "Error: " + $er; 
+			print "Error: " + $er;
+			exit;
+		}
+	}
+	
+	public function StoreMeal($meal)
+	{
+		try
+		{
+			//id, date, user id, meal id, rice
+			//INSERT INTO ORDERS VALUES(null, NOW(), 1, 1, 2), (null, NOW(), 2, 1, 1);
+			//mobid, orderid
+			//INSERT INTO SELECTED_MEAL_OPTIONS VALUES(1, 1), (2, 1), (1, 2);
+			
+			$query = "INSERT INTO ORDERS VALUES(null, NOW(), :userid, :mealid, :riceid);";
+			
+			$PStatement = $this->db->prepare($query);
+			$PStatement->bindValue(':userid', $meal->USER_ID);
+			$PStatement->bindValue(':mealid', $meal->MEAL_ID);
+			$PStatement->bindValue(':riceid', $meal->RICE_ID);
+			$PStatement->execute();
+			$newId = $this->db->lastInsertId();
+			
+			if(count($meal->MOB_OPTION > 0))
+			{
+				$mobQuery = "INSERT INTO SELECTED_MEAL_OPTIONS VALUES";
+				
+				$count = 1;
+				foreach ($meal->MOB_OPTION as $option)
+				{
+					$mobQuery .= '(:mobid'.$count.', :orderid)';
+					$count++;
+				}
+				$mobQuery.= ';';
+				$PStatement = $this->db->prepare($mobQuery);
+				foreach($meal->MOB_OPTION as $option)
+				{
+					$PStatement->bindValue('::mobid'.$count, $option->MOB_ID);
+				}
+				$PStatement->execute();
+			}
+			
+			$PStatement->closeCursor();
+			return;
+		}
+		catch(PDOException $er)
+		{
+			print "Error: " + $er;
+			exit;
 		}
 	}
 }

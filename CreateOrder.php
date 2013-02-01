@@ -1,16 +1,19 @@
-<?php require_once("Controllers/LoadOrders.php"); ?>
+<?php
+require_once("Controllers/LoadMealOptions.php");
+require_once("Controllers/SaveMeal.php");
+?>
 <!DOCTYPE html>
 <html>
 <head>
 	<title>IDI Chinese Friday</title>
 </head>
 <body>
-	<h1>Here is the orders for today:</h1>
+	<h1>Create an order</h1>
 	<a href="index.php">Go Back</a>
 	
 	<?php
 	
-	$loader = new LoadOrders();
+	$loader = new LoadHome();
 	$combinedOrders = $loader->LoadDaysMeals();
 	
 	foreach($combinedOrders as $order)

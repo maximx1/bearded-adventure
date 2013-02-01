@@ -3,7 +3,7 @@
 require_once 'db/db.php';
 require_once 'Containers/Order.php';
 
-class LoadHome
+class LoadOrders
 {
 	function LoadDaysMeals()
 	{
