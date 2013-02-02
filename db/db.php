@@ -86,9 +86,14 @@ class DB
 				$mobQuery = "INSERT INTO SELECTED_MEAL_OPTIONS VALUES";
 				
 				$count = 1;
+				
 				foreach ($meal->MOB_OPTION as $option)
 				{
 					$mobQuery .= '(:mobid'.$count.', :orderid)';
+					if($count != count($meal->MOB_OPTION))
+					{
+						$mobQuery .= ',';
+					}
 					$count++;
 				}
 				$mobQuery.= ';';

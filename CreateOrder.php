@@ -1,4 +1,13 @@
 <?php
+/*
+ * "CreateOrder.php"
+ * View that loads and displays the available meal options and will allow user
+ * to choose options and save them.
+ * 
+ * Author: Justin Walrath <walrathjaw@gmail.com>
+ * Since 2/1/2013
+ */
+
 require_once("Controllers/LoadMealOptions.php");
 require_once("Controllers/SaveMeal.php");
 ?>
@@ -13,13 +22,8 @@ require_once("Controllers/SaveMeal.php");
 	
 	<?php
 	
-	$loader = new LoadHome();
-	$combinedOrders = $loader->LoadDaysMeals();
-	
-	foreach($combinedOrders as $order)
-	{
-		print $order->CreateMealString();
-	}
+	$loader = new LoadMealOptions();	//Class to populate available meal data
+	$meals = $loader->LoadMeals();		//MealData class
 	
 	?>
 </body>

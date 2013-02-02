@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * "Order.php"
+ * Container class that holds the orders placed with their options.
+ * Author: Justin Walrath <walrathjaw@gmail.com>
+ * Since: 2/1/2013
+ */
 class Order
 {
 	public $USER_NAME = "";			//The Orderer.
