@@ -63,6 +63,71 @@ class DB
 		}
 	}
 	
+	/*
+	 * Pulls the meal data from the database for selection.
+	 */
+	public function PullMealData()
+	{
+		$users = array();
+		$rice = array();
+		$meals = array();
+		
+		$outputPacket;
+		try
+		{
+			$userQuery = "select u.USER_ID as userid, u.USER_NAME as username from USERS u order by username;";
+			$riceQuery = "select r.RICE_ID as id, r.RICE_TYPE as type from RICE r";
+			
+			
+			$mealQuery = "select M.MEAL_ID, M.MEAL_NAME, MOB.MOB_ID, MOB.MOB_OPTION, M.MEAL_PRICE from MEALS M ".
+					"inner join MEAL_OPTIONS MO on MO.MO_MEAL_ID = M.MEAL_ID ".
+					"inner join MEAL_OPTIONS_BASE MOB on MOB.MOB_ID = MO.MO_MOB_ID ".
+					"order by M.MEAL_ID, MOB.MOB_ID;";
+			
+			//Pull the users
+			$PStatement = $this->db->prepare($userQuery);
+			$PStatement->execute();
+			$rows = $PStatement->fetchAll();
+			foreach ($rows as $row)
+			{
+				$users[$row['userid']] = $row['username'];
+			}
+			
+			//Pull the rice information
+			$PStatement = $this->db->prepare($riceQuery);
+			$PStatement->execute();
+			$rows = $PStatement->fetchAll();
+			foreach ($rows as $row)
+			{
+				$rice[$row['id']] = $row['type'];
+			}
+			
+			
+			//Pull the meal information
+			$PStatement = $this->db->prepare($mealQuery);
+			$PStatement->execute();
+			$rows = $PStatement->fetchAll();
+			foreach ($rows as $row)
+			{
+				$meals[$row['MEAL_ID']]["name"][0] = $row['MEAL_NAME'];
+				$meals[$row['MEAL_ID']]["op"][$row['MOB_ID']] = $row['MOB_OPTION'];
+				$meals[$row['MEAL_ID']]["price"][0] = $row['MEAL_PRICE'];
+			}
+			
+			//Close the database connection.
+			$PStatement->closeCursor();
+			
+			$outputPacket = new MealTrackingData($users, $meals, $rice);
+			
+			return($outputPacket);
+		}
+		catch(PDOException $er)
+		{
+			print "Error: " + $er;
+			exit;
+		}
+	}
+	
 	public function StoreMeal($meal)
 	{
 		try

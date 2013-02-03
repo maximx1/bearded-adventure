@@ -23,8 +23,15 @@ require_once("Controllers/SaveMeal.php");
 	<?php
 	
 	$loader = new LoadMealOptions();	//Class to populate available meal data
-	$meals = $loader->LoadMeals();		//MealData class
-	
+	$meals = $loader->LoadMealData();	//MealData class.
 	?>
+	<select id='userSelect' name='userSelect'>
+		<?php
+		foreach ($meals->User as $key => $value)
+		{
+			print "<option value='".$key."'>".$value."</option>";
+		}
+		?>
+	</select>
 </body>
 </html>

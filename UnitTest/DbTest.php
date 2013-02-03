@@ -2,6 +2,7 @@
 
 require_once '../db/db.php';
 require_once '../Containers/Order.php';
+require_once '../Containers/MealTrackingData.php';
 
 function PullDaysMealsTest()
 {
@@ -44,10 +45,12 @@ function PullDaysMealsTest()
 	}
 }
 
-function StoreMealsTest()
+function LoadMealDataTest()
 {
 	$db = new DB();
-	
+	$meals = $db->PullMealData();
+	print $meals->Meal[1]["name"][0];
+	return ($meals->Meal[1]["name"][0] == "General Tso's Chicken") ? true : false;
 }
 
 ?>
