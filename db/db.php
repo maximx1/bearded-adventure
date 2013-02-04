@@ -127,6 +127,30 @@ class DB
 			exit;
 		}
 	}
+
+	public function PullMealOptions($mealId)
+	{
+		$mob = array();
+		
+		$mealQuery = "select MOB.MOB_ID, MOB.MOB_OPTION from MEALS M ".
+					"inner join MEAL_OPTIONS MO on MO.MO_MEAL_ID = M.MEAL_ID ".
+					"inner join MEAL_OPTIONS_BASE MOB on MOB.MOB_ID = MO.MO_MOB_ID ".
+					"where M.MEAL_ID = :mealId;".
+					"order by MOB.MOB_ID ";
+					
+		$PStatement = $this->db->prepare($mealQuery);
+		$PStatement->bindValue(':mealId', (int)$mealId);
+		$PStatement->execute();
+		$rows = $PStatement->fetchAll();
+		$PStatement->closeCursor();
+		
+		foreach($rows as $row)
+		{
+			$mob[$row["MOB_ID"]] = $row["MOB_OPTION"];
+		}
+		
+		return($mob);
+	}
 	
 	public function StoreMeal($meal)
 	{
