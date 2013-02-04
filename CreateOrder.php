@@ -52,10 +52,6 @@ require_once("Controllers/SaveMeal.php");
 		</select>
 		<div id = 'mealOptions'></div>
 		
-		<br>
-		
-		<input type="submit" value="Submit" />
-		
 	</form>
 	
 	<script src="Scripts/jquery-1.9.0.min.js"></script>

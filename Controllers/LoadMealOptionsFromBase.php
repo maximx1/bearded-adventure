@@ -7,10 +7,12 @@ if(isset($_GET["mealId"]))
 	$db = new DB();
 	$result = $db->PullMealOptions((int)$mealId);
 	
+	?><h3>Choose Meal Options:</h3><?php
 	foreach($result as $id => $mob)
 	{
-		print "<h3>".$id."</h3><p>".$mob."</p>";
+		print '<input type="checkbox" name="mealOptionsSelect" value="'.$id.'">'.$mob.'<br>';
 	}
+	?><br><input type="submit" value="Submit" /><?php
 }
 else
 {
