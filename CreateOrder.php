@@ -67,15 +67,8 @@ require_once("Controllers/SaveMeal.php");
 		
 	</form>
 	
+	<!--Load scripts at the end so as to not freeze shit up.-->
 	<script src="Scripts/jquery-1.9.0.min.js"></script>
-	<script>
-		$(document).ready(function(){
-  			$("#mealSelect").change(function(){
-  				var id = $("#mealSelect option:selected").val();
-    			$("#mealOptions").load("Controllers/LoadMealOptionsFromBase.php?mealId=" + id);
-    			$("#submitButton").removeAttr('disabled');
-  			});
-		});
-	</script>
+	<script src="Scripts/CreateOrder.js"></script>
 </body>
 </html>

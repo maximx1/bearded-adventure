@@ -101,7 +101,6 @@ class DB
 		try
 		{
 			$userQuery = "select u.USER_ID as userid, u.USER_NAME as username from USERS u order by username;";
-			$riceQuery = "select r.RICE_ID as id, r.RICE_TYPE as type from RICE r";
 			$mealQuery = "select M.MEAL_ID, M.MEAL_NAME, M.MEAL_PRICE from MEALS M ".
 					"order by M.MEAL_ID;";
 			
@@ -115,13 +114,7 @@ class DB
 			}
 			
 			//Pull the rice information
-			$PStatement = $this->db->prepare($riceQuery);
-			$PStatement->execute();
-			$rows = $PStatement->fetchAll();
-			foreach ($rows as $row)
-			{
-				$rice[$row['id']] = $row['type'];
-			}
+			$rice = $this->PullRiceTypes();
 			
 			
 			//Pull the meal information
@@ -236,6 +229,69 @@ class DB
 		{
 			print "Error: ".$er."<br><br>";
 			print "SQL Statement: ".$mobQuery;
+			exit;
+		}
+	}
+
+	/*
+	 * Pulls all the mobs in one shot.
+	 */
+	public function PullAllMobs()
+	{
+		$query = "";
+		try
+		{
+			$mobs = array();
+			$query = "select MOB.MOB_ID, MOB.MOB_OPTION from MEAL_OPTIONS_BASE MOB;";
+			
+			$PStatement = $this->db->prepare($query);
+			$PStatement->execute();
+			$rows = $PStatement->fetchAll();
+			
+			$PStatement->closeCursor();
+			
+			foreach($rows as $row)
+			{
+				$mobs[$row['MOB_ID']] = $row['MOB_OPTION'];
+			}
+			
+			return $mobs;
+		}
+		catch(PDOException $er)
+		{
+			print "Error: ".$er."<br><br>";
+			print "SQL Statement: ".$query;
+			exit;
+		}
+	}
+	
+	/*
+	 * Pull all of the rice types.
+	 */
+	public function PullRiceTypes()
+	{
+		$riceQuery ="";
+		try
+		{
+			$rice = array();
+			$riceQuery = "select r.RICE_ID as id, r.RICE_TYPE as type from RICE r";
+			
+			//Pull the rice information
+			$PStatement = $this->db->prepare($riceQuery);
+			$PStatement->execute();
+			$rows = $PStatement->fetchAll();
+			foreach ($rows as $row)
+			{
+				$rice[$row['id']] = $row['type'];
+			}
+			
+			$PStatement->closeCursor();
+			return($rice);
+		}
+		catch(PDOException $er)
+		{
+			print "Error: ".$er."<br><br>";
+			print "SQL Statement: ".$riceQuery;
 			exit;
 		}
 	}
