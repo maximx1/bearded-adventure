@@ -21,15 +21,12 @@ class Order
 	{
 		$this->USER_NAME = $username;
 		$this->MEAL_NAME = $mealName;
-		if(isset($mobOption))
-		{
-			$this->AddMobOption($mobOption);
-		}
+		$this->MOB_OPTION = $mobOption;
 		$this->RICE_TYPE = $riceType;
 		$this->MEAL_PRICE = $mealprice;
 	}
 	
-	/*
+	/*[deprecated]
 	 * Adds a mob option to the object
 	 * $mobOption : [String] : A mob option
 	 */

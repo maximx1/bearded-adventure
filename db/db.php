@@ -41,27 +41,52 @@ class DB
 	{
 		try
 		{
-			$query = "select U.USER_NAME, M.MEAL_NAME, MOB.MOB_OPTION, R.RICE_TYPE, M.MEAL_PRICE from ORDERS O ".
-					"inner join SELECTED_MEAL_OPTIONS SMO on O.ORDER_ID = SMO.SMO_ORDER_ID ".
-					"inner join MEAL_OPTIONS_BASE MOB on MOB.MOB_ID = SMO.SMO_MOB_ID ".
-					"inner join MEALS M on M.MEAL_ID = O.ORDER_MEAL_ID ".
+			$mealQuery = "select O.ORDER_ID, U.USER_NAME, M.MEAL_NAME, R.RICE_TYPE, M.MEAL_PRICE from ORDERS O ".
+					"inner join MEALS M on O.ORDER_MEAL_ID = M.MEAL_ID ".
 					"inner join USERS U on U.USER_ID = O.ORDER_USER_ID ".
 					"inner join RICE R on R.RICE_ID = O.ORDER_RICE ".
-					"WHERE O.ORDER_DATE = CURDATE() ".
-					"order by U.USER_NAME, M.MEAL_NAME, MOB.MOB_OPTION, R.RICE_TYPE, M.MEAL_PRICE;";
-			$PStatement = $this->db->prepare($query);
+					"where O.ORDER_DATE = CURDATE() order by O.ORDER_ID;";
+					
+			$PStatement = $this->db->prepare($mealQuery);
 			$PStatement->execute();
 			$OrderRows = $PStatement->fetchAll();
 			$PStatement->closeCursor();
+			
+			
 			
 			return($OrderRows);
 		}
 		catch(PDOException $er)
 		{
-			print "Error: " + $er;
+			print "Error: ".$er;
 			exit;
 		}
 	}
+	
+	/*
+	 * Pulls the meal Options for the the Order
+	 * Param: The Order Id
+	 */
+	 public function PullMobForOrder($orderId)
+	 {
+	 	$mobOptions = array();
+		$query = "select MOB.MOB_OPTION from ORDERS O ".
+				"inner join SELECTED_MEAL_OPTIONS SMO on O.ORDER_ID = SMO.SMO_ORDER_ID ".
+				"inner join MEAL_OPTIONS_BASE MOB on MOB.MOB_ID = SMO.SMO_MOB_ID ".
+				"where O.ORDER_ID = :orderId;";
+		
+		$PStatement = $this->db->prepare($query);
+		$PStatement->bindValue(":orderId", $orderId);
+		$PStatement->execute();
+		$rows = $PStatement->fetchAll();
+		
+		foreach($rows as $row)
+		{
+			array_push($mobOptions, $row['MOB_OPTION']);
+		}
+		
+		return($mobOptions);
+	 }
 	
 	/*
 	 * Pulls the meal data from the database for selection.
@@ -77,12 +102,8 @@ class DB
 		{
 			$userQuery = "select u.USER_ID as userid, u.USER_NAME as username from USERS u order by username;";
 			$riceQuery = "select r.RICE_ID as id, r.RICE_TYPE as type from RICE r";
-			
-			
-			$mealQuery = "select M.MEAL_ID, M.MEAL_NAME, MOB.MOB_ID, MOB.MOB_OPTION, M.MEAL_PRICE from MEALS M ".
-					"inner join MEAL_OPTIONS MO on MO.MO_MEAL_ID = M.MEAL_ID ".
-					"inner join MEAL_OPTIONS_BASE MOB on MOB.MOB_ID = MO.MO_MOB_ID ".
-					"order by M.MEAL_ID, MOB.MOB_ID;";
+			$mealQuery = "select M.MEAL_ID, M.MEAL_NAME, M.MEAL_PRICE from MEALS M ".
+					"order by M.MEAL_ID;";
 			
 			//Pull the users
 			$PStatement = $this->db->prepare($userQuery);
@@ -109,9 +130,8 @@ class DB
 			$rows = $PStatement->fetchAll();
 			foreach ($rows as $row)
 			{
-				$meals[$row['MEAL_ID']]["name"][0] = $row['MEAL_NAME'];
-				$meals[$row['MEAL_ID']]["op"][$row['MOB_ID']] = $row['MOB_OPTION'];
-				$meals[$row['MEAL_ID']]["price"][0] = $row['MEAL_PRICE'];
+				$meals[$row['MEAL_ID']]["name"] = $row['MEAL_NAME'];
+				$meals[$row['MEAL_ID']]["price"] = $row['MEAL_PRICE'];
 			}
 			
 			//Close the database connection.
@@ -123,37 +143,49 @@ class DB
 		}
 		catch(PDOException $er)
 		{
-			print "Error: " + $er;
+			print "Error: ".$er;
 			exit;
 		}
 	}
 
+	/*
+	 * Pulls the meals options based on the key id.
+	 */
 	public function PullMealOptions($mealId)
 	{
-		$mob = array();
-		
-		$mealQuery = "select MOB.MOB_ID, MOB.MOB_OPTION from MEALS M ".
-					"inner join MEAL_OPTIONS MO on MO.MO_MEAL_ID = M.MEAL_ID ".
-					"inner join MEAL_OPTIONS_BASE MOB on MOB.MOB_ID = MO.MO_MOB_ID ".
-					"where M.MEAL_ID = :mealId;".
-					"order by MOB.MOB_ID ";
-					
-		$PStatement = $this->db->prepare($mealQuery);
-		$PStatement->bindValue(':mealId', (int)$mealId);
-		$PStatement->execute();
-		$rows = $PStatement->fetchAll();
-		$PStatement->closeCursor();
-		
-		foreach($rows as $row)
+		try
 		{
-			$mob[$row["MOB_ID"]] = $row["MOB_OPTION"];
+			$mob = array();
+			
+			$mealQuery = "select MOB.MOB_ID, MOB.MOB_OPTION from MEALS M ".
+						"inner join MEAL_OPTIONS MO on MO.MO_MEAL_ID = M.MEAL_ID ".
+						"inner join MEAL_OPTIONS_BASE MOB on MOB.MOB_ID = MO.MO_MOB_ID ".
+						"where M.MEAL_ID = :mealId;".
+						"order by MOB.MOB_ID ";
+						
+			$PStatement = $this->db->prepare($mealQuery);
+			$PStatement->bindValue(':mealId', (int)$mealId);
+			$PStatement->execute();
+			$rows = $PStatement->fetchAll();
+			$PStatement->closeCursor();
+			
+			foreach($rows as $row)
+			{
+				$mob[$row["MOB_ID"]] = $row["MOB_OPTION"];
+			}
+			
+			return($mob);
 		}
-		
-		return($mob);
+		catch(PDOException $er)
+		{
+			print "Error: ".$er;
+			exit;
+		}
 	}
 	
 	public function StoreMeal($meal)
 	{
+		$mobQuery = "";
 		try
 		{
 			//id, date, user id, meal id, rice
@@ -164,9 +196,9 @@ class DB
 			$query = "INSERT INTO ORDERS VALUES(null, NOW(), :userid, :mealid, :riceid);";
 			
 			$PStatement = $this->db->prepare($query);
-			$PStatement->bindValue(':userid', $meal->USER_ID);
-			$PStatement->bindValue(':mealid', $meal->MEAL_ID);
-			$PStatement->bindValue(':riceid', $meal->RICE_ID);
+			$PStatement->bindValue(':userid', (int)$meal->USER_ID);
+			$PStatement->bindValue(':mealid', (int)$meal->MEAL_ID);
+			$PStatement->bindValue(':riceid', (int)$meal->RICE_ID);
 			$PStatement->execute();
 			$newId = $this->db->lastInsertId();
 			
@@ -178,7 +210,7 @@ class DB
 				
 				foreach ($meal->MOB_OPTION as $option)
 				{
-					$mobQuery .= '(:mobid'.$count.', :orderid)';
+					$mobQuery .= '(:mobid'.$count.', :orderid'.$count.')';
 					if($count != count($meal->MOB_OPTION))
 					{
 						$mobQuery .= ',';
@@ -187,9 +219,12 @@ class DB
 				}
 				$mobQuery.= ';';
 				$PStatement = $this->db->prepare($mobQuery);
+				$count = 1;
 				foreach($meal->MOB_OPTION as $option)
 				{
-					$PStatement->bindValue('::mobid'.$count, $option->MOB_ID);
+					$PStatement->bindValue(':mobid'.$count, (int)$option);
+					$PStatement->bindValue(':orderid'.$count, (int)$newId);
+					$count++;
 				}
 				$PStatement->execute();
 			}
@@ -199,7 +234,8 @@ class DB
 		}
 		catch(PDOException $er)
 		{
-			print "Error: " + $er;
+			print "Error: ".$er."<br><br>";
+			print "SQL Statement: ".$mobQuery;
 			exit;
 		}
 	}

@@ -10,9 +10,8 @@ if(isset($_GET["mealId"]))
 	?><h3>Choose Meal Options:</h3><?php
 	foreach($result as $id => $mob)
 	{
-		print '<input type="checkbox" name="mealOptionsSelect" value="'.$id.'">'.$mob.'<br>';
+		print '<input type="checkbox" name="mealOptionsSelect[]" value="'.$id.'">'.$mob.'<br>';
 	}
-	?><br><input type="submit" value="Submit" /><?php
 }
 else
 {

@@ -14,30 +14,10 @@ class LoadOrders
 		//Combine the orders
 		foreach ($OrderRows as $row)
 		{
+			$mobOptions = $db->PullMobForOrder($row['ORDER_ID']);
 			$nextOrder = new Order($row['USER_NAME'], $row['MEAL_NAME'], 
-					$row['MOB_OPTION'], $row['RICE_TYPE'], $row['MEAL_PRICE']);
-			
-			if(count($combinedOrders) == 0)
-			{
-				array_push($combinedOrders, $nextOrder);
-			}
-			else
-			{
-				$notFound = TRUE;
-				foreach ($combinedOrders as $order)
-				{
-					if($order->IsDuplicateOrder($nextOrder))
-					{
-						$notFound = FALSE;
-						$order->AddMobOption($nextOrder->MOB_OPTION);
-					}
-				}
-				
-				if($notFound)
-				{
-					array_push($combinedOrders, $nextOrder);
-				}
-			}
+					$mobOptions, $row['RICE_TYPE'], $row['MEAL_PRICE']);
+			array_push($combinedOrders, $nextOrder);
 		}
 		
 		return($combinedOrders);

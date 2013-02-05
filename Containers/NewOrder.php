@@ -1,6 +1,6 @@
 <?php
 
-class Order
+class NewOrder
 {
 	public $USER_ID = "";			//The Orderer's id.
 	public $MEAL_ID = "";			//The meal's id.
@@ -12,10 +12,10 @@ class Order
 	 */
 	public function __construct($userId, $mealId, $mobOption, $riceId)
 	{
-		$this->$USER_ID = $userId;
-		$this->$MEAL_ID = $mealId;
-		$this->$MOB_OPTION($mobOption);
-		$this->$RICE_ID = $RICE_ID;
+		$this->USER_ID = $userId;
+		$this->MEAL_ID = $mealId;
+		$this->MOB_OPTION = $mobOption;
+		$this->RICE_ID = $riceId;
 	}
 }
 

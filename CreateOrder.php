@@ -46,11 +46,24 @@ require_once("Controllers/SaveMeal.php");
 			<?php
 			foreach ($meals->Meal as $key => $value)
 			{
-				print "<option value='".$key."'>".$value["name"][0]."</option>";
+				print "<option value='".$key."'>".$value["name"]." - ".$value["price"]."</option>";
 			}
 			?>
 		</select>
 		<div id = 'mealOptions'></div>
+		
+		<!--Show Rice Options-->
+		<h3>Choose Rice:</h3>
+		<select id='riceSelect' name='riceSelect'>
+			<?php
+			foreach ($meals->Rice as $key => $value)
+			{
+				print "<option value='".$key."'>".$value."</option>";
+			}
+			?>
+		</select>
+		<br>
+		<input id="submitButton" type="submit" value="Submit" disabled="disabled"/>
 		
 	</form>
 	
@@ -60,6 +73,7 @@ require_once("Controllers/SaveMeal.php");
   			$("#mealSelect").change(function(){
   				var id = $("#mealSelect option:selected").val();
     			$("#mealOptions").load("Controllers/LoadMealOptionsFromBase.php?mealId=" + id);
+    			$("#submitButton").removeAttr('disabled');
   			});
 		});
 	</script>
