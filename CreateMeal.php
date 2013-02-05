@@ -20,13 +20,21 @@ $mobs = $mobLoader->LoadMob();
 	</head>
 	<body>
 		<h1>Create A New Meal</h1>
-		<form>
+		<form action="SubmitMeal.php">
+			<h3>Enter Meal Data</h3>
+			Meal name: 
+			<input id="MealName" type="text" name="MealName"/><!--Need to add the .js to blur-->
+			&emsp;
+			Price: $
+			<input id="MealPrice" type="text" name="MealPrice"/><!--Need to add the .js to blur-->
+			<h3>Select Meal Options to include: </h3>
 			<?php
 			foreach($mobs as $id => $mob)
 			{
 				print '<input type="checkbox" name="mealOptionsSelect[]" value="'.$id.'">'.$mob.'<br>';
 			}
 			?>
+			<input type="submit" value="Submit" />
 		</form>
 		<script src="Scripts/jquery-1.9.0.min.js"></script>
 		<script src="Scripts/CreateMeal.js"></script>
