@@ -202,7 +202,7 @@ class DB
 			$PStatement->execute();
 			$newId = $this->db->lastInsertId();
 			
-			if(count($meal->MOB_OPTION > 0))
+			if(count($meal->MOB_OPTION) > 0)
 			{
 				$mobQuery = "INSERT INTO SELECTED_MEAL_OPTIONS VALUES";
 				
