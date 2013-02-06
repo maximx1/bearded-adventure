@@ -69,7 +69,7 @@ INSERT INTO MEAL_OPTIONS_BASE VALUES(null, 'No veggies'), (null, 'Add Chopsticks
 
 INSERT INTO USERS VALUES(null, 'Justin Walrath'),(null, 'Jered Berge'),(null, 'Tracy Buck'),(null, 'Cliff Torpy'),(null, 'Tessa Seiders'),(null, 'Nathan Palmer'),(null, 'Jared Barden');
 
-INSERT INTO MEALS VALUES(null, 'General Tso\'s Chicken', 5.00), (null, 'General Tso\'s Shrimp', 5.00);
+INSERT INTO MEALS VALUES(null, 'L25 General Tso\'s Chicken', 5.00), (null, 'L25 General Tso\'s Shrimp', 5.00);
 
 INSERT INTO RICE VALUES(null, 'Fried Rice'), (null, 'White Rice'), (null, 'Roast Pork');
 

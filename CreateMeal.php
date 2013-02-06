@@ -20,7 +20,8 @@ $mobs = $mobLoader->LoadMob();
 	</head>
 	<body>
 		<h1>Create A New Meal</h1>
-		<form action="SubmitMeal.php">
+		<a href="index.php">Go Back</a>
+		<form action="SubmitMeal.php" method="get">
 			<h3>Enter Meal Data</h3>
 			Meal name: 
 			<input id="MealName" type="text" name="MealName"/><!--Need to add the .js to blur-->
