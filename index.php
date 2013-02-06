@@ -8,6 +8,7 @@
 	
 	<a href="CreateOrder.php">Make An Order</a>
 	<a href="DisplayOrders.php">View Todays Orders</a>
+	<a href="CreateMeal.php">Add New Meal Option</a>
 </body>
 </html>
 

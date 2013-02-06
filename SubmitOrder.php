@@ -4,8 +4,8 @@
  * Author: Justin Walrath <walrathjaw@gmail.com>
  * Since: 2/3/2013
  */
-require_once("Controllers/StoreOrder.php");
-require_once("Containers/NewOrder.php");
+require("Controllers/StoreOrder.php");
+require("Containers/NewOrder.php");
 ?>
 <!DOCTYPE html>
 <html>
@@ -15,6 +15,7 @@ require_once("Containers/NewOrder.php");
 	<body>
 	<a href="CreateOrder.php">Make An Order</a>
 	<a href="DisplayOrders.php">View Todays Orders</a>
+	<a href="CreateMeal.php">Add New Meal Option</a>
 <?php
 
 if(isset($_GET['userSelect']) && isset($_GET['mealSelect']) && isset($_GET['riceSelect']))

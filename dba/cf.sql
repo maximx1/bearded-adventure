@@ -32,7 +32,7 @@ CREATE TABLE MEALS(
 
 CREATE TABLE RICE(
 	RICE_ID INT UNSIGNED AUTO_INCREMENT,
-	RICE_TYPE VARCHAR(5) NOT NULL UNIQUE,
+	RICE_TYPE VARCHAR(10) NOT NULL UNIQUE,
 	PRIMARY KEY(RICE_ID)
 );
 
@@ -71,7 +71,7 @@ INSERT INTO USERS VALUES(null, 'Justin Walrath'),(null, 'Jered Berge'),(null, 'T
 
 INSERT INTO MEALS VALUES(null, 'General Tso\'s Chicken', 5.00), (null, 'General Tso\'s Shrimp', 5.00);
 
-INSERT INTO RICE VALUES(null, 'Fried'), (null, 'White');
+INSERT INTO RICE VALUES(null, 'Fried Rice'), (null, 'White Rice'), (null, 'Roast Pork');
 
 INSERT INTO MEAL_OPTIONS VALUES(1, 1), (1, 2), (2, 1), (2, 2);
 
