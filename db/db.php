@@ -176,47 +176,45 @@ class DB
 		}
 	}
 	
+	/*
+	 * Stores the meal into the database with it's selected options.
+	 */
 	public function StoreMeal($meal)
 	{
-		$mobQuery = "";
+		$insert = "";
 		try
-		{
-			//id, date, user id, meal id, rice
-			//INSERT INTO ORDERS VALUES(null, NOW(), 1, 1, 2), (null, NOW(), 2, 1, 1);
-			//mobid, orderid
-			//INSERT INTO SELECTED_MEAL_OPTIONS VALUES(1, 1), (2, 1), (1, 2);
+		{			
+			$insert = "INSERT INTO MEALS VALUES(null, :meal, :price);";
 			
-			$query = "INSERT INTO ORDERS VALUES(null, NOW(), :userid, :mealid, :riceid);";
-			
-			$PStatement = $this->db->prepare($query);
-			$PStatement->bindValue(':userid', (int)$meal->USER_ID);
-			$PStatement->bindValue(':mealid', (int)$meal->MEAL_ID);
-			$PStatement->bindValue(':riceid', (int)$meal->RICE_ID);
+			$PStatement = $this->db->prepare($insert);
+			$PStatement->bindValue(':meal', $meal->MealName);
+			$PStatement->bindValue(':price', (float)$meal->Price);
 			$PStatement->execute();
 			$newId = $this->db->lastInsertId();
 			
-			if(count($meal->MOB_OPTION) > 0)
+			if(count($meal->Mobs) > 0)
 			{
-				$mobQuery = "INSERT INTO SELECTED_MEAL_OPTIONS VALUES";
+				$insert = "INSERT INTO MEAL_OPTIONS VALUES";
 				
 				$count = 1;
 				
-				foreach ($meal->MOB_OPTION as $option)
+				foreach ($meal->Mobs as $option)
 				{
-					$mobQuery .= '(:mobid'.$count.', :orderid'.$count.')';
-					if($count != count($meal->MOB_OPTION))
+					$insert .= '(:mobid'.$count.', :mealid'.$count.')';
+					if($count != count($meal->Mobs))
 					{
-						$mobQuery .= ',';
+						$insert .= ',';
 					}
 					$count++;
 				}
-				$mobQuery.= ';';
-				$PStatement = $this->db->prepare($mobQuery);
+				
+				$insert.= ';';
+				$PStatement = $this->db->prepare($insert);
 				$count = 1;
-				foreach($meal->MOB_OPTION as $option)
+				foreach($meal->Mobs as $option)
 				{
 					$PStatement->bindValue(':mobid'.$count, (int)$option);
-					$PStatement->bindValue(':orderid'.$count, (int)$newId);
+					$PStatement->bindValue(':mealid'.$count, (int)$newId);
 					$count++;
 				}
 				$PStatement->execute();
@@ -228,7 +226,7 @@ class DB
 		catch(PDOException $er)
 		{
 			print "Error: ".$er."<br><br>";
-			print "SQL Statement: ".$mobQuery;
+			print "SQL Statement: ".$insert;
 			exit;
 		}
 	}

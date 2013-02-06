@@ -13,7 +13,7 @@ class NewMeal
 	{
 		$this->MealName = $mealName;
 		$this->Price = $price;
-		$this->Mobs = $Mobs;
+		$this->Mobs = $mobs;
 	}
 }
 

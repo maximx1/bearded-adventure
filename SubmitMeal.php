@@ -26,7 +26,7 @@ require("Containers/NewMeal.php");
 		{
 			$newMeal = new NewMeal($_GET['MealName'], $_GET['MealPrice'], $_GET['mealOptionsSelect']);
 			$mealSubmitter = new StoreMeal();
-			$successMessage = $orderer->RecordOrder($newMeal);
+			$successMessage = $mealSubmitter->RecordMeal($newMeal);
 			print "<h1>".$successMessage."</h1>";
 		}
 		else
