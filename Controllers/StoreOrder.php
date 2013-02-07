@@ -12,7 +12,7 @@ class StoreOrder
 	public function RecordOrder($order)
 	{
 		$db = new DB();
-		$db->StoreMeal($order);
+		$db->StoreOrder($order);
 		return 'The meal was added successfully';
 	}
 }

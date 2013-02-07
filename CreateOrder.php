@@ -53,7 +53,7 @@ require_once("Controllers/SaveMeal.php");
 		<div id = 'mealOptions'></div>
 		
 		<!--Show Rice Options-->
-		<h3>Choose Rice:</h3>
+		<h3>Choose Side:</h3>
 		<select id='riceSelect' name='riceSelect'>
 			<?php
 			foreach ($meals->Rice as $key => $value)

@@ -100,18 +100,11 @@ class DB
 		$outputPacket;
 		try
 		{
-			$userQuery = "select u.USER_ID as userid, u.USER_NAME as username from USERS u order by username;";
 			$mealQuery = "select M.MEAL_ID, M.MEAL_NAME, M.MEAL_PRICE from MEALS M ".
 					"order by M.MEAL_ID;";
 			
 			//Pull the users
-			$PStatement = $this->db->prepare($userQuery);
-			$PStatement->execute();
-			$rows = $PStatement->fetchAll();
-			foreach ($rows as $row)
-			{
-				$users[$row['userid']] = $row['username'];
-			}
+			$users = $this->PullAllUsers();
 			
 			//Pull the rice information
 			$rice = $this->PullRiceTypes();
@@ -232,6 +225,66 @@ class DB
 	}
 
 	/*
+	 * Stores the order into the database.
+	 */
+	public function StoreOrder($meal)
+	{
+		$mobQuery = "";
+		try
+		{
+			//id, date, user id, meal id, rice
+			//INSERT INTO ORDERS VALUES(null, NOW(), 1, 1, 2), (null, NOW(), 2, 1, 1);
+			//mobid, orderid
+			//INSERT INTO SELECTED_MEAL_OPTIONS VALUES(1, 1), (2, 1), (1, 2);
+
+			$query = "INSERT INTO ORDERS VALUES(null, NOW(), :userid, :mealid, :riceid);";
+
+			$PStatement = $this->db->prepare($query);
+			$PStatement->bindValue(':userid', (int)$meal->USER_ID);
+			$PStatement->bindValue(':mealid', (int)$meal->MEAL_ID);
+			$PStatement->bindValue(':riceid', (int)$meal->RICE_ID);
+			$PStatement->execute();
+			$newId = $this->db->lastInsertId();
+
+			if(count($meal->MOB_OPTION) > 0)
+			{
+				$mobQuery = "INSERT INTO SELECTED_MEAL_OPTIONS VALUES";
+
+				$count = 1;
+
+				foreach ($meal->MOB_OPTION as $option)
+				{
+					$mobQuery .= '(:mobid'.$count.', :orderid'.$count.')';
+					if($count != count($meal->MOB_OPTION))
+					{
+						$mobQuery .= ',';
+					}
+					$count++;
+				}
+				$mobQuery.= ';';
+				$PStatement = $this->db->prepare($mobQuery);
+				$count = 1;
+				foreach($meal->MOB_OPTION as $option)
+				{
+					$PStatement->bindValue(':mobid'.$count, (int)$option);
+					$PStatement->bindValue(':orderid'.$count, (int)$newId);
+					$count++;
+				}
+				$PStatement->execute();
+			}
+
+			$PStatement->closeCursor();
+			return;
+		}
+		catch(PDOException $er)
+		{
+			print "Error: ".$er."<br><br>";
+			print "SQL Statement: ".$mobQuery;
+			exit;
+		}
+	}
+
+	/*
 	 * Pulls all the mobs in one shot.
 	 */
 	public function PullAllMobs()
@@ -290,6 +343,81 @@ class DB
 		{
 			print "Error: ".$er."<br><br>";
 			print "SQL Statement: ".$riceQuery;
+			exit;
+		}
+	}
+	
+	/*
+	 * Pulls all users
+	 */
+	public function PullAllUsers()
+	{
+		$userQuery = "";
+		$users = array();
+		
+		try
+		{
+			$userQuery = "select u.USER_ID as userid, u.USER_NAME as username from USERS u order by username;";
+			$PStatement = $this->db->prepare($userQuery);
+			$PStatement->execute();
+			$rows = $PStatement->fetchAll();
+			foreach ($rows as $row)
+			{
+				$users[$row['userid']] = $row['username'];
+			}
+			$PStatement->closeCursor();
+			return $users;
+		}
+		catch(PDOException $er)
+		{
+			print "Error: ".$er."<br><br>";
+			print "SQL Statement: ".$userQuery;
+			exit;
+		}
+	}
+	
+	/*
+	 * Deletes a user from the database.
+	 */
+	public function DeleteUser($userId)
+	{
+		$deleteStmt = "";
+		try
+		{
+			$deleteStmt = "delete from USERS u where u.USER_ID = :userid;";
+			$PStatement = $this->db->prepare($deleteStmt);
+			$PStatement->bindValue(":userid", (int)$userId);
+			$PStatement->execute();
+			$PStatement->closeCursor();
+			return;
+		}
+		catch(PDOException $er)
+		{
+			print "Error: ".$er."<br><br>";
+			print "SQL Statement: ".$deleteStmt;
+			exit;
+		}
+	}
+	
+	/*
+	 * Deletes a user from the database.
+	 */
+	public function AddNewUser($name)
+	{
+		$insertStmt = "";
+		try
+		{
+			$insertStmt = "insert into USERS values(null, :name);";
+			$PStatement = $this->db->prepare($insertStmt);
+			$PStatement->bindValue(":name", $name);
+			$PStatement->execute();
+			$PStatement->closeCursor();
+			return;
+		}
+		catch(PDOException $er)
+		{
+			print "Error: ".$er."<br><br>";
+			print "SQL Statement: ".$insertStmt;
 			exit;
 		}
 	}
