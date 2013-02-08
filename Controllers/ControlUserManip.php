@@ -12,30 +12,74 @@ if(isset($_GET["actionControl"]))
 	
 	if(strcasecmp($_GET["actionControl"], "loadUser") == 0)
 	{
+		?>
+		<table>
+		<?php
 		$rows = $userManip->LoadUsers();
 		foreach ($rows as $key => $value)
 		{
-			print "<td>$key</td><td>$value</td><td><input type='button' value='Delete' /></td>";
+			print "<tr><td>$value</td><td><input class='delete' id='$key' type='button' value='Delete' /></td></tr>";
 		}
+		?>
+			<tr>
+				<td>
+					<input id='usernameBox' type="text" />
+				</td>
+				<td>
+					<input class='add' type="button" value="Add User" />
+				</td>
+			</tr>
+		</table>
+		<?php
 	}
 	else if(strcasecmp($_GET["actionControl"], "deleteUser") == 0)
 	{
+		
 		$userManip->DeleteUser((int)$_GET["id"]);
+		?>
+		<table>
+		<?php
 		$rows = $userManip->LoadUsers();
 		foreach ($rows as $key => $value)
 		{
-			print "<td>$key</td><td>$value</td><td><input type='button' value='Delete' /></td>";
+			print "<tr><td>$value</td><td><input class='delete' id='$key' type='button' value='Delete' /></td></tr>";
 		}
+		?>
+			<tr>
+				<td>
+					<input id='usernameBox' type="text" />
+				</td>
+				<td>
+					<input class='add' type="button" value="Add User" />
+				</td>
+			</tr>
+		</table>
+		<?php
 	}
 	else if(strcasecmp($_GET["actionControl"], "addUser") == 0)
 	{
 		$userManip->AddUser($_GET["name"]);
+		?>
+		<table>
+		<?php
 		$rows = $userManip->LoadUsers();
 		foreach ($rows as $key => $value)
 		{
-			print "<td>$key</td><td>$value</td><td><input type='button' value='Delete' /></td>";
+			print "<tr><td>$value</td><td><input class='delete' id='$key' type='button' value='Delete' /></td></tr>";
 		}
+		?>
+			<tr>
+				<td>
+					<input id='usernameBox' type="text" />
+				</td>
+				<td>
+					<input class='add' type="button" value="Add User" />
+				</td>
+			</tr>
+		</table>
+		<?php
 	}
+	print '<script src="Scripts/jquery-1.9.0.min.js"></script><script src="Scripts/ManageUsers.js"></script>';
 }
 else
 {

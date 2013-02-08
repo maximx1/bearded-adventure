@@ -232,11 +232,6 @@ class DB
 		$mobQuery = "";
 		try
 		{
-			//id, date, user id, meal id, rice
-			//INSERT INTO ORDERS VALUES(null, NOW(), 1, 1, 2), (null, NOW(), 2, 1, 1);
-			//mobid, orderid
-			//INSERT INTO SELECTED_MEAL_OPTIONS VALUES(1, 1), (2, 1), (1, 2);
-
 			$query = "INSERT INTO ORDERS VALUES(null, NOW(), :userid, :mealid, :riceid);";
 
 			$PStatement = $this->db->prepare($query);
@@ -384,10 +379,36 @@ class DB
 		$deleteStmt = "";
 		try
 		{
-			$deleteStmt = "delete from USERS u where u.USER_ID = :userid;";
+			
+			//Find all of the Order numbers under the user.
+			//$deleteStmt = "select O.ORDER_ID from ORDERS O where ORDER_USER_ID = :userid;";
+			//$PStatement = $this->db->prepare($deleteStmt);
+			//$PStatement->bindValue(":userid", (int)$userId);
+			//$PStatement->execute();
+			//$rows = $PStatement->fetchAll();
+			
+			//Delete all of the selected meal options for the orders.
+			//foreach($rows as $row)
+			//{
+				//$deleteStmt = "delete from SELECTED_MEAL_OPTIONS where SMO_ORDER_ID = :order;";
+				//$PStatement = $this->db->prepare($deleteStmt);
+				//$PStatement->bindValue(":order", (int)$row);
+				//$PStatement->execute();
+			//}
+			
+			//Delete the order references for the user.
+			$deleteStmt = "delete from ORDERS where ORDER_USER_ID = :userid;";
 			$PStatement = $this->db->prepare($deleteStmt);
 			$PStatement->bindValue(":userid", (int)$userId);
 			$PStatement->execute();
+			
+			//Delete the user.
+			$deleteStmt = "delete from USERS where USER_ID = :userid;";
+			$PStatement = $this->db->prepare($deleteStmt);
+			$PStatement->bindValue(":userid", (int)$userId);
+			$PStatement->execute();
+			
+			
 			$PStatement->closeCursor();
 			return;
 		}

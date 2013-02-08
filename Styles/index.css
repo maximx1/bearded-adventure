@@ -1,0 +1,13 @@
+.frontPageButtons{
+	width: 200px;
+	text-align: center;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-radius: 3px;
+	float: left;
+	background-color: red;
+	text-decoration: none;
+	color: black;
+	margin-right: 5px;
+	margin-left: 5px;
+}
