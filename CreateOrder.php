@@ -42,7 +42,7 @@ require_once("Controllers/SaveMeal.php");
 		
 		<!--Show Meals-->
 		<h3>Choose Meal:</h3>
-		<select id='mealSelect' name='mealSelect' size=<?php print count($meals->Meal); ?>>
+		<select id='mealSelect' name='mealSelect' size=25>
 			<?php
 			foreach ($meals->Meal as $key => $value)
 			{
