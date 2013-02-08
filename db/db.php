@@ -101,7 +101,7 @@ class DB
 		try
 		{
 			$mealQuery = "select M.MEAL_ID, M.MEAL_NAME, M.MEAL_PRICE from MEALS M ".
-					"order by M.MEAL_ID;";
+					"order by M.MEAL_NAME;";
 			
 			//Pull the users
 			$users = $this->PullAllUsers();
