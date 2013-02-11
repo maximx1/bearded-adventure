@@ -15,33 +15,36 @@ require("Containers/NewMeal.php");
 		<title>
 			IDI - Chinese Friday
 		</title>
+		<link href="Styles/index.css" rel="stylesheet">
 	</head>
 	<body>
-		<a href="CreateOrder.php">Make An Order</a>
-		<a href="DisplayOrders.php">View Todays Orders</a>
-		<a href="CreateMeal.php">Add Another Meal</a>
-		<?php
-		
-		if(isset($_GET['MealName']) && isset($_GET['MealPrice']))
-		{
-			$newMeal = new NewMeal($_GET['MealName'], $_GET['MealPrice'], $_GET['mealOptionsSelect']);
-			$mealSubmitter = new StoreMeal();
-			$successMessage = $mealSubmitter->RecordMeal($newMeal);
-			print "<h1>".$successMessage."</h1>";
-		}
-		else
-		{
-			?>
-				
-			<h1>Error:</h1>
-			<p>
-				No meal data was found. You must enter the meal data.
-			</p>
-				
+		<div class="container">
+			<a href="CreateOrder.php">Make An Order</a>
+			<a href="DisplayOrders.php">View Todays Orders</a>
+			<a href="CreateMeal.php">Add Another Meal</a>
 			<?php
-		}
+			
+			if(isset($_GET['MealName']) && isset($_GET['MealPrice']))
+			{
+				$newMeal = new NewMeal($_GET['MealName'], $_GET['MealPrice'], $_GET['mealOptionsSelect']);
+				$mealSubmitter = new StoreMeal();
+				$successMessage = $mealSubmitter->RecordMeal($newMeal);
+				print "<h1>".$successMessage."</h1>";
+			}
+			else
+			{
+				?>
+					
+				<h1>Error:</h1>
+				<p>
+					No meal data was found. You must enter the meal data.
+				</p>
+					
+				<?php
+			}
+			
+			?>
 		
-		?>
-
+		</div>
 	</body>
 </html>

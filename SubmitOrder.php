@@ -11,33 +11,35 @@ require("Containers/NewOrder.php");
 <html>
 	<head>
 		<title>IDI Chinese Friday</title>
+		<link href="Styles/index.css" rel="stylesheet">
 	</head>
 	<body>
-	<a href="CreateOrder.php">Make An Order</a>
-	<a href="DisplayOrders.php">View Todays Orders</a>
-	<a href="CreateMeal.php">Add New Meal Option</a>
-<?php
+		<div class="container">
+			<a href="CreateOrder.php">Make An Order</a>
+			<a href="DisplayOrders.php">View Todays Orders</a>
+			<a href="CreateMeal.php">Add New Meal Option</a>
+			<?php
+			
+			if(isset($_GET['userSelect']) && isset($_GET['mealSelect']) && isset($_GET['riceSelect']))
+			{
+				$order = new NewOrder((int)$_GET['userSelect'], (int)$_GET['mealSelect'], $_GET['mealOptionsSelect'], (int)$_GET['riceSelect']);
+				$orderer = new StoreOrder();
+				$successMessage = $orderer->RecordOrder($order);
+				print "<h1>".$successMessage."</h1>";
+			}
+			else
+			{
+				?>
+				
+				<h1>Error:</h1>
+				<p>
+					No meal data was found. You must enter the meal data.
+				</p>
+				
+				<?php
+			}
+			?>
 
-if(isset($_GET['userSelect']) && isset($_GET['mealSelect']) && isset($_GET['riceSelect']))
-{
-	$order = new NewOrder((int)$_GET['userSelect'], (int)$_GET['mealSelect'], $_GET['mealOptionsSelect'], (int)$_GET['riceSelect']);
-	$orderer = new StoreOrder();
-	$successMessage = $orderer->RecordOrder($order);
-	print "<h1>".$successMessage."</h1>";
-}
-else
-{
-	?>
-	
-	<h1>Error:</h1>
-	<p>
-		No meal data was found. You must enter the meal data.
-	</p>
-	
-	<?php
-}
-
-?>
-
+		</div>
 	</body>
 </html>

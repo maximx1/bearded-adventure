@@ -15,57 +15,60 @@ require_once("Controllers/SaveMeal.php");
 <html>
 <head>
 	<title>IDI Chinese Friday</title>
+	<link href="Styles/index.css" rel="stylesheet">
 </head>
 <body>
-	<h1>Create an order</h1>
-	<a href="index.php">Go Back</a><br>
-	
-	<?php
-	
-	$loader = new LoadMealOptions();	//Class to populate available meal data
-	$meals = $loader->LoadMealData();	//MealData class.
-	?>
-	
-	<form action='SubmitOrder.php'>
-		<!--Show users-->
-		<h3>Choose User:</h3>
-		<select id='userSelect' name='userSelect'>
-			<?php
-			foreach ($meals->User as $key => $value)
-			{
-				print "<option value='".$key."'>".$value."</option>";
-			}
-			?>
-		</select>
+	<div class="container">
+		<h1>Create an order</h1>
+		<a href="index.php">Go Back</a><br>
 		
-		<br>
+		<?php
 		
-		<!--Show Meals-->
-		<h3>Choose Meal:</h3>
-		<select id='mealSelect' name='mealSelect' size=25>
-			<?php
-			foreach ($meals->Meal as $key => $value)
-			{
-				print "<option value='".$key."'>".$value["name"]." - ".$value["price"]."</option>";
-			}
-			?>
-		</select>
-		<div id = 'mealOptions'></div>
+		$loader = new LoadMealOptions();	//Class to populate available meal data
+		$meals = $loader->LoadMealData();	//MealData class.
+		?>
 		
-		<!--Show Rice Options-->
-		<h3>Choose Side:</h3>
-		<select id='riceSelect' name='riceSelect'>
-			<?php
-			foreach ($meals->Rice as $key => $value)
-			{
-				print "<option value='".$key."'>".$value."</option>";
-			}
-			?>
-		</select>
-		<br>
-		<input id="submitButton" type="submit" value="Submit" disabled="disabled"/>
-		
-	</form>
+		<form action='SubmitOrder.php'>
+			<!--Show users-->
+			<h3>Choose User:</h3>
+			<select id='userSelect' name='userSelect'>
+				<?php
+				foreach ($meals->User as $key => $value)
+				{
+					print "<option value='".$key."'>".$value."</option>";
+				}
+				?>
+			</select>
+			
+			<br>
+			
+			<!--Show Meals-->
+			<h3>Choose Meal:</h3>
+			<select id='mealSelect' name='mealSelect' size=25>
+				<?php
+				foreach ($meals->Meal as $key => $value)
+				{
+					print "<option value='".$key."'>".$value["name"]." - ".$value["price"]."</option>";
+				}
+				?>
+			</select>
+			<div id = 'mealOptions'></div>
+			
+			<!--Show Rice Options-->
+			<h3>Choose Side:</h3>
+			<select id='riceSelect' name='riceSelect'>
+				<?php
+				foreach ($meals->Rice as $key => $value)
+				{
+					print "<option value='".$key."'>".$value."</option>";
+				}
+				?>
+			</select>
+			<br>
+			<input id="submitButton" type="submit" value="Submit" disabled="disabled"/>
+			
+		</form>
+	</div>
 	
 	<!--Load scripts at the end so as to not freeze shit up.-->
 	<script src="Scripts/jquery-1.9.0.min.js"></script>
