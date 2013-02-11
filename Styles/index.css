@@ -1,15 +1,14 @@
 .frontPageButtons{
 	width: 200px;
 	text-align: center;
-	padding-top: 5px;
-	padding-bottom: 5px;
+	padding-top: 14px;
+	padding-bottom: 14px;
 	border-radius: 3px;
 	float: left;
 	background-color: red;
 	text-decoration: none;
-	color: black;
-	margin-right: 5px;
-	margin-left: 5px;
+	color: rgb(216, 184, 60);
+	margin-left: 40px;
 }
 
 .container{
