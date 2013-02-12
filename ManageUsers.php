@@ -18,7 +18,7 @@
 			<h1>User Manager</h1>
 			<a href="index.php">Go Back</a><br>
 			<p id='message'></p>
-				<div id="userData"></div>
+			<div id="userData"></div>
 				
 		</div>
 			
