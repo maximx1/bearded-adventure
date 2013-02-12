@@ -28,10 +28,11 @@ require_once("Controllers/SaveMeal.php");
 		$meals = $loader->LoadMealData();	//MealData class.
 		?>
 		
-		<form action='SubmitOrder.php'>
+		<form action='SubmitOrder.php' onsubmit="validations()">
 			<!--Show users-->
 			<h3>Choose User:</h3>
 			<select id='userSelect' name='userSelect'>
+				<option value="nil"></option>
 				<?php
 				foreach ($meals->User as $key => $value)
 				{
@@ -45,7 +46,6 @@ require_once("Controllers/SaveMeal.php");
 			<!--Show Meals-->
 			<h3>Choose Meal:</h3>
 			<select id='mealSelect' name='mealSelect' size=25>
-				<option value="nil"></option>
 				<?php
 				foreach ($meals->Meal as $key => $value)
 				{
