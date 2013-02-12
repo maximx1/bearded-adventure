@@ -68,8 +68,8 @@ if(isset($_GET["actionControl"]))
 			print "<tr><td>$value</td><td><input class='delete' id='$key' type='button' value='Delete' /></td></tr>";
 		}
 		?>
-			<tr>
-				<td style="margin-top: 2em;">
+			<tr style="margin-top: 2em;">
+				<td>
 					<input id='usernameBox' type="text" />
 				</td>
 				<td>
