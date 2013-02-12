@@ -21,7 +21,8 @@ if(isset($_GET["actionControl"]))
 			print "<tr><td>$value</td><td><input class='delete' id='$key' type='button' value='Delete' /></td></tr>";
 		}
 		?>
-			<tr style="margin-top: 2em;">
+			<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr>
 				<td>
 					<input id='usernameBox' type="text" />
 				</td>
@@ -45,7 +46,8 @@ if(isset($_GET["actionControl"]))
 			print "<tr><td>$value</td><td><input class='delete' id='$key' type='button' value='Delete' /></td></tr>";
 		}
 		?>
-			<tr style="margin-top: 2em;">
+			<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr>
 				<td>
 					<input id='usernameBox' type="text" />
 				</td>
@@ -68,7 +70,8 @@ if(isset($_GET["actionControl"]))
 			print "<tr><td>$value</td><td><input class='delete' id='$key' type='button' value='Delete' /></td></tr>";
 		}
 		?>
-			<tr style="margin-top: 2em;">
+			<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr>
 				<td>
 					<input id='usernameBox' type="text" />
 				</td>
