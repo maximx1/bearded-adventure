@@ -18,7 +18,7 @@ $(document).ready
 	}
 );
 
-function validation()
+function validations()
 {
 	var userSelectTag = document.getElementById('userSelect');
 	var userSelected = userSelectTag.options[userSelectTag.selectedIndex].value;
