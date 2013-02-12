@@ -45,6 +45,7 @@ require_once("Controllers/SaveMeal.php");
 			<!--Show Meals-->
 			<h3>Choose Meal:</h3>
 			<select id='mealSelect' name='mealSelect' size=25>
+				<option value="nil"></option>
 				<?php
 				foreach ($meals->Meal as $key => $value)
 				{
