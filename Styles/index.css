@@ -28,3 +28,7 @@
 body{
 	background-image:url('../Images/indexBackground.jpg');
 }
+
+#tutorialSection{
+	margin-top: 1em;
+}
