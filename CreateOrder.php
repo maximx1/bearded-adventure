@@ -32,7 +32,7 @@ require_once("Controllers/SaveMeal.php");
 			<!--Show users-->
 			<h3>Choose User:</h3>
 			<select id='userSelect' name='userSelect'>
-				<option value="nil"></option>
+				<option value="nil" selected="selected"></option>
 				<?php
 				foreach ($meals->User as $key => $value)
 				{

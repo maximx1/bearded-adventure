@@ -20,9 +20,16 @@ $(document).ready
 
 function validation()
 {
-	if($("#userSelect option:selected").val == "nil")
+	var userSelectTag = document.getElementById('userSelect');
+	var userSelected = userSelectTag.options[userSelectTag.selectedIndex].value;
+	if (userSelected == "nil")
 	{
 		alert("You must choose a user!");
 		return(false);
-	}
+	}	
+	/*if($("#userSelect option:selected").val == "nil")
+	{
+		alert("You must choose a user!");
+		return(false);
+	}*/
 }
