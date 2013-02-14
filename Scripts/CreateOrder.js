@@ -25,7 +25,7 @@ function validations()
 	if (userSelected == "nil")
 	{
 		alert("You must choose a user!");
-		return(false);	
+		return false;	
 	}
 		
 	/*if($("#userSelect option:selected").val == "nil")

@@ -5,9 +5,9 @@
 	padding-bottom: 14px;
 	border-radius: 3px;
 	float: left;
-	background-color: red;
+	background-color: #D50000;
 	text-decoration: none;
-	color: rgb(216, 184, 60);
+	color: #D5B83C;
 	margin-left: 40px;
 }
 
@@ -32,3 +32,15 @@ body{
 #tutorialSection{
 	margin-top: 7em;
 }
+
+.tutorial{
+	padding: 1em;
+	margin: 1em;
+	background-color:#E9E9E9;
+	border-radius: 6px;
+	border-color: #D8B83C;
+	border-width: 2px;
+	border-style: solid;
+}
+
+

@@ -28,7 +28,7 @@ require_once("Controllers/SaveMeal.php");
 		$meals = $loader->LoadMealData();	//MealData class.
 		?>
 		
-		<form action='SubmitOrder.php' onsubmit="validations()">
+		<form action='SubmitOrder.php' onsubmit="return validations()">
 			<!--Show users-->
 			<h3>Choose User:</h3>
 			<select id='userSelect' name='userSelect'>
