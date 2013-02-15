@@ -177,7 +177,7 @@ class DB
 		$insert = "";
 		try
 		{			
-			$insert = "INSERT INTO MEALS VALUES(null, :meal, :price);";
+			$insert = "INSERT INTO MEALS VALUES(null, :meal, :price, 0);";
 			
 			$PStatement = $this->db->prepare($insert);
 			$PStatement->bindValue(':meal', $meal->MealName);
