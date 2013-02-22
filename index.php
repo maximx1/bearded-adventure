@@ -74,5 +74,5 @@
 </html>
 <!--
 Credits:
-	Background image from: 'http://static.freepik.com/free-photo/chinese-pattern-background_18-12593.jpg'
+	Background image from: 'http://images.colourbox.com/thumb_COLOURBOX1473336.jpg'
 -->
