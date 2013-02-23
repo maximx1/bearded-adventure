@@ -68,8 +68,14 @@ if(isset($_GET["actionControl"]))
 		
 		//Pull all of the users in the database
 		$rows = $userManip->LoadUsers();
+		
+		//Encode the output into 2 seperate arrays to avoid browser reordering.
+		$jsonWrapper = array();
+		$jsonWrapper['key'] = array_keys($rows);
+		$jsonWrapper['val'] = array_values($rows);
+		
 		header('Content-Type:text/json');
-		echo json_encode($rows);
+		echo json_encode($jsonWrapper);
 		return;
 	}
 	print '<script src="Scripts/jquery-1.9.0.min.js"></script><script src="Scripts/ManageUsers.js"></script>';

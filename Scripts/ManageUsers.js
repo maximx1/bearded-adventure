@@ -56,12 +56,9 @@ function populateUserTable(userList)
 	var userTable = "<table>";
 	
 	//Create the user rows
-	for(i = 0; i < userList.length; i += 1)
+	for(i = 0; i < userList['key'].length; i += 1)
 	{
-		$.each(userList[i], function(key, val)
-		{
-			userTable += "<tr><td>"+ val + "</td><td><input class='delete' id='" + key + "' type='button' value='Delete' /></td></tr>";
-		});
+			userTable += "<tr><td>"+ userList['val'][i] + "</td><td><input class='delete' id='" + userList['key'][i] + "' type='button' value='Delete' /></td></tr>";
 	}
 	//for(var key in userList)
 	//{
