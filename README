@@ -15,18 +15,7 @@ Live Test site: maximx1.myvnc.com:8080/~justin/bearded-adventure
 
 Notes: 
 	* "bearded-adventure" is the codename for the project that github had
-	suggested for the project. It sounded cool so we figured on keeping it.
-	
+	     suggested for the project. It sounded cool so we figured on keeping
+             it.
 	* The live test site is Justin's Personal server.
-	
 	* We use github for documenting the development process.
-	
-TODO: 
-	* Document all of the source code.
-	* Complete ajax loading of User management
-	* Document the dataflow of the system.
-	* Convert the Order page to a shopping cart system using ajax.
-	* Calculate the order price.
-	* Reformat the Display pages so that like items can be grouped.
-	* Add a feature to remove ordered meals.
-	* Add a feature to add new meal options base.
