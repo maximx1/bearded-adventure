@@ -41,8 +41,9 @@ function populateUserTable(userList)
 }
 
 //Detect if user is clicking delete.
-$(".delete").click
+$(".delete").on
 (
+	"click",
 	function()
 	{
 		var id = $(this).attr('id');
@@ -72,8 +73,9 @@ $(".delete").click
 );
 
 //Detects when the user presses the add button.
-$(".add").click
+$(".add").on
 (
+	"click",
 	function()
 	{
 		var name = $("#usernameBox").val()
