@@ -27,7 +27,7 @@ $(document).ready
 		(
 			function()
 			{
-				var name = $("#usernameBox").val()//.replace(/ /g, "%20");
+				var name = $("#usernameBox").val()
 				if(name == "")
 				{
 					return false;
@@ -38,24 +38,38 @@ $(document).ready
 						actionControl: "addUser",
 						name: name 
 					},
-					function(userList)
-					{
-						var userTable = "<table>";
-						for(var key in userList)
-						{
-							userTable += "<tr><td>" + userList[key] + "</td><td><input class='delete' id='" + key + "' type='button' value='Delete' /></td></tr>";
-							//alert(iuserList[key]);
-						;}
-						userTable += "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>";
-						userTable += "<tr><td><input id='usernameBox' type='text'/></td>";
-						userTable += "<td><input class='add' type='button' value='Add User'/></td></tr>";
-						userTable += "</table>";
-						$("#userData").html(userTable);
-					}
+					populateUserTable(userList)
 				);
-				//$("#userData").load("Controllers/ControlUserManip.php?actionControl=addUser&name=" + name);
+				
+				//Display a successful load
 				$("#message").text("User added");
 			}
 		);
 	}
 );
+
+function populateUserTable(userList)
+{
+	var userTable = "<table>";
+	
+	//Create the user rows
+	for(i = 0; i < userList.length; i += 1)
+	{
+		for(var key in userList[i])
+		{
+			userTable += "<tr><td>"+ userList[i] + "</td><td><input class='delete' id='" + key + "' type='button' value='Delete' /></td></tr>";
+			break;
+		}
+	}
+	//for(var key in userList)
+	//{
+	//	userTable += "<tr><td>"+ userList[key] + "</td><td><input class='delete' id='" + key + "' type='button' value='Delete' /></td></tr>";
+	//}
+	userTable += "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>";
+	userTable += "<tr><td><input id='usernameBox' type='text'/></td>";
+	userTable += "<td><input class='add' type='button' value='Add User'/></td></tr>";
+	userTable += "</table>";
+	
+	//Place the table data into the main page
+	$("#userData").html(userTable);
+}

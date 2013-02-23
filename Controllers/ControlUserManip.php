@@ -63,29 +63,11 @@ if(isset($_GET["actionControl"]))
 	}
 	else if(strcasecmp($_GET["actionControl"], "addUser") == 0)
 	{
+		//Add the user to the database.
 		$userManip->AddUser($_GET["name"]);
-		/*?>
-		<table>
-		<?php*/
+		
+		//Pull all of the users in the database
 		$rows = $userManip->LoadUsers();
-/*
-		foreach ($rows as $key => $value)
-		{
-			print "<tr><td>$value</td><td><input class='delete' id='$key' type='button' value='Delete' /></td></tr>";
-		}
-		?>
-			<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-			<tr>
-				<td>
-					<input id='usernameBox' type="text" />
-				</td>
-				<td>
-					<input class='add' type="button" value="Add User" />
-				</td>
-			</tr>
-		</table>
-		<?php
-*/
 		header('Content-Type:text/json');
 		echo json_encode($rows);
 		return;
