@@ -32,6 +32,9 @@ if(isset($_GET["actionControl"]))
 			</tr>
 		</table>
 		<?php
+
+
+
 	}
 	else if(strcasecmp($_GET["actionControl"], "deleteUser") == 0)
 	{
@@ -61,10 +64,11 @@ if(isset($_GET["actionControl"]))
 	else if(strcasecmp($_GET["actionControl"], "addUser") == 0)
 	{
 		$userManip->AddUser($_GET["name"]);
-		?>
+		/*?>
 		<table>
-		<?php
+		<?php*/
 		$rows = $userManip->LoadUsers();
+/*
 		foreach ($rows as $key => $value)
 		{
 			print "<tr><td>$value</td><td><input class='delete' id='$key' type='button' value='Delete' /></td></tr>";
@@ -81,6 +85,10 @@ if(isset($_GET["actionControl"]))
 			</tr>
 		</table>
 		<?php
+*/
+		header('Content-Type:text/json');
+		echo json_encode($rows);
+		return;
 	}
 	print '<script src="Scripts/jquery-1.9.0.min.js"></script><script src="Scripts/ManageUsers.js"></script>';
 }

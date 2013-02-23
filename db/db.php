@@ -379,23 +379,6 @@ class DB
 		$deleteStmt = "";
 		try
 		{
-			
-			//Find all of the Order numbers under the user.
-			//$deleteStmt = "select O.ORDER_ID from ORDERS O where ORDER_USER_ID = :userid;";
-			//$PStatement = $this->db->prepare($deleteStmt);
-			//$PStatement->bindValue(":userid", (int)$userId);
-			//$PStatement->execute();
-			//$rows = $PStatement->fetchAll();
-			
-			//Delete all of the selected meal options for the orders.
-			//foreach($rows as $row)
-			//{
-				//$deleteStmt = "delete from SELECTED_MEAL_OPTIONS where SMO_ORDER_ID = :order;";
-				//$PStatement = $this->db->prepare($deleteStmt);
-				//$PStatement->bindValue(":order", (int)$row);
-				//$PStatement->execute();
-			//}
-			
 			//Delete the order references for the user.
 			$deleteStmt = "delete from ORDERS where ORDER_USER_ID = :userid;";
 			$PStatement = $this->db->prepare($deleteStmt);
