@@ -22,6 +22,7 @@ $(document).ready
 		//Detect if user is clicking delete.
 		$(".delete").live
 		(
+			'click',
 			function()
 			{
 				var id = $(this).attr('id');
@@ -53,6 +54,7 @@ $(document).ready
 		//Detects when the user presses the add button.
 		$(".add").live
 		(
+			'click',
 			function()
 			{
 				var name = $("#usernameBox").val()
