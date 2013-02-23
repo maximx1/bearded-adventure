@@ -20,7 +20,7 @@ $(document).ready
 				);
 		
 		//Detect if user is clicking delete.
-		$(".delete").live
+		$(".delete").on
 		(
 			'click',
 			function()
@@ -52,7 +52,7 @@ $(document).ready
 		);
 		
 		//Detects when the user presses the add button.
-		$(".add").live
+		$(".add").on
 		(
 			'click',
 			function()
