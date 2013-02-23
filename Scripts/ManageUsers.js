@@ -38,7 +38,10 @@ $(document).ready
 						actionControl: "addUser",
 						name: name 
 					},
-					populateUserTable(userList)
+					function(userList)
+					{
+						populateUserTable(userList);
+					}
 				);
 				
 				//Display a successful load
