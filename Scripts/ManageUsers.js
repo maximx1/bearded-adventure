@@ -18,6 +18,68 @@ $(document).ready
 				populateUserTable(userList);
 			}
 		);
+				
+		//Detect if user is clicking delete.
+		$(".delete").on
+		(
+			"click",
+			function()
+			{
+				var id = $(this).attr('id');
+				
+				//Verify that the person actually wishes to delete this user
+				if(!confirm("You sure you want to delete user?"))
+				{
+					return false;
+				}
+				
+				//Submit the userid and reload the users
+				$.getJSON("Controllers/ControlUserManip.php",
+					{ 
+						actionControl: "deleteUser",
+						id: id
+					},
+					function(userList)
+					{
+						populateUserTable(userList);
+					}
+				);
+				//$("#userData").load("Controllers/ControlUserManip.php?actionControl=deleteUser&id=" + id);
+				
+				//Display a message of success
+				$("#message").text("User removed");
+			}
+		);
+		
+		//Detects when the user presses the add button.
+		$(".add").on
+		(
+			"click",
+			function()
+			{
+				var name = $("#usernameBox").val()
+				if(name == "")
+				{
+					return false;
+				}
+				$("#usernameBox").val("");
+				
+				//Submit new user and retrieve updated user list
+				$.getJSON("Controllers/ControlUserManip.php",
+					{ 
+						actionControl: "addUser",
+						name: name 
+					},
+					function(userList)
+					{
+						populateUserTable(userList);
+					}
+				);
+				
+				//Display a successful load
+				$("#message").text("User added");
+			}
+		);
 	}
 );
 
@@ -39,65 +101,3 @@ function populateUserTable(userList)
 	//Place the table data into the main page
 	$("#userData").html(userTable);
 }
-
-//Detect if user is clicking delete.
-$(".delete").on
-(
-	"click",
-	function()
-	{
-		var id = $(this).attr('id');
-		
-		//Verify that the person actually wishes to delete this user
-		if(!confirm("You sure you want to delete user?"))
-		{
-			return false;
-		}
-		
-		//Submit the userid and reload the users
-		$.getJSON("Controllers/ControlUserManip.php",
-			{ 
-				actionControl: "deleteUser",
-				id: id
-			},
-			function(userList)
-			{
-				populateUserTable(userList);
-			}
-		);
-		//$("#userData").load("Controllers/ControlUserManip.php?actionControl=deleteUser&id=" + id);
-		
-		//Display a message of success
-		$("#message").text("User removed");
-	}
-);
-
-//Detects when the user presses the add button.
-$(".add").on
-(
-	"click",
-	function()
-	{
-		var name = $("#usernameBox").val()
-		if(name == "")
-		{
-			return false;
-		}
-		$("#usernameBox").val("");
-		
-		//Submit new user and retrieve updated user list
-		$.getJSON("Controllers/ControlUserManip.php",
-			{ 
-				actionControl: "addUser",
-				name: name 
-			},
-			function(userList)
-			{
-				populateUserTable(userList);
-			}
-		);
-		
-		//Display a successful load
-		$("#message").text("User added");
-	}
-);
