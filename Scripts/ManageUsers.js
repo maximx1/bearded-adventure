@@ -6,18 +6,46 @@
 $(document).ready
 (
 	function()
-	{		
+	{
+		//Load the user data immediately once the rest of the page loads
+		//$("#userData").load("Controllers/ControlUserManip.php?actionControl=loadUser");
+		$.getJSON("Controllers/ControlUserManip.php",
+					{ 
+						actionControl: "loadUser"
+					},
+					function(userList)
+					{
+						populateUserTable(userList);
+					}
+				);
+		
 		//Detect if user is clicking delete.
 		$(".delete").click
 		(
 			function()
 			{
 				var id = $(this).attr('id');
+				
+				//Verify that the person actually wishes to delete this user
 				if(!confirm("You sure you want to delete user?"))
 				{
 					return false;
 				}
-				$("#userData").load("Controllers/ControlUserManip.php?actionControl=deleteUser&id=" + id);
+				
+				//Submit the userid and reload the users
+				$.getJSON("Controllers/ControlUserManip.php",
+					{ 
+						actionControl: "deleteUser",
+						id: id
+					},
+					function(userList)
+					{
+						populateUserTable(userList);
+					}
+				);
+				//$("#userData").load("Controllers/ControlUserManip.php?actionControl=deleteUser&id=" + id);
+				
+				//Display a message of success
 				$("#message").text("User removed");
 			}
 		);
@@ -33,6 +61,8 @@ $(document).ready
 					return false;
 				}
 				$("#usernameBox").val("");
+				
+				//Submit new user and retrieve updated user list
 				$.getJSON("Controllers/ControlUserManip.php",
 					{ 
 						actionControl: "addUser",
@@ -53,21 +83,18 @@ $(document).ready
 
 function populateUserTable(userList)
 {
-	var userTable = "<table>";
+	var userTable = "";//<table>";
 	
-	//Create the user rows
+	//Create the user rows from the json wrapper
 	for(i = 0; i < userList['key'].length; i += 1)
 	{
-			userTable += "<tr><td>"+ userList['val'][i] + "</td><td><input class='delete' id='" + userList['key'][i] + "' type='button' value='Delete' /></td></tr>";
+		userTable += "<tr><td>"+ userList['val'][i] + "</td><td><input class='delete' id='" + userList['key'][i] + "' type='button' value='Delete' /></td></tr>";
 	}
-	//for(var key in userList)
-	//{
-	//	userTable += "<tr><td>"+ userList[key] + "</td><td><input class='delete' id='" + key + "' type='button' value='Delete' /></td></tr>";
-	//}
 	userTable += "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>";
 	userTable += "<tr><td><input id='usernameBox' type='text'/></td>";
 	userTable += "<td><input class='add' type='button' value='Add User'/></td></tr>";
-	userTable += "</table>";
+	
+	//userTable += "</table>";
 	
 	//Place the table data into the main page
 	$("#userData").html(userTable);

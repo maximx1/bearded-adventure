@@ -12,54 +12,17 @@ if(isset($_GET["actionControl"]))
 	
 	if(strcasecmp($_GET["actionControl"], "loadUser") == 0)
 	{
-		?>
-		<table>
-		<?php
-		$rows = $userManip->LoadUsers();
-		foreach ($rows as $key => $value)
-		{
-			print "<tr><td>$value</td><td><input class='delete' id='$key' type='button' value='Delete' /></td></tr>";
-		}
-		?>
-			<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-			<tr>
-				<td>
-					<input id='usernameBox' type="text" />
-				</td>
-				<td>
-					<input class='add' type="button" value="Add User" />
-				</td>
-			</tr>
-		</table>
-		<?php
-
-
-
+		//Pull all of the users in the database
+		createJson($userManip->LoadUsers());
 	}
 	else if(strcasecmp($_GET["actionControl"], "deleteUser") == 0)
 	{
-		
+		//Delete a user from the database
 		$userManip->DeleteUser((int)$_GET["id"]);
-		?>
-		<table>
-		<?php
-		$rows = $userManip->LoadUsers();
-		foreach ($rows as $key => $value)
-		{
-			print "<tr><td>$value</td><td><input class='delete' id='$key' type='button' value='Delete' /></td></tr>";
-		}
-		?>
-			<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-			<tr>
-				<td>
-					<input id='usernameBox' type="text" />
-				</td>
-				<td>
-					<input class='add' type="button" value="Add User" />
-				</td>
-			</tr>
-		</table>
-		<?php
+		
+		//Pull all of the users in the database
+		createJson($userManip->LoadUsers());
+		
 	}
 	else if(strcasecmp($_GET["actionControl"], "addUser") == 0)
 	{
@@ -67,18 +30,8 @@ if(isset($_GET["actionControl"]))
 		$userManip->AddUser($_GET["name"]);
 		
 		//Pull all of the users in the database
-		$rows = $userManip->LoadUsers();
-		
-		//Encode the output into 2 seperate arrays to avoid browser reordering.
-		$jsonWrapper = array();
-		$jsonWrapper['key'] = array_keys($rows);
-		$jsonWrapper['val'] = array_values($rows);
-		
-		header('Content-Type:text/json');
-		echo json_encode($jsonWrapper);
-		return;
+		createJson($userManip->LoadUsers());
 	}
-	print '<script src="Scripts/jquery-1.9.0.min.js"></script><script src="Scripts/ManageUsers.js"></script>';
 }
 else
 {
@@ -88,5 +41,22 @@ else
 	<p>There was an issue with loading the page. Please refresh the page.</p>
 	
 	<?php
+}
+
+/*
+ * Function to create JSON object that won't be sorted by a browser.
+ * 
+ * Author: Justin Walrath
+ * Since: 2/22/2013
+ */
+function createJson($rows)
+{
+	//Encode the output into 2 seperate arrays to avoid browser reordering.
+	$jsonWrapper = array();
+	$jsonWrapper['key'] = array_keys($rows);
+	$jsonWrapper['val'] = array_values($rows);
+	
+	header('Content-Type:text/json');
+	echo json_encode($jsonWrapper);
 }
 ?>
