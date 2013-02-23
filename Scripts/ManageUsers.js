@@ -20,7 +20,7 @@ $(document).ready
 				);
 		
 		//Detect if user is clicking delete.
-		$(".delete").click
+		$(".delete").live
 		(
 			function()
 			{
@@ -51,7 +51,7 @@ $(document).ready
 		);
 		
 		//Detects when the user presses the add button.
-		$(".add").click
+		$(".add").live
 		(
 			function()
 			{
@@ -83,7 +83,7 @@ $(document).ready
 
 function populateUserTable(userList)
 {
-	var userTable = "";//<table>";
+	var userTable = "<table>";
 	
 	//Create the user rows from the json wrapper
 	for(i = 0; i < userList['key'].length; i += 1)
@@ -94,7 +94,7 @@ function populateUserTable(userList)
 	userTable += "<tr><td><input id='usernameBox' type='text'/></td>";
 	userTable += "<td><input class='add' type='button' value='Add User'/></td></tr>";
 	
-	//userTable += "</table>";
+	userTable += "</table>";
 	
 	//Place the table data into the main page
 	$("#userData").html(userTable);
