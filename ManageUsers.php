@@ -24,6 +24,6 @@
 			
 		<!--Load scripts at the end so as to not freeze shit up.-->
 		<script src="Scripts/jquery-1.9.0.min.js"></script>
-		<script src="Scripts/ManageUsers.js"></script>
+		<script src="Scripts/LoadUserManager.js"></script>
 	</body>
 </html>
