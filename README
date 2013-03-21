@@ -2,7 +2,23 @@ This is the website for chinese friday. A chinese food ordering system for IDI.
 
 Authors:
 	Justin Walrath <walrathjaw@gmail.com>
-	
+	Tessa Seiders <
+	Clark Hewitt <
+
+Licensed: March 20, 2013 under the GNU GPL
+	This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 Background: 
 	Generally on fridays the developers order chinese food for lunch, 
 	as a way to bolster fellowship among the team members. In order to get
@@ -19,3 +35,5 @@ Notes:
              it.
 	* The live test site is Justin's Personal server.
 	* We use github for documenting the development process.
+	* Justin is making this program open source and GNU General Public License, checkout the LICENSE file.
+	
