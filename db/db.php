@@ -288,12 +288,13 @@ class DB
 		$mobQuery = "";
 		try
 		{
-			$query = "INSERT INTO ORDERS VALUES(null, NOW(), :userid, :mealid, :riceid);";
+			$query = "INSERT INTO ORDERS VALUES(null, NOW(), :userid, :mealid, :riceid, :sessionId);";
 
 			$PStatement = $this->db->prepare($query);
 			$PStatement->bindValue(':userid', (int)$meal->USER_ID);
 			$PStatement->bindValue(':mealid', (int)$meal->MEAL_ID);
 			$PStatement->bindValue(':riceid', (int)$meal->RICE_ID);
+			$PStatement->bindValue(':sessionId', $meal->SESSION_ID);
 			$PStatement->execute();
 			$newId = $this->db->lastInsertId();
 
