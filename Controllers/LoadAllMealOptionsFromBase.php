@@ -18,7 +18,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require 'db/db.php';	//Load the database functions
+require_once 'db/db.php';	//Load the database functions
 
 class LoadAllMealOptionsFromBase
 {

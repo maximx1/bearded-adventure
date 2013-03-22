@@ -18,8 +18,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
  
-require("Controllers/StoreMeal.php");
-require("Containers/NewMeal.php");
+require_once("Controllers/StoreMeal.php");
+require_once("Containers/NewMeal.php");
 ?>
 
 <!DOCTYPE html>
@@ -39,7 +39,7 @@ require("Containers/NewMeal.php");
 			
 			if(isset($_GET['MealName']) && isset($_GET['MealPrice']))
 			{
-				$newMeal = new NewMeal($_GET['MealName'], $_GET['MealPrice'], $_GET['mealOptionsSelect'], (int)1); //Add Optgroups
+				$newMeal = new NewMeal($_GET['MealName'], $_GET['MealPrice'], $_GET['mealOptionsSelect'], $_GET['optSelect']);
 				$mealSubmitter = new StoreMeal();
 				$successMessage = $mealSubmitter->RecordMeal($newMeal);
 				print "<h1>".$successMessage."</h1>";

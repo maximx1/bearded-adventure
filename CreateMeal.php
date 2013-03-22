@@ -20,9 +20,12 @@
  */
 
 require 'Controllers/LoadAllMealOptionsFromBase.php';
+require 'Controllers/LoadAllOptgroups.php';
 
 $mobLoader = new LoadAllMealOptionsFromBase();
+$optLoader = new LoadAllOptgroups();
 $mobs = $mobLoader->LoadMob();
+$optgroups =$optLoader->LoadOptgroups();
 
 ?>
 
@@ -43,6 +46,16 @@ $mobs = $mobLoader->LoadMob();
 				&emsp;
 				Price: $
 				<input id="MealPrice" type="text" name="MealPrice"/><!--Need to add the .js to blur-->
+				<h3>What Optgroup shoud this be under?</h3>
+				<select id='OptSelect' name='optSelect'>
+					<option value="nil" selected="selected"></option>
+					<?php
+					foreach($optgroups as $key => $value)
+					{
+						print "<option value='".$key."'>".$value."</option>";
+					}
+					?>
+				</select>
 				<h3>Select Meal Options to include: </h3>
 				<?php
 				foreach($mobs as $id => $mob)

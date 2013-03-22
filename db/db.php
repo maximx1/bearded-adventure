@@ -200,7 +200,7 @@ class DB
 			$PStatement = $this->db->prepare($insert);
 			$PStatement->bindValue(':meal', $meal->MealName);
 			$PStatement->bindValue(':price', (float)$meal->Price);
-			$PStatement->bindValue(':optgroup', (int)1);//(int)$meal->OptgroupClass); //Defaulting to Lunch Specials
+			$PStatement->bindValue(':optgroup', (int)$meal->OptgroupClass);
 			$PStatement->execute();
 			$newId = $this->db->lastInsertId();
 			
@@ -375,7 +375,7 @@ class DB
 			$optgroup = array();
 			$optQuery = "select o.OPTGROUP_ID as id, o.OPTGROUP_DESC as 'group' from OPTGROUP o;";
 			
-			//Pull the rice information
+			//Pull the optgroup information
 			$PStatement = $this->db->prepare($optQuery);
 			$PStatement->execute();
 			$rows = $PStatement->fetchAll();

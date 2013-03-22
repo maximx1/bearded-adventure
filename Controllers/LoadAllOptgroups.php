@@ -1,9 +1,8 @@
 <?php
-
 /*
- * Container class that holds information for making a new Meal.
+ * Controller that loads all of the meals and options.
  * Author: Justin Walrath <walrathjaw@gmail.com>
- * Since: 3/1/2013
+ * Since: 3/22/2013
  * 
  	This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,19 +17,29 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-class NewMeal
+
+
+require_once 'db/db.php';	//Load the database functions
+
+class LoadAllOptgroups
 {
-	public $MealName;
-	public $Price;
-	public $Mobs = array();		//List of all the MOB ids.
-	public $OptgroupClass;
+	public $db;
 	
-	public function __construct($mealName, $price, $mobs, $optgroupClass)
+	/*
+	 * Constructor opens the database connection.
+	 */
+	public function __construct()
 	{
-		$this->MealName = $mealName;
-		$this->Price = $price;
-		$this->Mobs = $mobs;
-		$this->OptgroupClass = $optgroupClass;
+		$this->db = new DB();
+	}
+	
+	/*
+	 * Pulls the optgroups from the database.
+	 * Return: List of meal groups, information mapped as $optgroups[group id][group name]
+	 */
+	public function LoadOptgroups()
+	{
+		return($this->db->PullOptgroups());
 	}
 }
 
