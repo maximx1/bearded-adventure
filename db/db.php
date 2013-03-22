@@ -110,11 +110,12 @@ class DB
 		$users = array();
 		$rice = array();
 		$meals = array();
+		$optgroup = array();
 		
 		$outputPacket;
 		try
 		{
-			$mealQuery = "select M.MEAL_ID, M.MEAL_NAME, M.MEAL_PRICE from MEALS M ".
+			$mealQuery = "select M.MEAL_ID, M.MEAL_NAME, M.MEAL_PRICE, M.MEAL_OPTGROUP_ID as optgroup from MEALS M ".
 					"order by M.MEAL_NAME;";
 			
 			//Pull the users
@@ -123,6 +124,8 @@ class DB
 			//Pull the rice information
 			$rice = $this->PullRiceTypes();
 			
+			//Pull the optgroup information
+			$optgroup = $this->PullOptgroups();
 			
 			//Pull the meal information
 			$PStatement = $this->db->prepare($mealQuery);
@@ -132,12 +135,13 @@ class DB
 			{
 				$meals[$row['MEAL_ID']]["name"] = $row['MEAL_NAME'];
 				$meals[$row['MEAL_ID']]["price"] = $row['MEAL_PRICE'];
+				$meals[$row['MEAL_ID']]["group"] = $row['optgroup'];
 			}
 			
 			//Close the database connection.
 			$PStatement->closeCursor();
 			
-			$outputPacket = new MealTrackingData($users, $meals, $rice);
+			$outputPacket = new MealTrackingData($users, $meals, $rice, $optgroup);
 			
 			return($outputPacket);
 		}
@@ -353,6 +357,40 @@ class DB
 		{
 			print "Error: ".$er."<br><br>";
 			print "SQL Statement: ".$riceQuery;
+			exit;
+		}
+	}
+	
+	/*
+	 * Pull all of the Optgroups
+	 * Author: Justin Walrath
+	 * Since: 3/22/2013
+	 * Return: List of meal groups, information mapped as $optgroups[group id][group name]
+	 */
+	public function PullOptgroups()
+	{
+		$optQuery ="";
+		try
+		{
+			$optgroup = array();
+			$optQuery = "select o.OPTGROUP_ID as id, o.OPTGROUP_DESC as 'group' from OPTGROUP o;";
+			
+			//Pull the rice information
+			$PStatement = $this->db->prepare($optQuery);
+			$PStatement->execute();
+			$rows = $PStatement->fetchAll();
+			foreach ($rows as $row)
+			{
+				$optgroup[$row['id']] = $row['group'];
+			}
+			
+			$PStatement->closeCursor();
+			return($optgroup);
+		}
+		catch(PDOException $er)
+		{
+			print "Error: ".$er."<br><br>";
+			print "SQL Statement: ".$optQuery;
 			exit;
 		}
 	}

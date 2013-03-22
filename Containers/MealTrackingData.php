@@ -24,15 +24,21 @@ class MealTrackingData
 	public $User = array();
 	public $Meal = array();
 	public $Rice = array();
+	public $Optgroups = array();
 	
 	/*
 	 * Constructor: Takes in arrays of the users, meals, and rice.
+	 * Param: $user List of users, information is mapped as $user[user id][user name]
+	 * Param: $meal List of meals, information mapped as $meals[meal id]["name" or "price" or "group"]
+	 * Param: $rice List of rices, information mapped as $rice[rice id][rice type]
+	 * Param: $optgroups List of meal groups, information mapped as $optgroups[group id][group name]
 	 */
-	public function __construct($user, $meal, $rice)
+	public function __construct($user, $meal, $rice, $optgroups)
 	{
 		$this->User = $user;
 		$this->Meal = $meal;
 		$this->Rice = $rice;
+		$this->Optgroups = $optgroups;
 	}
 }
 

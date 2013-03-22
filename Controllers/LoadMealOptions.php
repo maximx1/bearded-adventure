@@ -25,10 +25,23 @@ require_once("Containers/MealTrackingData.php");
 
 class LoadMealOptions
 {
+	private $db;
+	
+	/*
+	 * function that opens up the connection to the database.
+	 */
+	public function __construct()
+	{
+		$this->db = new DB();
+	}
+	
+	/*
+	 * Loads the meal data from the database.
+	 * @return A MealTrackingData Container object built from the database.
+	 */
 	public function LoadMealData()
 	{
-		$db = new DB();
-		return($db->PullMealData());
+		return($this->db->PullMealData());
 	}
 }
 
