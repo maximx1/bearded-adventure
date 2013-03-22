@@ -191,11 +191,12 @@ class DB
 		$insert = "";
 		try
 		{			
-			$insert = "INSERT INTO MEALS VALUES(null, :meal, :price, 0);";
+			$insert = "INSERT INTO MEALS VALUES(null, :meal, :price, :optgroup);";
 			
 			$PStatement = $this->db->prepare($insert);
 			$PStatement->bindValue(':meal', $meal->MealName);
 			$PStatement->bindValue(':price', (float)$meal->Price);
+			$PStatement->bindValue(':optgroup', (int)1);//(int)$meal->OptgroupClass); //Defaulting to Lunch Specials
 			$PStatement->execute();
 			$newId = $this->db->lastInsertId();
 			

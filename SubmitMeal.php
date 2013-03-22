@@ -39,7 +39,7 @@ require("Containers/NewMeal.php");
 			
 			if(isset($_GET['MealName']) && isset($_GET['MealPrice']))
 			{
-				$newMeal = new NewMeal($_GET['MealName'], $_GET['MealPrice'], $_GET['mealOptionsSelect']);
+				$newMeal = new NewMeal($_GET['MealName'], $_GET['MealPrice'], $_GET['mealOptionsSelect'], (int)1); //Add Optgroups
 				$mealSubmitter = new StoreMeal();
 				$successMessage = $mealSubmitter->RecordMeal($newMeal);
 				print "<h1>".$successMessage."</h1>";
