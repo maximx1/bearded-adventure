@@ -78,6 +78,43 @@ class DB
 	}
 	
 	/*
+	 * Queries the database to pull out the most recent 5 meals for historical lookup
+	 */
+	public function PullRecentMealHistory($userid)
+	{
+		$historyQuery = "";
+		
+		try
+		{
+			$optgroup = array();
+			$historyQuery = "select U.USER_NAME, M.MEAL_ID, M.MEAL_NAME from ORDERS O ". 
+							"inner join MEALS M on M.MEAL_ID = O.ORDER_MEAL_ID ". 
+							"inner join USERS U on U.USER_ID = O.ORDER_USER_ID ".
+							"WHERE U.USER_ID = :userid ".
+							"order by O.ORDER_DATE DESC limit 5;";
+			
+			//Pull the optgroup information
+			$PStatement = $this->db->prepare($optQuery);
+			$PStatement->bindValue(":userid", $userid);
+			$PStatement->execute();
+			$rows = $PStatement->fetchAll();
+			foreach ($rows as $row)
+			{
+				$optgroup[$row['id']] = $row['group'];
+			}
+			
+			$PStatement->closeCursor();
+			return($optgroup);
+		}
+		catch(PDOException $er)
+		{
+			print "Error: ".$er."<br><br>";
+			print "SQL Statement: ".$optQuery;
+			exit;
+		}
+	}
+	
+	/*
 	 * Pulls the meal Options for the the Order
 	 * Param: The Order Id
 	 */
