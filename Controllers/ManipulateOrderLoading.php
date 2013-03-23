@@ -22,13 +22,31 @@
 require_once 'db/db.php';
 require_once 'Containers/Order.php';
 
-class LoadOrders
+class ManipulateOrderLoading
 {
-	function LoadDaysMeals()
+	public $db;
+	
+	/*
+	 * Starts up the database 
+	 * @Author Justin Walrath
+	 * @since 3/22/2013
+	 * @return List of Orders for the day. 
+	 */
+	public function __construct()
+	{
+		$this->db = new DB();
+	}
+	
+	/*
+	 * Loads the meals by users's name
+	 * @Author Justin Walrath
+	 * @since 3/22/2013
+	 * @return List of Orders for the day. 
+	 */
+	public function LoadDaysMealsByUser()
 	{
 		$combinedOrders = array();
-		$db = new DB();
-		$OrderRows = $db->PullDaysMeals();
+		$OrderRows = $this->db->PullDaysMeals();
 		
 		//Combine the orders
 		foreach ($OrderRows as $row)

@@ -1,5 +1,7 @@
 <?php
-require_once 'ManipulateUser.php';
+
+require_once 'ManipulateOrderLoading.php';
+
 /*
  * Controller class to be called by ajax to load new information.
  * Author: Justin Walrath
@@ -21,30 +23,24 @@ require_once 'ManipulateUser.php';
 
 if(isset($_GET["actionControl"]))
 {
-	$userManip = new ManipulateUser();
-	
-	if(strcasecmp($_GET["actionControl"], "loadUser") == 0)
+	$loader = new ManipulateOrderLoading();
+	$combinedOrders = $loader->LoadDaysMeals();
+
+	if(strcasecmp($_GET["actionControl"], "loadOrders") == 0)
 	{
 		//Pull all of the users in the database
-		createJson($userManip->LoadUsers());
+		createJson($loader->LoadDaysMeals());
 	}
-	else if(strcasecmp($_GET["actionControl"], "deleteUser") == 0)
+	else if(strcasecmp($_GET["actionControl"], "deleteOrder") == 0)
 	{
 		//Delete a user from the database
-		$userManip->DeleteUser((int)$_GET["id"]);
+		$loader->DeleteOrder((int)$_GET["id"]);
 		
 		//Pull all of the users in the database
-		createJson($userManip->LoadUsers());
-		
+		createJson($loader->LoadDaysMeals());
 	}
-	else if(strcasecmp($_GET["actionControl"], "addUser") == 0)
-	{
-		//Add the user to the database.
-		$userManip->AddUser($_GET["name"]);
-		
-		//Pull all of the users in the database
-		createJson($userManip->LoadUsers());
-	}
+
+	createJson($combinedOrders);
 }
 else
 {
@@ -57,19 +53,21 @@ else
 }
 
 /*
- * Function to create JSON object that won't be sorted by a browser.
- * 
- * Author: Justin Walrath
- * Since: 2/22/2013
+ * Create the JSON that 
  */
-function createJson($rows)
+function createJson($combinedOrders)
 {
 	//Encode the output into 2 seperate arrays to avoid browser reordering.
 	$jsonWrapper = array();
-	$jsonWrapper['key'] = array_keys($rows);
-	$jsonWrapper['val'] = array_values($rows);
+	$count = 0;
+	
+	foreach($combinedOrders as $order)
+	{
+		array_push($jsonWrapper, $order->CreateMealString());
+	}
 	
 	header('Content-Type:text/json');
 	echo json_encode($jsonWrapper);
 }
+
 ?>
