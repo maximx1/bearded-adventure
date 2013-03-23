@@ -21,34 +21,24 @@ $(document).ready
 	function()
 	{
 		//Load the user data immediately once the rest of the page loads
-		$.getJSON("Controllers/ControlUserManip.php",
+		$.getJSON("Controllers/ControlOrderLoading.php",
 			{ 
-				actionControl: "loadUser"
+				actionControl: "loadOrders"
 			},
-			function(userList)
+			function(orderList)
 			{
-				populateUserTable(userList);
+				var orderTable = "<table>";
+				
+				for(i = 0; i < orderTable.length; i += 1)
+				{
+					orderTable += orderList[i];
+				}
+				
+				orderTable += "</table>";
+				orderTable += "<script src='Scripts/ManageDisplayOrders.js'></script>";
+				
+				$("#orderList").html(orderTable);
 			}
 		);
 	}
 );
-
-function populateUserTable(userList)
-{
-	var userTable = "<table>";
-	
-	//Create the user rows from the json wrapper
-	for(i = 0; i < userList['key'].length; i += 1)
-	{
-		userTable += "<tr><td>"+ userList['val'][i] + "</td><td><input class='delete' id='" + userList['key'][i] + "' type='button' value='Delete' /></td></tr>";
-	}
-	userTable += "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>";
-	userTable += "<tr><td><input id='usernameBox' type='text'/></td>";
-	userTable += "<td><input class='add' type='button' value='Add User'/></td></tr>";
-	
-	userTable += "</table>";
-	userTable += "<script src='Scripts/ManageUsers.js'></script>";
-	
-	//Place the table data into the main page
-	$("#userData").html(userTable);
-}

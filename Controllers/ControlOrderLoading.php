@@ -21,15 +21,14 @@ require_once 'ManipulateOrderLoading.php';
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-if(isset($_GET["actionControl"]))
+if(!isset($_GET["actionControl"]))
 {
 	$loader = new ManipulateOrderLoading();
-	$combinedOrders = $loader->LoadDaysMeals();
 
 	if(strcasecmp($_GET["actionControl"], "loadOrders") == 0)
 	{
 		//Pull all of the users in the database
-		createJson($loader->LoadDaysMeals());
+		createJson($loader->LoadDaysMealsByUser());
 	}
 	else if(strcasecmp($_GET["actionControl"], "deleteOrder") == 0)
 	{
@@ -39,8 +38,6 @@ if(isset($_GET["actionControl"]))
 		//Pull all of the users in the database
 		createJson($loader->LoadDaysMeals());
 	}
-
-	createJson($combinedOrders);
 }
 else
 {

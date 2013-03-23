@@ -19,8 +19,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once 'db/db.php';
-require_once 'Containers/Order.php';
+require_once '../db/db.php';
+require_once '../Containers/Order.php';
 
 class ManipulateOrderLoading
 {
@@ -51,7 +51,7 @@ class ManipulateOrderLoading
 		//Combine the orders
 		foreach ($OrderRows as $row)
 		{
-			$mobOptions = $db->PullMobForOrder($row['ORDER_ID']);
+			$mobOptions = $this->db->PullMobForOrder($row['ORDER_ID']);
 			$nextOrder = new Order($row['ORDER_ID'],
 								$row['USER_NAME'], 
 								$row['MEAL_NAME'], 
