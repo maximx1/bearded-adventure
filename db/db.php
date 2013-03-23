@@ -7,7 +7,6 @@
  */
 require_once('DBI.php');
 
-<<<<<<< HEAD
 /**
  * DB class that handles connecting, querying, and updating the database.
  * Author: Justin Walrath <walrathjaw@gmail.com>
@@ -112,7 +111,7 @@ class DB
 			}
 			
 			$PStatement->closeCursor();
-			return($optgroup);
+			return($history);
 		}
 		catch(PDOException $er)
 		{

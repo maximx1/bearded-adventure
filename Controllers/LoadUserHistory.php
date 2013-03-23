@@ -24,7 +24,7 @@ if(isset($_GET["userId"]))
 {
 	$userId = $_GET["userId"];
 	$db = new DB();
-	$result = $db->PullMealOptions($userId);
+	$result = $db->PullRecentMealHistory($userId);
 	
 	?>
 	
