@@ -34,8 +34,14 @@ class LoadOrders
 		foreach ($OrderRows as $row)
 		{
 			$mobOptions = $db->PullMobForOrder($row['ORDER_ID']);
-			$nextOrder = new Order($row['USER_NAME'], $row['MEAL_NAME'], 
-					$mobOptions, $row['RICE_TYPE'], $row['MEAL_PRICE']);
+			$nextOrder = new Order($row['ORDER_ID'],
+								$row['USER_NAME'], 
+								$row['MEAL_NAME'], 
+								$mobOptions, 
+								$row['RICE_TYPE'], 
+								$row['MEAL_PRICE'],
+								$row['ORDER_SESSION_ID']
+							 );
 			array_push($combinedOrders, $nextOrder);
 		}
 		

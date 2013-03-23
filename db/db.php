@@ -55,7 +55,7 @@ class DB
 	{
 		try
 		{
-			$mealQuery = "select O.ORDER_ID, U.USER_NAME, M.MEAL_NAME, R.RICE_TYPE, M.MEAL_PRICE from ORDERS O ".
+			$mealQuery = "select O.ORDER_ID, U.USER_NAME, M.MEAL_NAME, R.RICE_TYPE, M.MEAL_PRICE, O.ORDER_SESSION_ID from ORDERS O ".
 					"inner join MEALS M on O.ORDER_MEAL_ID = M.MEAL_ID ".
 					"inner join USERS U on U.USER_ID = O.ORDER_USER_ID ".
 					"inner join RICE R on R.RICE_ID = O.ORDER_RICE ".

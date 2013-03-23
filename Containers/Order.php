@@ -21,22 +21,31 @@
  */
 class Order
 {
+	public $ORDER_ID = "";			//The Order ID number.
 	public $USER_NAME = "";			//The Orderer.
 	public $MEAL_NAME = "";			//The meal's name.
 	public $MOB_OPTION = array();	//List of meal options.
 	public $RICE_TYPE = "";			//The type of rice White|Fried.
 	public $MEAL_PRICE = "";		//The Cost of the price on the menu.
+	public $SESSION_ID = "";		//The session ID of the order that was placed.
 	
 	/*
 	 * Constructor that builds a quick object of the meal.
 	 */
-	public function __construct($username, $mealName, $mobOption, $riceType, $mealprice)
+	public function __construct($orderId, $username, $mealName, $mobOption, $riceType, $mealprice, $sessionId)
 	{
+		$this->ORDER_ID = $orderId;
 		$this->USER_NAME = $username;
 		$this->MEAL_NAME = $mealName;
 		$this->MOB_OPTION = $mobOption;
 		$this->RICE_TYPE = $riceType;
 		$this->MEAL_PRICE = $mealprice;
+		$this->SESSION_ID = $sessionId;
+		
+		//Reset the session lifetime
+		$lifetime = 36000;
+		session_set_cookie_params($lifetime);
+		session_start();
 	}
 	
 	/*[deprecated]
@@ -51,14 +60,21 @@ class Order
 	}
 	
 	/*
-	 * Determines if the passed in Order is has the same name.
+	 * Determines if the passed in Order is the same order.
 	 * $mealOrder : [Order] : An order to compare.
 	 */
 	public function IsDuplicateOrder($mealOrder)
 	{
-		return strcasecmp($mealOrder->USER_NAME, $this->USER_NAME) == 0
-				&& strcasecmp($mealOrder->MEAL_NAME, $this->MEAL_NAME) == 0
-				? true : false;
+		return($this->ORDER_ID == $mealOrder->ORDER_ID ? true : false);
+	}
+	
+	/*
+	 * Determines if the passed in Order is has the same name.
+	 * $mealOrder : [Order] : An order to compare.
+	 */
+	public function IsDuplicateMeal($mealOrder)
+	{
+		return(strcasecmp($mealOrder->MEAL_NAME, $this->MEAL_NAME) == 0 ? true : false);
 	}
 	
 	/*
@@ -92,7 +108,17 @@ class Order
 			}
 			$count++;
 		}
-		return $OrderString.' - Price: $' . $this->MEAL_PRICE . '</p>';
+		$OrderString .= ' - Price: $' . $this->MEAL_PRICE;
+		
+		if(isset($_SESSION))
+		{
+			if(strcasecmp($_SESSION['sessionId'], $this->SESSION_ID) == 0)
+			{
+				$OrderString .= '<input class="delete" id="' . $this->ORDER_ID . '" type="button" value="Delete">';
+			}
+		}
+		
+		return $OrderString.'</p>';
 	}
 }
 
