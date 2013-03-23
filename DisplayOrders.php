@@ -19,6 +19,8 @@ require_once("Controllers/LoadOrders.php");
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+ 
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -30,18 +32,15 @@ require_once("Controllers/LoadOrders.php");
 	<div class="container">
 		<h1>Here are the orders for today:</h1>
 		<a href="index.php">Go Back</a>
-		
 		<?php
 		
-		$loader = new LoadOrders();
-		$combinedOrders = $loader->LoadDaysMeals();
 		
-		foreach($combinedOrders as $order)
-		{
-			print $order->CreateMealString();
-		}
 		
 		?>
 	</div>
+	
+	<!--Load scripts at the end so as to not freeze shit up.-->
+	<script src="Scripts/jquery-1.9.0.min.js"></script>
+	<script src="Scripts/DisplayOrdersOperations.js"></script>
 </body>
 </html>

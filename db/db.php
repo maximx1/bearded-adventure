@@ -6,8 +6,6 @@
  */
 require_once('DBI.php');
 
-//Declare a plain variable to use.
-
 /*
  * DB class that handles connecting, querying, and updating the database.
  * Author: Justin Walrath <walrathjaw@gmail.com>
@@ -59,7 +57,8 @@ class DB
 					"inner join MEALS M on O.ORDER_MEAL_ID = M.MEAL_ID ".
 					"inner join USERS U on U.USER_ID = O.ORDER_USER_ID ".
 					"inner join RICE R on R.RICE_ID = O.ORDER_RICE ".
-					"where O.ORDER_DATE = CURDATE() order by O.ORDER_ID;";
+					"where O.ORDER_DATE = CURDATE() ".
+					"order by U.USER_NAME;";
 					
 			$PStatement = $this->db->prepare($mealQuery);
 			$PStatement->execute();
