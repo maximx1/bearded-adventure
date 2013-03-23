@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * "MealData.php"
  * Container class that holds meal names, options, and keys
  * Author: Justin Walrath <walrathjaw@gmail.com>
@@ -21,17 +21,32 @@
  */
 class MealTrackingData
 {
+	/**
+	 * List of users, information is mapped as $user[user id][user name]
+	 */
 	public $User = array();
+	
+	/**
+	 * List of meals, information mapped as $meals[meal id]["name" or "price" or "group"]
+	 */
 	public $Meal = array();
+	
+	/**
+	 * List of rices/sides, information mapped as $rice[rice id][rice type]
+	 */
 	public $Rice = array();
+	
+	/**
+	 * List of meal groups, information mapped as $optgroups[group id][group name]
+	 */
 	public $Optgroups = array();
 	
-	/*
+	/**
 	 * Constructor: Takes in arrays of the users, meals, and rice.
-	 * Param: $user List of users, information is mapped as $user[user id][user name]
-	 * Param: $meal List of meals, information mapped as $meals[meal id]["name" or "price" or "group"]
-	 * Param: $rice List of rices, information mapped as $rice[rice id][rice type]
-	 * Param: $optgroups List of meal groups, information mapped as $optgroups[group id][group name]
+	 * @param: $user List of users, information is mapped as $user[user id][user name]
+	 * @param: $meal List of meals, information mapped as $meals[meal id]["name" or "price" or "group"]
+	 * @param: $rice List of rices, information mapped as $rice[rice id][rice type]
+	 * @param: $optgroups List of meal groups, information mapped as $optgroups[group id][group name]
 	 */
 	public function __construct($user, $meal, $rice, $optgroups)
 	{

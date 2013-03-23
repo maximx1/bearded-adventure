@@ -17,16 +17,53 @@
 
 
 //Load as soon as the document is ready.
+
+var updatingHistory = false;
+var updatingMeal = false;
+
 $(document).ready
 (
 	function()
 	{
+		$("#userSelect").change(
+			function()
+			{
+				updatingMeal = true;
+				updatingHistory = true;
+				var uid = $("#userSelect option:selected").val();
+				$("#mealHistorySpace").load("Controllers/LoadUserHistory.php?userId=" + uid);
+				updatingMeal = false;
+				updatingHistory = false;
+			}
+		);
+		
+		$("mealHistorySelect").change(
+			function()
+			{
+				if(updatingMeal == false)
+				{
+					updatingHistory = true;
+					var hid = $("#mealHistorySelect option:selected").val();
+					$("#mealSelect option:selected").val([]);
+					$("#mealOptions").load("Controllers/LoadMealOptionsFromBase.php?mealId=" + hid);
+					$("#submitButton").removeAttr('disabled');
+					updatingHistory = false;
+				}
+			}
+		);
+		
 		$("#mealSelect").change(
 			function()
 			{
-				var id = $("#mealSelect option:selected").val();
-				$("#mealOptions").load("Controllers/LoadMealOptionsFromBase.php?mealId=" + id);
-				$("#submitButton").removeAttr('disabled');
+				if(updatingHistory == false)
+				{
+					updatingMeal = true;
+					var id = $("#mealSelect option:selected").val();
+					$("#mealHistorySelect option:selected").val([]);
+					$("#mealOptions").load("Controllers/LoadMealOptionsFromBase.php?mealId=" + id);
+					$("#submitButton").removeAttr('disabled');
+					updatingMeal = false;
+				}
 			}
 		);
 	}
@@ -41,10 +78,4 @@ function validations()
 		alert("You must choose a user!");
 		return false;	
 	}
-		
-	/*if($("#userSelect option:selected").val == "nil")
-	{
-		alert("You must choose a user!");
-		return(false);
-	}*/
 }

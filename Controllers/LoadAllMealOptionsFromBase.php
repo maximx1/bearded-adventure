@@ -17,14 +17,16 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+ 
+ //TODO get rid of this container eventually.
 
-require_once 'db/db.php';	//Load the database functions
+require_once('db/db.php');	//Load the database functions
 
 class LoadAllMealOptionsFromBase
 {
 	public $db;
 	
-	/*
+	/**
 	 * Constructor opens the database connection.
 	 */
 	public function __construct()
@@ -32,20 +34,13 @@ class LoadAllMealOptionsFromBase
 		$this->db = new DB();
 	}
 	
-	/*
+	/**
 	 * Pulls the MOBS from the database.
+	 * @return List of available MOBs from the database.
 	 */
 	public function LoadMob()
 	{
 		return($this->db->PullAllMobs());
-	}
-	
-	/* [deprecated]
-	 * Pulls the rice from the database.
-	 */
-	public function LoadRice()
-	{
-		return($this->db->PullRiceTypes());
 	}
 }
 

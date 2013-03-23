@@ -1,14 +1,13 @@
 <?php
 /*
+ 	[Note]
 	You will need to add a "DBI.php" File with a class named "DBI" with 3
 	constants to represent the host and database information.
 	The const variable names are: host, username, password
  */
 require_once('DBI.php');
 
-//Declare a plain variable to use.
-
-/*
+/**
  * DB class that handles connecting, querying, and updating the database.
  * Author: Justin Walrath <walrathjaw@gmail.com>
  * Since: 2/1/2013
@@ -28,9 +27,12 @@ require_once('DBI.php');
  */
 class DB
 {
-	private $db;	//The database connection.
+	/**
+	 * The database information.
+	 */
+	private $db;
 	
-	/*
+	/**
 	 * Constructor to connect to the database.
 	 */
 	public function __construct()
@@ -48,7 +50,7 @@ class DB
 		}
 	}
 	
-	/*
+	/**
 	 * Pulls all of the orders for the day.
 	 */
 	public function PullDaysMeals()
@@ -77,8 +79,10 @@ class DB
 		}
 	}
 	
-	/*
+	/**
 	 * Queries the database to pull out the most recent 5 meals for historical lookup
+	 * @param $userid The userid to search the history for.
+	 * @return List of historical meals, information mapped as $meals[meal id]["name" or "price" or "group"]
 	 */
 	public function PullRecentMealHistory($userid)
 	{
@@ -86,8 +90,8 @@ class DB
 		
 		try
 		{
-			$optgroup = array();
-			$historyQuery = "select U.USER_NAME, M.MEAL_ID, M.MEAL_NAME from ORDERS O ". 
+			$history = array();
+			$historyQuery = "select M.MEAL_ID, M.MEAL_NAME, M.MEAL_PRICE, M.MEAL_OPTGROUP_ID from ORDERS O ". 
 							"inner join MEALS M on M.MEAL_ID = O.ORDER_MEAL_ID ". 
 							"inner join USERS U on U.USER_ID = O.ORDER_USER_ID ".
 							"WHERE U.USER_ID = :userid ".
@@ -100,7 +104,9 @@ class DB
 			$rows = $PStatement->fetchAll();
 			foreach ($rows as $row)
 			{
-				$optgroup[$row['id']] = $row['group'];
+				$history[$row['MEAL_ID']]["name"] = $row['MEAL_NAME'];
+				$history[$row['MEAL_ID']]["price"] = $row['MEAL_PRICE'];
+				$history[$row['MEAL_ID']]["group"] = $row['MEAL_OPTGROUP_ID'];
 			}
 			
 			$PStatement->closeCursor();
@@ -114,9 +120,9 @@ class DB
 		}
 	}
 	
-	/*
+	/**
 	 * Pulls the meal Options for the the Order
-	 * Param: The Order Id
+	 * @param $orderId The Order Id to pull the selected meal options for.
 	 */
 	 public function PullMobForOrder($orderId)
 	 {
@@ -139,7 +145,7 @@ class DB
 		return($mobOptions);
 	 }
 	
-	/*
+	/**
 	 * Pulls the meal data from the database for selection.
 	 */
 	public function PullMealData()
@@ -149,12 +155,12 @@ class DB
 		$meals = array();
 		$optgroup = array();
 		
+		//Queries
+		$mealQuery = "";
+		
 		$outputPacket;
 		try
 		{
-			$mealQuery = "select M.MEAL_ID, M.MEAL_NAME, M.MEAL_PRICE, M.MEAL_OPTGROUP_ID as optgroup from MEALS M ".
-					"order by M.MEAL_NAME;";
-			
 			//Pull the users
 			$users = $this->PullAllUsers();
 			
@@ -164,6 +170,9 @@ class DB
 			//Pull the optgroup information
 			$optgroup = $this->PullOptgroups();
 			
+			$mealQuery = "select M.MEAL_ID, M.MEAL_NAME, M.MEAL_PRICE, M.MEAL_OPTGROUP_ID from MEALS M ".
+					"order by M.MEAL_NAME;";
+			
 			//Pull the meal information
 			$PStatement = $this->db->prepare($mealQuery);
 			$PStatement->execute();
@@ -172,7 +181,7 @@ class DB
 			{
 				$meals[$row['MEAL_ID']]["name"] = $row['MEAL_NAME'];
 				$meals[$row['MEAL_ID']]["price"] = $row['MEAL_PRICE'];
-				$meals[$row['MEAL_ID']]["group"] = $row['optgroup'];
+				$meals[$row['MEAL_ID']]["group"] = $row['MEAL_OPTGROUP_ID'];
 			}
 			
 			//Close the database connection.
@@ -185,12 +194,14 @@ class DB
 		catch(PDOException $er)
 		{
 			print "Error: ".$er;
+			print $mealQuery;
 			exit;
 		}
 	}
 
-	/*
+	/**
 	 * Pulls the meals options based on the key id.
+	 * @param $mealId The id of the meal to pull the available options for.
 	 */
 	public function PullMealOptions($mealId)
 	{
@@ -224,8 +235,9 @@ class DB
 		}
 	}
 	
-	/*
+	/**
 	 * Stores the meal into the database with it's selected options.
+	 * @param $meal The meal order to place into the database.
 	 */
 	public function StoreMeal($meal)
 	{
