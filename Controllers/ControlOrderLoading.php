@@ -21,7 +21,7 @@ require_once 'ManipulateOrderLoading.php';
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-if(!isset($_GET["actionControl"]))
+if(isset($_GET["actionControl"]))
 {
 	$loader = new ManipulateOrderLoading();
 
@@ -33,10 +33,10 @@ if(!isset($_GET["actionControl"]))
 	else if(strcasecmp($_GET["actionControl"], "deleteOrder") == 0)
 	{
 		//Delete a user from the database
-		$loader->DeleteOrder((int)$_GET["id"]);
+		$loader->DeleteOrder($_GET["id"]);
 		
 		//Pull all of the users in the database
-		createJson($loader->LoadDaysMeals());
+		createJson($loader->LoadDaysMealsByUser());
 	}
 }
 else

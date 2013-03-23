@@ -494,6 +494,32 @@ class DB
 	}
 	
 	/*
+	 * Deletes an order from the database.
+	 * @param The id of the order to be deleted.
+	 */
+	public function DeleteOrder($orderId)
+	{
+		$deleteStmt = "";
+		try
+		{
+			//Delete the order references for the user.
+			$deleteStmt = "delete from ORDERS where ORDER_ID = :orderId;";
+			$PStatement = $this->db->prepare($deleteStmt);
+			$PStatement->bindValue(":orderId", (int)$orderId);
+			$PStatement->execute();
+			
+			$PStatement->closeCursor();
+			return;
+		}
+		catch(PDOException $er)
+		{
+			print "Error: ".$er."<br><br>";
+			print "SQL Statement: ".$deleteStmt;
+			exit;
+		}
+	}
+	
+	/*
 	 * Deletes a user from the database.
 	 */
 	public function AddNewUser($name)

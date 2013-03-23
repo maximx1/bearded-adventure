@@ -39,7 +39,7 @@ class ManipulateOrderLoading
 	
 	/*
 	 * Loads the meals by users's name
-	 * @Author Justin Walrath
+	 * @author Justin Walrath
 	 * @since 3/22/2013
 	 * @return List of Orders for the day. 
 	 */
@@ -64,6 +64,17 @@ class ManipulateOrderLoading
 		}
 		
 		return($combinedOrders);
+	}
+	
+	/*
+	 * This calls the database to delete the order.
+	 * @author Justin Walrath <walrathjaw@gmail.com>
+	 * @since 3/23/2013
+	 * @param The Order's Id number to delete
+	 */
+	public function DeleteOrder($orderId)
+	{
+		$this->db->DeleteOrder($orderId);
 	}
 }
 

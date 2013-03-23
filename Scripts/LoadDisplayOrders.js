@@ -29,7 +29,7 @@ $(document).ready
 			{
 				var orderTable = "<table>";
 				
-				for(i = 0; i < orderTable.length; i += 1)
+				for(i = 0; i < orderList.length; i += 1)
 				{
 					orderTable += orderList[i];
 				}
