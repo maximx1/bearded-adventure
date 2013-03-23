@@ -18,8 +18,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
  
-require("Controllers/StoreOrder.php");
-require("Containers/NewOrder.php");
+require_once("Controllers/StoreOrder.php");
+require_once("Containers/NewOrder.php");
+require_once("Tools/UUID.php");
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -34,9 +36,26 @@ require("Containers/NewOrder.php");
 			<a href="CreateMeal.php">Add New Meal Option</a>
 			<?php
 			
+			//Reset the session lifetime
+			$lifetime = 36000;
+			session_set_cookie_params($lifetime);
+			session_start();
+			
+			//Generate a session ID if it has expired.
+			if(!isset($_SESSION['sessionId']))
+			{
+				$_SESSION['sessionId'] = UUID::NewUUID();
+			}
+			
 			if(isset($_GET['userSelect']) && isset($_GET['mealSelect']) && isset($_GET['riceSelect']))
 			{
-				$order = new NewOrder((int)$_GET['userSelect'], (int)$_GET['mealSelect'], $_GET['mealOptionsSelect'], (int)$_GET['riceSelect']);
+				$order = new NewOrder(
+								(int)$_GET['userSelect'], 
+								(int)$_GET['mealSelect'], 
+								$_GET['mealOptionsSelect'], 
+								(int)$_GET['riceSelect'], 
+								$_SESSION['sessionId']
+							 );
 				$orderer = new StoreOrder();
 				$successMessage = $orderer->RecordOrder($order);
 				print "<h1>".$successMessage."</h1>";

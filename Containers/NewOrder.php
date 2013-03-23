@@ -24,16 +24,18 @@ class NewOrder
 	public $MEAL_ID = "";			//The meal's id.
 	public $MOB_OPTION = array();	//List of meal options as ids.
 	public $RICE_ID = "";			//The type of rice White|Fried.
+	public $SESSION_ID = "";		//The Session ID of the current Ordering session.
 	
 	/*
 	 * Constructor that builds a quick object of the meal.
 	 */
-	public function __construct($userId, $mealId, $mobOption, $riceId)
+	public function __construct($userId, $mealId, $mobOption, $riceId, $sessionId)
 	{
 		$this->USER_ID = $userId;
 		$this->MEAL_ID = $mealId;
 		$this->MOB_OPTION = $mobOption;
 		$this->RICE_ID = $riceId;
+		$this->SESSION_ID = $sessionId;
 	}
 }
 

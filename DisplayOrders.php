@@ -1,5 +1,5 @@
-<?php 
-require_once("Controllers/LoadOrders.php"); 
+<?php
+
 /*
  * This is the orders page to display the day's orders.
  * Author: Justin Walrath <walrathjaw@gmail.com>
@@ -31,17 +31,13 @@ require_once("Controllers/LoadOrders.php");
 		<h1>Here are the orders for today:</h1>
 		<a href="index.php">Go Back</a>
 		
-		<?php
+		<!--Empty spot to load data-->
+		<div id="orderList"></div>
 		
-		$loader = new LoadOrders();
-		$combinedOrders = $loader->LoadDaysMeals();
-		
-		foreach($combinedOrders as $order)
-		{
-			print $order->CreateMealString();
-		}
-		
-		?>
 	</div>
+	
+	<!--Load scripts at the end so as to not freeze shit up.-->
+	<script src="Scripts/jquery-1.9.0.min.js"></script>
+	<script src="Scripts/LoadDisplayOrders.js"></script>
 </body>
 </html>

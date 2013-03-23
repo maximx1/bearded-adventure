@@ -9,6 +9,9 @@ require_once('DBI.php');
 
 <<<<<<< HEAD
 /**
+=======
+/*
+>>>>>>> master
  * DB class that handles connecting, querying, and updating the database.
  * Author: Justin Walrath <walrathjaw@gmail.com>
  * Since: 2/1/2013
@@ -100,7 +103,7 @@ class DB
 							"order by O.ORDER_DATE DESC limit 5;";
 			
 			//Pull the optgroup information
-			$PStatement = $this->db->prepare($historyQuery);
+			$PStatement = $this->db->prepare($optQuery);
 			$PStatement->bindValue(":userid", $userid);
 			$PStatement->execute();
 			$rows = $PStatement->fetchAll();
