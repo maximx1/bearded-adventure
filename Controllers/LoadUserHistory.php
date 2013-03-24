@@ -38,19 +38,13 @@ if(isset($_GET["userId"]))
 		}
 		?>
 	</select>
+	<script src="Scripts/CreateOrder.js"></script>
 	<?php
 }
 else
 {
 	?>
-	<html>
-		<head>
-			<title>IDI Chinese Friday</title>
-		</head>
-		<body>
-			<h1>You need to have have the mealId set</h1>
-		</body>
-	</html>
+	<h1>You need to have have the mealId set</h1>
 	<?php
 }
 ?>
