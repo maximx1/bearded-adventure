@@ -1,12 +1,7 @@
 <?php
 
-require 'db/db.php';
-
 /*
- * Controller class that handles storing the order into the database.
- * Author: Justin Walrath <walrathjaw@gmail.com>
- * Since: 2/3/2013
- * 
+ * Copyright 2013 Justin Walrath & Associates
  	This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -20,12 +15,37 @@ require 'db/db.php';
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+require 'db/db.php';
+
+/**
+ * Controller class that handles storing the order into the database.
+ * @author: Justin Walrath <walrathjaw@gmail.com>
+ * @since: 2/3/2013
+ */
 class StoreOrder
 {
+	/**
+	 * The database connection.
+	 */
+ 	private $db;
+	
+	/**
+	 * Constructor connects to the database
+	 */
+	public function __construct()
+	{
+		$this->db = new DB();
+	}
+	
+	/**
+	 * Records the order in the database.
+	 * @param $order A new Order as NewOrder object.
+	 * @return A successful added order.
+	 */
 	public function RecordOrder($order)
 	{
-		$db = new DB();
-		$db->StoreOrder($order);
+		$this->db->StoreOrder($order);
 		return 'The meal was added successfully';
 	}
 }

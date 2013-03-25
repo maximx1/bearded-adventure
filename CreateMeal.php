@@ -1,10 +1,7 @@
 <?php
 
 /*
- * View that allows the user to create a new meal.
- * Author: Justin Walrath <walrathjaw@gmail.com>
- * Since: 2/5/2013
- * 
+ * Copyright 2013 Justin Walrath & Associates
  	This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -19,8 +16,14 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require 'Controllers/LoadAllMealOptionsFromBase.php';
-require 'Controllers/LoadAllOptgroups.php';
+require_once('Controllers/LoadAllMealOptionsFromBase.php');
+require_once('Controllers/LoadAllOptgroups.php');
+
+/**
+ * View that allows the user to create a new meal.
+ * @author: Justin Walrath <walrathjaw@gmail.com>
+ * @since: 2/5/2013
+ */
 
 $mobLoader = new LoadAllMealOptionsFromBase();
 $optLoader = new LoadAllOptgroups();
@@ -70,4 +73,3 @@ $optgroups =$optLoader->LoadOptgroups();
 		<script src="Scripts/CreateMeal.js"></script>
 	</body>
 </html>
-

@@ -1,10 +1,7 @@
 <?php
 
-/**
- * Loads the Historical meal data for the user.
- * @author Justin Walrath <walrathjaw@gmail.com>
- * @since 3/1/2013
- * 
+/*
+ * Copyright 2013 Justin Walrath & Associates
  	This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -20,6 +17,13 @@
  */
 
 require_once('../db/db.php');
+
+/**
+ * Loads the Historical meal data for the user.
+ * @author Justin Walrath <walrathjaw@gmail.com>
+ * @since 3/1/2013
+ * @param $_GET["userId"] The user id to pull the history for.
+ */
 
 if(isset($_GET["userId"]))
 {

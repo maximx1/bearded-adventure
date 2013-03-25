@@ -1,10 +1,7 @@
 <?php
-require_once 'ManipulateUser.php';
+
 /*
- * Controller class to be called by ajax to load new information.
- * Author: Justin Walrath
- * Since: 2/5/2013
- * 
+ * Copyright 2013 Justin Walrath & Associates
  	This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -17,6 +14,18 @@ require_once 'ManipulateUser.php';
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+require_once 'ManipulateUser.php';
+
+/**
+ * Controller class to be called by ajax to load new information.
+ * @author: Justin Walrath
+ * @since: 3/23/2013
+ * @param $_GET["actionControl"] Switch to determine what to do with the script.
+ * @param $_GET["id"] The user id number.
+ * @param $_GET["name"] The new user name to add.
+ * @return Prints out JSON to be picked up by the javascript.
  */
 
 if(isset($_GET["actionControl"]))
@@ -56,11 +65,11 @@ else
 	<?php
 }
 
-/*
+/**
  * Function to create JSON object that won't be sorted by a browser.
- * 
- * Author: Justin Walrath
- * Since: 2/22/2013
+ * @author: Justin Walrath
+ * @since: 2/22/2013
+ * @param: $rows List of users with their id's as the keys.
  */
 function createJson($rows)
 {
@@ -69,7 +78,10 @@ function createJson($rows)
 	$jsonWrapper['key'] = array_keys($rows);
 	$jsonWrapper['val'] = array_values($rows);
 	
+	//Specify that it is returning some JSON data for the ajax.
 	header('Content-Type:text/json');
+	
+	//Encode the array as JSON.
 	echo json_encode($jsonWrapper);
 }
 ?>

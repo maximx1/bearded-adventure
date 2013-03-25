@@ -1,11 +1,7 @@
 <?php
-require '../db/db.php';
 
 /*
- * Controller class that manipulates the users.
- * Author: Justin Walrath
- * Since: 2/5/2013
- * 
+ * Copyright 2013 Justin Walrath & Associates
  	This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -19,36 +15,50 @@ require '../db/db.php';
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+ 
+require '../db/db.php';
+
+/**
+ * Controller class that manipulates the users.
+ * @author: Justin Walrath
+ * @since: 2/5/2013
+ */
  class ManipulateUser
  {
- 	public $db;
+	/**
+	 * The database connection.
+	 */
+ 	private $db;
 	
-	/*
-	 * Constructor: Connects the database
+	/**
+	 * Constructor connects to the database
 	 */
 	public function __construct()
 	{
 		$this->db = new DB();
 	}
 	
-	/*
+	/**
 	 * Loads the users for display.
+	 * @return List of the users with the id's as keys.
 	 */
 	public function LoadUsers()
 	{
 		return($this->db->PullAllUsers());
 	}
 	
-	/*
+	/**
 	 * Adds new user.
+	 * @param $name The new username to add.
 	 */
 	public function AddUser($name)
 	{
 		$this->db->AddNewUser($name);
 	}
 	
-	/*
+	/**
 	 * Deletes a user.
+	 * @param $userId the user id of the deleted user.
 	 */
 	public function DeleteUser($userId)
 	{

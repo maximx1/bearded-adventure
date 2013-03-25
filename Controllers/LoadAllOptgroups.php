@@ -1,9 +1,7 @@
 <?php
+
 /*
- * Controller that loads all of the meals and options.
- * Author: Justin Walrath <walrathjaw@gmail.com>
- * Since: 3/22/2013
- * 
+ * Copyright 2013 Justin Walrath & Associates
  	This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -18,14 +16,21 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+require_once 'db/db.php';
 
-require_once 'db/db.php';	//Load the database functions
-
+/**
+ * Controller that loads all of the meals and options.
+ * @author: Justin Walrath <walrathjaw@gmail.com>
+ * @since: 3/22/2013
+ */
 class LoadAllOptgroups
 {
-	public $db;
+	/**
+	 * The database connection.
+	 */
+	private $db;
 	
-	/*
+	/**
 	 * Constructor opens the database connection.
 	 */
 	public function __construct()
@@ -33,9 +38,9 @@ class LoadAllOptgroups
 		$this->db = new DB();
 	}
 	
-	/*
+	/**
 	 * Pulls the optgroups from the database.
-	 * Return: List of meal groups, information mapped as $optgroups[group id][group name]
+	 * @return: List of meal groups, information mapped as $optgroups[group id][group name]
 	 */
 	public function LoadOptgroups()
 	{

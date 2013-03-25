@@ -1,10 +1,7 @@
 <?php
 
 /*
- * Loads the meal options for the meals once selected in the ordering page.
- * Author: Justin Walrath
- * Since: 3/1/2013
- * 
+ * Copyright 2013 Justin Walrath & Associates
  	This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -18,7 +15,15 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 require_once('../db/db.php');
+
+/**
+ * Loads the meal options for the meals once selected in the ordering page.
+ * @author: Justin Walrath
+ * @since: 3/1/2013
+ * @param $_GET["mealId"] The meal id to pull the MOBS for.
+ */
 
 if(isset($_GET["mealId"]))
 {
@@ -35,14 +40,8 @@ if(isset($_GET["mealId"]))
 else
 {
 	?>
-	<html>
-		<head>
-			<title>IDI Chinese Friday</title>
-		</head>
-		<body>
-			<h1>You need to have have the mealId set</h1>
-		</body>
-	</html>
+	<h1>You need to have have the mealId set</h1>
 	<?php
 }
+
 ?>

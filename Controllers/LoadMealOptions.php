@@ -1,15 +1,7 @@
 <?php
 
-require_once("db/db.php");
-require_once("Containers/MealTrackingData.php");
-
-/**
- * "LoadMealOptions.php"
- * Controller that calls the db functions and pulls the available meals. 
- * 
- * Author: Justin Walrath <walrathjaw@gmail.com>
- * Since 2/2/2013
- * 
+/*
+ * Copyright 2013 Justin Walrath & Associates
  	This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -23,8 +15,21 @@ require_once("Containers/MealTrackingData.php");
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+require_once("db/db.php");
+require_once("Containers/MealTrackingData.php");
+
+/**
+ * Controller that calls the db functions and pulls the available meals. 
+ * 
+ * @author: Justin Walrath <walrathjaw@gmail.com>
+ * @since 2/2/2013
+ */
 class LoadMealOptions
 {
+	/**
+	 * The database connection.
+	 */
 	private $db;
 	
 	/**

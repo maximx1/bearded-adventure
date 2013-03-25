@@ -1,17 +1,7 @@
 <?php
-/*
- 	[Note]
-	You will need to add a "DBI.php" File with a class named "DBI" with 3
-	constants to represent the host and database information.
-	The const variable names are: host, username, password
- */
-require_once('DBI.php');
 
-/**
- * DB class that handles connecting, querying, and updating the database.
- * Author: Justin Walrath <walrathjaw@gmail.com>
- * Since: 2/1/2013
- * 
+/*
+ * Copyright 2013 Justin Walrath & Associates
  	This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -24,6 +14,20 @@ require_once('DBI.php');
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+ 
+/*
+ 	[Note]
+	You will need to add a "DBI.php" File with a class named "DBI" with 3
+	constants to represent the host and database information.
+	The const variable names are: host, username, password
+ */
+require_once('DBI.php');
+
+/**
+ * DB class that handles connecting, querying, and updating the database.
+ * @author: Justin Walrath <walrathjaw@gmail.com>
+ * @since: 2/1/2013
  */
 class DB
 {
@@ -52,6 +56,7 @@ class DB
 	
 	/**
 	 * Pulls all of the orders for the day.
+	 * @return The list of the days meals as a the database return.
 	 */
 	public function PullDaysMeals()
 	{
@@ -68,8 +73,6 @@ class DB
 			$PStatement->execute();
 			$OrderRows = $PStatement->fetchAll();
 			$PStatement->closeCursor();
-			
-			
 			
 			return($OrderRows);
 		}
@@ -349,7 +352,7 @@ class DB
 		}
 	}
 
-	/*
+	/**
 	 * Pulls all the mobs in one shot.
 	 */
 	public function PullAllMobs()
