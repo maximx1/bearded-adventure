@@ -1,7 +1,8 @@
 //Script that loads the Orders and 
 //Author: Justin Walrath <walrathjaw@gmail.com>
 //Since: 2/7/2013
-// 
+//
+//Copyright 2013 Justin Walrath & Associates
 // 	This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU General Public License as published by
 //    the Free Software Foundation, either version 3 of the License, or
