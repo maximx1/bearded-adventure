@@ -99,5 +99,8 @@ function populateUserTable(userList)
 	userTable += "<script src='Scripts/ManageUsers.js'></script>";
 	
 	//Place the table data into the main page
-	$("#userData").html(userTable);
+	$("#userData").fadeOut("fast", function()
+    {
+        $(this).html(userTable).fadeIn("slow");
+    });
 }
