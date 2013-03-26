@@ -127,6 +127,7 @@ class DB
 	/**
 	 * Pulls the meal Options for the the Order
 	 * @param $orderId The Order Id to pull the selected meal options for.
+	 * @return List of meal options for the specified order.
 	 */
 	 public function PullMobForOrder($orderId)
 	 {
@@ -151,6 +152,7 @@ class DB
 	
 	/**
 	 * Pulls the meal data from the database for selection.
+	 * @return Pulls and calls all the information related to generating the order options.
 	 */
 	public function PullMealData()
 	{
@@ -206,6 +208,7 @@ class DB
 	/**
 	 * Pulls the meals options based on the key id.
 	 * @param $mealId The id of the meal to pull the available options for.
+	 * @return List of available meal options for the selected meal.
 	 */
 	public function PullMealOptions($mealId)
 	{
@@ -296,8 +299,9 @@ class DB
 		}
 	}
 
-	/*
+	/**
 	 * Stores the order into the database.
+	 * @param A new order object to place into the database.
 	 */
 	public function StoreOrder($meal)
 	{
@@ -354,6 +358,7 @@ class DB
 
 	/**
 	 * Pulls all the mobs in one shot.
+	 * @return A list of all available mob options from the base.
 	 */
 	public function PullAllMobs()
 	{
@@ -384,8 +389,9 @@ class DB
 		}
 	}
 	
-	/*
-	 * Pull all of the rice types.
+	/**
+	 * Pull all of the rice type sides.
+	 * @return List of the sides.
 	 */
 	public function PullRiceTypes()
 	{
@@ -415,11 +421,11 @@ class DB
 		}
 	}
 	
-	/*
+	/**
 	 * Pull all of the Optgroups
-	 * Author: Justin Walrath
-	 * Since: 3/22/2013
-	 * Return: List of meal groups, information mapped as $optgroups[group id][group name]
+	 * @author: Justin Walrath
+	 * @since: 3/22/2013
+	 * @return: List of meal groups, information mapped as $optgroups[group id][group name]
 	 */
 	public function PullOptgroups()
 	{
@@ -449,8 +455,9 @@ class DB
 		}
 	}
 	
-	/*
-	 * Pulls all users
+	/**
+	 * Pulls all users.
+	 * @return List of all the current users of the system.
 	 */
 	public function PullAllUsers()
 	{
@@ -478,8 +485,9 @@ class DB
 		}
 	}
 	
-	/*
+	/**
 	 * Deletes a user from the database.
+	 * @param $userid The user's id to remove from the system.
 	 */
 	public function DeleteUser($userId)
 	{
@@ -510,7 +518,7 @@ class DB
 		}
 	}
 	
-	/*
+	/**
 	 * Deletes an order from the database.
 	 * @param The id of the order to be deleted.
 	 */
@@ -536,8 +544,9 @@ class DB
 		}
 	}
 	
-	/*
-	 * Deletes a user from the database.
+	/**
+	 * dds a user to the database.
+	 * @param $name Name of the user to add.
 	 */
 	public function AddNewUser($name)
 	{
