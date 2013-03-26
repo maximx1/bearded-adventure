@@ -1,4 +1,4 @@
-use CHINESE_FRIDAY;
+use hewittcp11;
 
 /*Referencing tables*/
 DROP TABLE IF EXISTS MEAL_OPTIONS;
