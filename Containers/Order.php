@@ -122,7 +122,7 @@ class Order
 	public function CreateMealString()
 	{
 		//Add the username and the meal name with the side.
-		$OrderString = '<p><b>' . $this->USER_NAME . "</b> : " . $this->MEAL_NAME . " with " . $this->RICE_TYPE . ".";
+		$OrderString = '<tr><td><b>' . $this->USER_NAME . "</b></td><td>" . $this->MEAL_NAME . "</td><td>" . $this->RICE_TYPE . "</td>";
 		
 		//Add the mob options to the string.
 		$count = 1;
