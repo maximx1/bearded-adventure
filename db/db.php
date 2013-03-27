@@ -92,6 +92,8 @@ class DB
 	{
 		$historyQuery = "";
 		
+		//TODO Need to manipulate this so that the data that is chosen is the complete order.
+		
 		try
 		{
 			$history = array();
