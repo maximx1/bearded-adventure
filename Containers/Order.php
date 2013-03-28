@@ -122,16 +122,7 @@ class Order
 	public function CreateMealString()
 	{
 		//Add the username and the meal name with the side.
-		$OrderString = "<tr><td><b>" . $this->MEAL_NAME . "</b></td><td>&nbsp;</td><td>$" . $this->MEAL_PRICE . "</td><td>&nbsp;</td></tr>".
-					   "<tr><td>&emsp;" . (empty($this->MOB_OPTION) ? "" : "Meal Options:") . "</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
-		
-		foreach($this->MOB_OPTION as $option)
-		{
-			$OrderString .= "<tr><td>&nbsp;</td><td>" . $option . "</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
-		}
-		
-		$OrderString .= "<tr><td>Rice: </td><td>" . $this->RICE_TYPE . "</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
-		$OrderString .= "<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>";
+		$OrderString = $this->CreateFirstPartOfOrder();
 		
 		//If there is a session available then check if the order's session ID is the same. If so then generate a delete button.
 		if(isset($_SESSION))
@@ -158,18 +149,29 @@ class Order
 	 */
 	public function CreateHistoryString()
 	{
-		$historyString = "<tr><td><b>" . $this->MEAL_NAME . "</b></td><td>&nbsp;</td><td>$" . $this->MEAL_PRICE . "</td><td>&nbsp;</td></tr>".
-						 "<tr><td>&emsp;" . (empty($this->MOB_OPTION) ? "" : "Meal Options:") . "</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+		$historyString = $this->CreateFirstPartOfOrder();
+		$historyString .= "<td><input class='addHistoryItem' id='" . $this->ORDER_ID . "' type='button' value='Add' /></td></tr>";
+		
+		return $historyString;
+	}
+	
+	/**
+	 * Combines the beginning string of the order output
+	 * @return First part of the order string. 
+	 */
+	private function CreateFirstPartOfOrder()
+	{
+		//Add the username and the meal name with the side.
+		$OrderString = "<tr><td><b>" . $this->MEAL_NAME . "</b></td><td>&nbsp;</td><td>$" . $this->MEAL_PRICE . "</td></tr>".
+					   "<tr><td class = 'rightJustify'>" . (empty($this->MOB_OPTION) ? "" : "Meal Options:") . "</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
 		
 		foreach($this->MOB_OPTION as $option)
 		{
-			$historyString .= "<tr><td>&nbsp;</td><td>" . $option . "</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+			$OrderString .= "<tr><td>" . $option . "</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
 		}
 		
-		$historyString .= "<tr><td>Rice: </td><td>" . $this->RICE_TYPE . "</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
-		$historyString .= "<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><input class='addHistoryItem' id='" . $this->ORDER_ID . "' type='button' value='Add' /></td></tr>";
-		
-		return $historyString;
+		$OrderString .= "<tr><td>Rice: </td><td>" . $this->RICE_TYPE . "</td><td>&nbsp;</td></tr>";
+		$OrderString .= "<tr><td>&nbsp;</td><td>&nbsp;</td>";
 	}
 }
 
