@@ -122,45 +122,35 @@ class Order
 	public function CreateMealString()
 	{
 		//Add the username and the meal name with the side.
-		$OrderString = '<tr><td><b>' . $this->USER_NAME . "</b></td><td>" . $this->MEAL_NAME . "</td><td>" . $this->RICE_TYPE . "</td>";
+		$OrderString = "<tr><td><b>" . $this->MEAL_NAME . "</b></td><td>&nbsp;</td><td>$" . $this->MEAL_PRICE . "</td><td>&nbsp;</td></tr>".
+					   "<tr><td>&emsp;" . (empty($this->MOB_OPTION) ? "" : "Meal Options:") . "</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
 		
-		//Add the mob options to the string.
-		$count = 1;
-		foreach ($this->MOB_OPTION as $value)
+		foreach($this->MOB_OPTION as $option)
 		{
-			if(count($this->MOB_OPTION) == 1)
-			{
-				$OrderString .= " " . $value . ".";
-			}
-			else
-			{
-				if($count == 1)
-				{
-					$OrderString .= " " . $value;
-				}
-				else if($count == count($this->MOB_OPTION))
-				{
-					$OrderString .= ", " . $value . ".";
-				}
-				else
-				{
-					$OrderString .= ", " . $value;
-				}
-			}
-			$count++;
+			$OrderString .= "<tr><td>&nbsp;</td><td>" . $option . "</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
 		}
-		$OrderString .= ' - Price: $' . $this->MEAL_PRICE;
+		
+		$OrderString .= "<tr><td>Rice: </td><td>" . $this->RICE_TYPE . "</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+		$OrderString .= "<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>";
 		
 		//If there is a session available then check if the order's session ID is the same. If so then generate a delete button.
 		if(isset($_SESSION))
 		{
 			if(strcasecmp($_SESSION['sessionId'], $this->SESSION_ID) == 0)
 			{
-				$OrderString .= '<input class="delete" id="' . $this->ORDER_ID . '" type="button" value="Delete">';
+				$OrderString .= '<td><input class="delete" id="' . $this->ORDER_ID . '" type="button" value="Delete"></td>';
+			}
+			else
+			{
+				$OrderString .= "<td>&nbsp;</td>";
 			}
 		}
+		else
+		{
+			$OrderString .= "<td>&nbsp;</td>";
+		}
 		
-		return $OrderString.'</p>';
+		return $OrderString.'</tr>';
 	}
 	
 	/**
