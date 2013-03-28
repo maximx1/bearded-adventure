@@ -39,6 +39,7 @@ require_once("Controllers/LoadMealOptions.php");
 		
 		$loader = new LoadMealOptions();	//Class to populate available meal data
 		$meals = $loader->LoadMealData();	//MealData class.
+		
 		?>
 		
 		<form action='SubmitOrder.php' onsubmit="return validations()">
@@ -53,6 +54,10 @@ require_once("Controllers/LoadMealOptions.php");
 				}
 				?>
 			</select>
+			
+			<br>
+			
+			<div id='mealHistorySpace'></div>
 			
 			<br>
 			

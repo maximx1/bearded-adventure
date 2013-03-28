@@ -1,11 +1,7 @@
 <?php
+
 /*
- * "LoadMealOptions.php"
- * Controller that calls the db functions and pulls the available meals. 
- * 
- * Author: Justin Walrath <walrathjaw@gmail.com>
- * Since 2/2/2013
- * 
+ * Copyright 2013 Justin Walrath & Associates
  	This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -23,25 +19,53 @@
 require_once("db/db.php");
 require_once("Containers/MealTrackingData.php");
 
+/**
+ * Controller that calls the db functions and pulls the available meals. 
+ * 
+ * @author: Justin Walrath <walrathjaw@gmail.com>
+ * @since 2/2/2013
+ */
 class LoadMealOptions
 {
+	/**
+	 * The database connection.
+	 */
 	private $db;
 	
-	/*
-	 * function that opens up the connection to the database.
+	/**
+	 * Function that opens up the connection to the database.
 	 */
 	public function __construct()
 	{
 		$this->db = new DB();
 	}
 	
-	/*
+	/**
 	 * Loads the meal data from the database.
 	 * @return A MealTrackingData Container object built from the database.
 	 */
 	public function LoadMealData()
 	{
 		return($this->db->PullMealData());
+	}
+	
+	/**
+	 * Pulls all of the MOBS from the database.
+	 * @return List of available MOBs from the database.
+	 */
+	public function LoadAllMobs()
+	{
+		return($this->db->PullAllMobs());
+	}
+	
+	/**
+	 * Load historical meals from the orders.
+	 * @param $userid The user id to pull the meal history for.
+	 * @return List of historical meals, information mapped as $meals[meal id]["name" or "price" or "group"]
+	 */
+	public function LoadHistoricalMealData($userid)
+	{
+		return($this->db->PullRecentMealHistory($userid));
 	}
 }
 

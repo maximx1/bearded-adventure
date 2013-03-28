@@ -1,6 +1,6 @@
-//Extended scripts for managing the user controls
+//Extended scripts for loading the Create Order page information.
 //Author: Justin Walrath <walrathjaw@gmail.com>
-//Since: 2/7/2013
+//Since: 3/27/2013
 // 
 //Copyright 2013 Justin Walrath & Associates
 // 	This program is free software: you can redistribute it and/or modify
@@ -29,13 +29,13 @@ $(document).ready
 			},
 			function(userList)
 			{
-				populateUserTable(userList);
+				populateUserTable(data);
 			}
 		);
 	}
 );
 
-function populateUserTable(userList)
+function PopulateMenu(data)
 {
 	var userTable = "<table>";
 	
@@ -52,8 +52,5 @@ function populateUserTable(userList)
 	userTable += "<script src='Scripts/ManageUsers.js'></script>";
 	
 	//Place the table data into the main page
-    $("#userData").fadeOut("fast", function()
-    {
-           $(this).html(userTable).fadeIn("slow");
-    });
+	$("#userData").html(userTable);
 }

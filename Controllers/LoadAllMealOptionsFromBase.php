@@ -1,9 +1,7 @@
 <?php
+
 /*
- * Controller that loads all of the meals and options.
- * Author: Justin Walrath <walrathjaw@gmail.com>
- * Since: 2/5/2013
- * 
+ * Copyright 2013 Justin Walrath & Associates
  	This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -18,13 +16,23 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once 'db/db.php';	//Load the database functions
+//TODO get rid of this controller eventually.
 
+require_once('db/db.php');
+
+/**
+ * Controller that loads all of the meals and options.
+ * @author: Justin Walrath <walrathjaw@gmail.com>
+ * @since: 2/5/2013
+ */
 class LoadAllMealOptionsFromBase
 {
-	public $db;
+	/**
+	 * The database connection.
+	 */
+	private $db;
 	
-	/*
+	/**
 	 * Constructor opens the database connection.
 	 */
 	public function __construct()
@@ -32,20 +40,13 @@ class LoadAllMealOptionsFromBase
 		$this->db = new DB();
 	}
 	
-	/*
+	/**
 	 * Pulls the MOBS from the database.
+	 * @return List of available MOBs from the database.
 	 */
 	public function LoadMob()
 	{
 		return($this->db->PullAllMobs());
-	}
-	
-	/* [deprecated]
-	 * Pulls the rice from the database.
-	 */
-	public function LoadRice()
-	{
-		return($this->db->PullRiceTypes());
 	}
 }
 

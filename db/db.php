@@ -1,16 +1,7 @@
 <?php
-/*
-	You will need to add a "DBI.php" File with a class named "DBI" with 3
-	constants to represent the host and database information.
-	The const variable names are: host, username, password
- */
-require_once('DBI.php');
 
 /*
- * DB class that handles connecting, querying, and updating the database.
- * Author: Justin Walrath <walrathjaw@gmail.com>
- * Since: 2/1/2013
- * 
+ * Copyright 2013 Justin Walrath & Associates
  	This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -24,11 +15,29 @@ require_once('DBI.php');
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+ 
+/*
+ 	[Note]
+	You will need to add a "DBI.php" File with a class named "DBI" with 3
+	constants to represent the host and database information.
+	The const variable names are: host, username, password
+ */
+require_once(dirname(__FILE__).'/DBI.php');
+require_once(dirname(__FILE__).'/../Containers/Order.php');
+
+/**
+ * DB class that handles connecting, querying, and updating the database.
+ * @author: Justin Walrath <walrathjaw@gmail.com>
+ * @since: 2/1/2013
+ */
 class DB
 {
-	private $db;	//The database connection.
+	/**
+	 * The database information.
+	 */
+	private $db;
 	
-	/*
+	/**
 	 * Constructor to connect to the database.
 	 */
 	public function __construct()
@@ -46,8 +55,9 @@ class DB
 		}
 	}
 	
-	/*
+	/**
 	 * Pulls all of the orders for the day.
+	 * @return The list of the days meals as a the database return.
 	 */
 	public function PullDaysMeals()
 	{
@@ -65,8 +75,6 @@ class DB
 			$OrderRows = $PStatement->fetchAll();
 			$PStatement->closeCursor();
 			
-			
-			
 			return($OrderRows);
 		}
 		catch(PDOException $er)
@@ -76,8 +84,10 @@ class DB
 		}
 	}
 	
-	/*
+	/**
 	 * Queries the database to pull out the most recent 5 meals for historical lookup
+	 * @param $userid The userid to search the history for.
+	 * @return Array of Order objects.
 	 */
 	public function PullRecentMealHistory($userid)
 	{
@@ -85,25 +95,29 @@ class DB
 		
 		try
 		{
-			$optgroup = array();
-			$historyQuery = "select U.USER_NAME, M.MEAL_ID, M.MEAL_NAME from ORDERS O ". 
-							"inner join MEALS M on M.MEAL_ID = O.ORDER_MEAL_ID ". 
-							"inner join USERS U on U.USER_ID = O.ORDER_USER_ID ".
-							"WHERE U.USER_ID = :userid ".
-							"order by O.ORDER_DATE DESC limit 5;";
+			$history = array();
+			$historyQuery = "select O.ORDER_ID, ".
+							"M.MEAL_ID, M.MEAL_NAME, M.MEAL_OPTGROUP_ID, M.MEAL_PRICE, ".
+							"R.RICE_TYPE from ORDERS O ".
+							"inner join MEALS M on M.MEAL_ID = O.ORDER_MEAL_ID ".
+							"inner join RICE R on R.RICE_ID = O.ORDER_RICE ".
+							"WHERE O.ORDER_USER_ID = :userid ".
+							"order by O.ORDER_ID DESC limit 3;";
 			
 			//Pull the optgroup information
-			$PStatement = $this->db->prepare($optQuery);
+			$PStatement = $this->db->prepare($historyQuery);
 			$PStatement->bindValue(":userid", $userid);
 			$PStatement->execute();
 			$rows = $PStatement->fetchAll();
+			$PStatement->closeCursor();
 			foreach ($rows as $row)
 			{
-				$optgroup[$row['id']] = $row['group'];
+				$newItem = new Order($row['ORDER_ID'], "", $row['MEAL_NAME'], $this->PullMobForOrder($row['ORDER_ID']),	$row['RICE_TYPE'], $row['MEAL_PRICE'], "");
+				array_push($history, $newItem);
 			}
 			
-			$PStatement->closeCursor();
-			return($optgroup);
+			
+			return($history);
 		}
 		catch(PDOException $er)
 		{
@@ -113,9 +127,54 @@ class DB
 		}
 	}
 	
-	/*
+	/**
+	 * Queries the database to pull out the 5 most ordered meals from the menu.
+	 * @param $userid The userid to search the history for.
+	 * @return List of historical meals, information mapped as $meals[meal id]["name" or "price" or "group" or "order"]
+	 */
+	public function PullMostOrderedMealHistory($userid)
+	{
+		$historyQuery = "";
+		
+		try
+		{
+			$history = array();
+			$historyQuery = "select O.ORDER_ID, ".
+							"M.MEAL_ID, M.MEAL_NAME, M.MEAL_OPTGROUPS_ID, M.MEAL_PRICE ".
+							"from ORDERS O ".
+							"inner join MEALS M on M.MEAL_ID = O.ORDER_MEAL_ID ".
+							"where O.ORDER_USER_ID = :userid ".
+							"group by O.ORDER_MEAL_ID ".
+							"order by count(O.ORDER_MEAL_ID) DESC limit 1;";
+			
+			//Pull the optgroup information
+			$PStatement = $this->db->prepare($historyQuery);
+			$PStatement->bindValue(":userid", $userid);
+			$PStatement->execute();
+			$rows = $PStatement->fetchAll();
+			foreach ($rows as $row)
+			{
+				$history[$row['MEAL_ID']]["name"] = $row['MEAL_NAME'];
+				$history[$row['MEAL_ID']]["price"] = $row['MEAL_PRICE'];
+				$history[$row['MEAL_ID']]["group"] = $row['MEAL_OPTGROUP_ID'];
+				$history[$row['MEAL_ID']]["order"] = $row['ORDER_ID'];
+			}
+			
+			$PStatement->closeCursor();
+			return($history);
+		}
+		catch(PDOException $er)
+		{
+			print "Error: ".$er."<br><br>";
+			print "SQL Statement: ".$optQuery;
+			exit;
+		}
+	}
+	
+	/**
 	 * Pulls the meal Options for the the Order
-	 * Param: The Order Id
+	 * @param $orderId The Order Id to pull the selected meal options for.
+	 * @return List of meal options for the specified order.
 	 */
 	 public function PullMobForOrder($orderId)
 	 {
@@ -138,8 +197,9 @@ class DB
 		return($mobOptions);
 	 }
 	
-	/*
+	/**
 	 * Pulls the meal data from the database for selection.
+	 * @return Pulls and calls all the information related to generating the order options.
 	 */
 	public function PullMealData()
 	{
@@ -148,12 +208,12 @@ class DB
 		$meals = array();
 		$optgroup = array();
 		
+		//Queries
+		$mealQuery = "";
+		
 		$outputPacket;
 		try
 		{
-			$mealQuery = "select M.MEAL_ID, M.MEAL_NAME, M.MEAL_PRICE, M.MEAL_OPTGROUP_ID as optgroup from MEALS M ".
-					"order by M.MEAL_NAME;";
-			
 			//Pull the users
 			$users = $this->PullAllUsers();
 			
@@ -163,6 +223,9 @@ class DB
 			//Pull the optgroup information
 			$optgroup = $this->PullOptgroups();
 			
+			$mealQuery = "select M.MEAL_ID, M.MEAL_NAME, M.MEAL_PRICE, M.MEAL_OPTGROUP_ID from MEALS M ".
+					"order by M.MEAL_NAME;";
+			
 			//Pull the meal information
 			$PStatement = $this->db->prepare($mealQuery);
 			$PStatement->execute();
@@ -171,7 +234,7 @@ class DB
 			{
 				$meals[$row['MEAL_ID']]["name"] = $row['MEAL_NAME'];
 				$meals[$row['MEAL_ID']]["price"] = $row['MEAL_PRICE'];
-				$meals[$row['MEAL_ID']]["group"] = $row['optgroup'];
+				$meals[$row['MEAL_ID']]["group"] = $row['MEAL_OPTGROUP_ID'];
 			}
 			
 			//Close the database connection.
@@ -184,12 +247,15 @@ class DB
 		catch(PDOException $er)
 		{
 			print "Error: ".$er;
+			print $mealQuery;
 			exit;
 		}
 	}
 
-	/*
+	/**
 	 * Pulls the meals options based on the key id.
+	 * @param $mealId The id of the meal to pull the available options for.
+	 * @return List of available meal options for the selected meal.
 	 */
 	public function PullMealOptions($mealId)
 	{
@@ -223,8 +289,9 @@ class DB
 		}
 	}
 	
-	/*
+	/**
 	 * Stores the meal into the database with it's selected options.
+	 * @param $meal The meal order to place into the database.
 	 */
 	public function StoreMeal($meal)
 	{
@@ -279,8 +346,9 @@ class DB
 		}
 	}
 
-	/*
+	/**
 	 * Stores the order into the database.
+	 * @param A new order object to place into the database.
 	 */
 	public function StoreOrder($meal)
 	{
@@ -335,8 +403,9 @@ class DB
 		}
 	}
 
-	/*
+	/**
 	 * Pulls all the mobs in one shot.
+	 * @return A list of all available mob options from the base.
 	 */
 	public function PullAllMobs()
 	{
@@ -367,8 +436,9 @@ class DB
 		}
 	}
 	
-	/*
-	 * Pull all of the rice types.
+	/**
+	 * Pull all of the rice type sides.
+	 * @return List of the sides.
 	 */
 	public function PullRiceTypes()
 	{
@@ -398,11 +468,11 @@ class DB
 		}
 	}
 	
-	/*
+	/**
 	 * Pull all of the Optgroups
-	 * Author: Justin Walrath
-	 * Since: 3/22/2013
-	 * Return: List of meal groups, information mapped as $optgroups[group id][group name]
+	 * @author: Justin Walrath
+	 * @since: 3/22/2013
+	 * @return: List of meal groups, information mapped as $optgroups[group id][group name]
 	 */
 	public function PullOptgroups()
 	{
@@ -432,8 +502,9 @@ class DB
 		}
 	}
 	
-	/*
-	 * Pulls all users
+	/**
+	 * Pulls all users.
+	 * @return List of all the current users of the system.
 	 */
 	public function PullAllUsers()
 	{
@@ -461,8 +532,9 @@ class DB
 		}
 	}
 	
-	/*
+	/**
 	 * Deletes a user from the database.
+	 * @param $userid The user's id to remove from the system.
 	 */
 	public function DeleteUser($userId)
 	{
@@ -493,7 +565,7 @@ class DB
 		}
 	}
 	
-	/*
+	/**
 	 * Deletes an order from the database.
 	 * @param The id of the order to be deleted.
 	 */
@@ -519,8 +591,9 @@ class DB
 		}
 	}
 	
-	/*
-	 * Deletes a user from the database.
+	/**
+	 * dds a user to the database.
+	 * @param $name Name of the user to add.
 	 */
 	public function AddNewUser($name)
 	{

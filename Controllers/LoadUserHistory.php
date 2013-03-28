@@ -19,23 +19,37 @@
 require_once('../db/db.php');
 
 /**
- * Loads the meal options for the meals once selected in the ordering page.
- * @author: Justin Walrath
- * @since: 3/1/2013
- * @param $_GET["mealId"] The meal id to pull the MOBS for.
+ * Loads the Historical meal data for the user.
+ * @author Justin Walrath <walrathjaw@gmail.com>
+ * @since 3/1/2013
+ * @param $_GET["userId"] The user id to pull the history for.
  */
 
-if(isset($_GET["mealId"]))
+if(isset($_GET["userId"]))
 {
-	$mealId = $_GET["mealId"];
+	$userId = $_GET["userId"];
 	$db = new DB();
-	$result = $db->PullMealOptions((int)$mealId);
+	$result = $db->PullRecentMealHistory($userId);
 	
-	?><h3>Choose Meal Options:</h3><?php
-	foreach($result as $id => $mob)
-	{
-		print '<input type="checkbox" name="mealOptionsSelect[]" value="'.$id.'">'.$mob.'<br>';
-	}
+	?>
+	
+	<!--Show recent Meals-->
+	<h3>Recent Meals:</h3>
+	<div class = 'tutorial historyArea'>
+		<?php
+		$count = 0;
+		foreach($result as $value)
+		{
+			$count++;
+			print "<table class='mealHistorySelect'>";
+			print $value->CreateHistoryString();
+			print "</table>";
+			(count($result) > $count) ? print "<hr>" : print "";
+		}
+		?>
+	</div>
+	<script src="Scripts/CreateOrder.js"></script>
+	<?php
 }
 else
 {
@@ -43,5 +57,4 @@ else
 	<h1>You need to have have the mealId set</h1>
 	<?php
 }
-
 ?>

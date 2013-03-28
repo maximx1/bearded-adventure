@@ -1,10 +1,7 @@
 <?php
 
 /*
- * Loads the orders for the display page.
- * Author: Justin Walrath
- * Since: 3/1/2013
- * 
+ * Copyright 2013 Justin Walrath & Associates
  	This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -22,22 +19,29 @@
 require_once '../db/db.php';
 require_once '../Containers/Order.php';
 
+/**
+ * Loads the orders for the display page.
+ * @author: Justin Walrath
+ * @since: 3/1/2013
+ */
 class ManipulateOrderLoading
 {
-	public $db;
+	/**
+	 * The database connection.
+	 */
+	private $db;
 	
-	/*
+	/**
 	 * Starts up the database 
-	 * @Author Justin Walrath
-	 * @since 3/22/2013
-	 * @return List of Orders for the day. 
+	 * @author Justin Walrath
+	 * @since 3/22/2013 
 	 */
 	public function __construct()
 	{
 		$this->db = new DB();
 	}
 	
-	/*
+	/**
 	 * Loads the meals by users's name
 	 * @author Justin Walrath
 	 * @since 3/22/2013
@@ -66,7 +70,7 @@ class ManipulateOrderLoading
 		return($combinedOrders);
 	}
 	
-	/*
+	/**
 	 * This calls the database to delete the order.
 	 * @author Justin Walrath <walrathjaw@gmail.com>
 	 * @since 3/23/2013

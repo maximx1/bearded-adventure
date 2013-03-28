@@ -16,43 +16,36 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once 'ManipulateUser.php';
+require_once('ManipulateOrderLoading.php');
 
 /**
  * Controller class to be called by ajax to load new information.
  * @author: Justin Walrath
- * @since: 3/23/2013
+ * @since: 3/27/2013
  * @param $_GET["actionControl"] Switch to determine what to do with the script.
- * @param $_GET["id"] The user id number.
- * @param $_GET["name"] The new user name to add.
+ * @param $_GET["id"] Order id number.
  * @return Prints out JSON to be picked up by the javascript.
  */
 
 if(isset($_GET["actionControl"]))
 {
-	$userManip = new ManipulateUser();
-	
-	if(strcasecmp($_GET["actionControl"], "loadUser") == 0)
+	$loader = new LoadMealOptions();	//Class to populate available meal data
+	if(strcasecmp($_GET["actionControl"], "loadOrders") == 0)
 	{
 		//Pull all of the users in the database
-		createJson($userManip->LoadUsers());
+		createJson($loader->LoadDaysMealsByUser());
 	}
-	else if(strcasecmp($_GET["actionControl"], "deleteUser") == 0)
+	else if(strcasecmp($_GET["actionControl"], "deleteOrder") == 0)
 	{
 		//Delete a user from the database
-		$userManip->DeleteUser((int)$_GET["id"]);
+		$loader->DeleteOrder($_GET["id"]);
 		
 		//Pull all of the users in the database
-		createJson($userManip->LoadUsers());
-		
+		createJson($loader->LoadDaysMealsByUser());
 	}
-	else if(strcasecmp($_GET["actionControl"], "addUser") == 0)
+	else if(strcasecmp($_GET["actionControl"], "loadHistory") == 0)
 	{
-		//Add the user to the database.
-		$userManip->AddUser($_GET["name"]);
-		
-		//Pull all of the users in the database
-		createJson($userManip->LoadUsers());
+		createHistoricalJson($loader->LoadHistoricalMealData($_GET["id"]));
 	}
 }
 else
@@ -66,17 +59,20 @@ else
 }
 
 /**
- * Function to create JSON object that won't be sorted by a browser.
- * @author: Justin Walrath
- * @since: 2/22/2013
- * @param: $rows List of users with their id's as the keys.
+ * Create the JSON string to be picked up by the javascript
+ * @param $combinedOrders List of orders to be converted to JSON.
  */
-function createJson($rows)
+function createJson($combinedOrders)
 {
 	//Encode the output into 2 seperate arrays to avoid browser reordering.
 	$jsonWrapper = array();
-	$jsonWrapper['key'] = array_keys($rows);
-	$jsonWrapper['val'] = array_values($rows);
+	$count = 0;
+	
+	//Run through the orders and generate meal strings from them.
+	foreach($combinedOrders as $order)
+	{
+		array_push($jsonWrapper, $order->CreateMealString());
+	}
 	
 	//Specify that it is returning some JSON data for the ajax.
 	header('Content-Type:text/json');
@@ -84,4 +80,13 @@ function createJson($rows)
 	//Encode the array as JSON.
 	echo json_encode($jsonWrapper);
 }
+
+/**
+ * Create a JSON string of the user's history data. 
+ */
+function createHistoricalJson($history)
+{
+	
+}
+
 ?>

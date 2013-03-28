@@ -2,6 +2,7 @@
 //Author: Justin Walrath <walrathjaw@gmail.com>
 //Since: 2/7/2013
 // 
+//Copyright 2013 Justin Walrath & Associates
 // 	This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU General Public License as published by
 //    the Free Software Foundation, either version 3 of the License, or
@@ -17,16 +18,54 @@
 
 
 //Load as soon as the document is ready.
+
+var updatingHistory = false;
+var updatingMeal = false;
+
 $(document).ready
 (
 	function()
 	{
+		$("#userSelect").change(
+			function()
+			{
+				updatingMeal = true;
+				updatingHistory = true;
+				var uid = $("#userSelect option:selected").val();
+				$("#mealHistorySpace").load("Controllers/LoadUserHistory.php?userId=" + uid);
+				//$("#mealHistorySpace").addClass("tutorial historyArea");
+				updatingMeal = false;
+				updatingHistory = false;
+			}
+		);
+		
+		$("mealHistorySelect").change(
+			function()
+			{
+				if(updatingMeal == false)
+				{
+					updatingHistory = true;
+					var hid = $("#mealHistorySelect option:selected").val();
+					$("#mealSelect option:selected").val([]);
+					$("#mealOptions").load("Controllers/LoadMealOptionsFromBase.php?mealId=" + hid);
+					$("#submitButton").removeAttr('disabled');
+					updatingHistory = false;
+				}
+			}
+		);
+		
 		$("#mealSelect").change(
 			function()
 			{
-				var id = $("#mealSelect option:selected").val();
-				$("#mealOptions").load("Controllers/LoadMealOptionsFromBase.php?mealId=" + id);
-				$("#submitButton").removeAttr('disabled');
+				if(updatingHistory == false)
+				{
+					updatingMeal = true;
+					var id = $("#mealSelect option:selected").val();
+					$("#mealHistorySelect option:selected").val([]);
+					$("#mealOptions").load("Controllers/LoadMealOptionsFromBase.php?mealId=" + id);
+					$("#submitButton").removeAttr('disabled');
+					updatingMeal = false;
+				}
 			}
 		);
 	}
@@ -41,10 +80,4 @@ function validations()
 		alert("You must choose a user!");
 		return false;	
 	}
-		
-	/*if($("#userSelect option:selected").val == "nil")
-	{
-		alert("You must choose a user!");
-		return(false);
-	}*/
 }

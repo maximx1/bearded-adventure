@@ -1,12 +1,7 @@
 <?php
 
-require_once 'ManipulateOrderLoading.php';
-
 /*
- * Controller class to be called by ajax to load new information.
- * Author: Justin Walrath
- * Since: 2/5/2013
- * 
+ * Copyright 2013 Justin Walrath & Associates
  	This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -19,6 +14,17 @@ require_once 'ManipulateOrderLoading.php';
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+require_once 'ManipulateOrderLoading.php';
+
+/**
+ * Controller class to be called by ajax to load new information.
+ * @author: Justin Walrath
+ * @since: 3/23/2013
+ * @param $_GET["actionControl"] Switch to determine what to do with the script.
+ * @param $_GET["id"] Order id number.
+ * @return Prints out JSON to be picked up by the javascript.
  */
 
 if(isset($_GET["actionControl"]))
@@ -49,8 +55,9 @@ else
 	<?php
 }
 
-/*
- * Create the JSON that 
+/**
+ * Create the JSON string to be picked up by the javascript
+ * @param $combinedOrders List of orders to be converted to JSON.
  */
 function createJson($combinedOrders)
 {
@@ -58,12 +65,16 @@ function createJson($combinedOrders)
 	$jsonWrapper = array();
 	$count = 0;
 	
+	//Run through the orders and generate meal strings from them.
 	foreach($combinedOrders as $order)
 	{
 		array_push($jsonWrapper, $order->CreateMealString());
 	}
 	
+	//Specify that it is returning some JSON data for the ajax.
 	header('Content-Type:text/json');
+	
+	//Encode the array as JSON.
 	echo json_encode($jsonWrapper);
 }
 

@@ -1,9 +1,7 @@
 <?php
+
 /*
- * Controller class that handles storing the order into the database.
- * Author: Justin Walrath <walrathjaw@gmail.com>
- * Since: 2/5/2013
- * 
+ * Copyright 2013 Justin Walrath & Associates
  	This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -20,17 +18,34 @@
 
 require 'db/db.php';
 
-/*
+/**
  * Controller class that handles storing the order into the database.
- * Author: Justin Walrath <walrathjaw@gmail.com>
- * Since: 2/5/2013
+ * @author: Justin Walrath <walrathjaw@gmail.com>
+ * @since: 2/5/2013
  */
 class StoreMeal
 {
+	/**
+	 * The database connection.
+	 */
+ 	private $db;
+	
+	/**
+	 * Constructor connects to the database
+	 */
+	public function __construct()
+	{
+		$this->db = new DB();
+	}
+	
+	/**
+	 * Records the meal in the database.
+	 * @param $newMeal A new meal as NewMeal object.
+	 * @return A successful added meal.
+	 */
 	public function RecordMeal($newMeal)
 	{
-		$db = new DB();
-		$db->StoreMeal($newMeal);
+		$this->db->StoreMeal($newMeal);
 		return 'The meal was added successfully';
 	}
 }

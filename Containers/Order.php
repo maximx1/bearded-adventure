@@ -1,11 +1,7 @@
 <?php
 
 /*
- * "Order.php"
- * Container class that holds the orders placed with their options.
- * Author: Justin Walrath <walrathjaw@gmail.com>
- * Since: 2/1/2013
- * 
+ * Copyright 2013 Justin Walrath & Associates
  	This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -19,18 +15,58 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+/**
+ * Container class that holds the orders placed with their options.
+ * @author: Justin Walrath <walrathjaw@gmail.com>
+ * @since: 2/1/2013
+ */
 class Order
 {
-	public $ORDER_ID = "";			//The Order ID number.
-	public $USER_NAME = "";			//The Orderer.
-	public $MEAL_NAME = "";			//The meal's name.
-	public $MOB_OPTION = array();	//List of meal options.
-	public $RICE_TYPE = "";			//The type of rice White|Fried.
-	public $MEAL_PRICE = "";		//The Cost of the price on the menu.
-	public $SESSION_ID = "";		//The session ID of the order that was placed.
+	/**
+	 * The Order ID number.
+	 */
+	public $ORDER_ID = "";
 	
-	/*
+	/**
+	 * The Orderer's name
+	 */
+	public $USER_NAME = "";
+	
+	/**
+	 * The meal's name.
+	 */
+	public $MEAL_NAME = "";
+	
+	/**
+	 * List of meal options as descriptions.
+	 */
+	public $MOB_OPTION = array();
+	
+	/**
+	 * The type sides like rice/roast pork.
+	 */
+	public $RICE_TYPE = "";
+	
+	/**
+	 * The Cost of the price on the menu.
+	 */
+	public $MEAL_PRICE = "";
+	
+	/**
+	 * The session ID of the order that was placed.
+	 */
+	public $SESSION_ID = "";
+	
+	/**
 	 * Constructor that builds a quick object of the meal.
+	 * @param $orderId The id number of the order.
+	 * @param $username The user's name.
+	 * @param $mealName The meal's name.
+	 * @param $mobOption List of meal options as descriptions.
+	 * @param $riceType The type of sides as description.
+	 * @param mealPrice The price of the meal.
+	 * @param $sessionId The Session ID of the current Ordering session.
 	 */
 	public function __construct($orderId, $username, $mealName, $mobOption, $riceType, $mealprice, $sessionId)
 	{
@@ -48,42 +84,47 @@ class Order
 		session_start();
 	}
 	
-	/*[deprecated]
+	/**
 	 * Adds a mob option to the object
-	 * $mobOption : [String] : A mob option
+	 * @param $mobOption A mob option as a string
+	 * @deprecated
 	 */
 	public function AddMobOption($mobOption)
 	{
-		//array_push($this->MOB_OPTION, $mobOption);
+		//Merges the 2 arrays together
 		$this->MOB_OPTION = array_merge((array)$this->MOB_OPTION, (array)$mobOption);
-		return;
 	}
 	
-	/*
-	 * Determines if the passed in Order is the same order.
-	 * $mealOrder : [Order] : An order to compare.
+	/**
+	 * Determines if the passed in Order is the same order by the id number.
+	 * @param $mealOrder An order to compare with as another Order object.
+	 * @return true if the order id's are the same and false otherwise.
 	 */
 	public function IsDuplicateOrder($mealOrder)
 	{
 		return($this->ORDER_ID == $mealOrder->ORDER_ID ? true : false);
 	}
 	
-	/*
+	/**
 	 * Determines if the passed in Order is has the same name.
-	 * $mealOrder : [Order] : An order to compare.
+	 * @param $mealOrder An order to compare with as another Order object.
+	 * @return true if the order meal names are the same and false otherwise.
 	 */
 	public function IsDuplicateMeal($mealOrder)
 	{
 		return(strcasecmp($mealOrder->MEAL_NAME, $this->MEAL_NAME) == 0 ? true : false);
 	}
 	
-	/*
+	/**
 	 * Creates a single string listing off the order options.
+	 * @return A string of the order as html.
 	 */
 	public function CreateMealString()
 	{
-		$OrderString = '<p>' . $this->USER_NAME . " : " . $this->MEAL_NAME . " with " . $this->RICE_TYPE . ".";
+		//Add the username and the meal name with the side.
+		$OrderString = '<tr><td><b>' . $this->USER_NAME . "</b></td><td>" . $this->MEAL_NAME . "</td><td>" . $this->RICE_TYPE . "</td>";
 		
+		//Add the mob options to the string.
 		$count = 1;
 		foreach ($this->MOB_OPTION as $value)
 		{
@@ -110,6 +151,7 @@ class Order
 		}
 		$OrderString .= ' - Price: $' . $this->MEAL_PRICE;
 		
+		//If there is a session available then check if the order's session ID is the same. If so then generate a delete button.
 		if(isset($_SESSION))
 		{
 			if(strcasecmp($_SESSION['sessionId'], $this->SESSION_ID) == 0)
@@ -119,6 +161,25 @@ class Order
 		}
 		
 		return $OrderString.'</p>';
+	}
+	
+	/**
+	 * Prints out the table format for the historical data.
+	 */
+	public function CreateHistoryString()
+	{
+		$historyString = "<tr><td><b>" . $this->MEAL_NAME . "</b></td><td>&nbsp;</td><td>$" . $this->MEAL_PRICE . "</td><td>&nbsp;</td></tr>".
+						 "<tr><td>&emsp;" . (empty($this->MOB_OPTION) ? "" : "Meal Options:") . "</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+		
+		foreach($this->MOB_OPTION as $option)
+		{
+			$historyString .= "<tr><td>&nbsp;</td><td>" . $option . "</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+		}
+		
+		$historyString .= "<tr><td>Rice: </td><td>" . $this->RICE_TYPE . "</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+		$historyString .= "<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><input class='addHistoryItem' id='" . $this->ORDER_ID . "' type='button' value='Add' /></td></tr>";
+		
+		return $historyString;
 	}
 }
 

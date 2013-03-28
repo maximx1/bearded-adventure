@@ -1,10 +1,7 @@
 <?php
 
 /*
- * Class that houses static UUID utilities.
- * Author: Justin Walrath <walrathjaw@gmail.com>
- * Since: 3/22/2013
- * 
+ * Copyright 2013 Justin Walrath & Associates
  	This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -18,12 +15,18 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+/**
+ * Class that houses static UUID utilities.
+ * @author: Justin Walrath <walrathjaw@gmail.com>
+ * @since: 3/22/2013
+ */
 class UUID
 {	
-	/*
+	/**
 	 * UUIDv4 generator function
 	 * Source: "http://stackoverflow.com/questions/4049455/how-to-create-a-uuid-in-php-without-a-external-library"
-	 * Return: A String representation of a UUID (36 Characters long)
+	 * @return: A String representation of a UUID (36 Characters long)
 	 */
 	public static function NewUUID()
 	{
