@@ -35,14 +35,19 @@ if(isset($_GET["userId"]))
 	
 	<!--Show recent Meals-->
 	<h3>Recent Meals:</h3>
-	<table id='mealHistorySelect'>
+	<div class = 'tutorial historyArea'>
 		<?php
+		$count = 0;
 		foreach($result as $value)
 		{
+			$count++;
+			print "<table class='mealHistorySelect'>";
 			print $value->CreateHistoryString();
+			print "</table>";
+			(count($result) > $count) ? print "<hr>" : print "";
 		}
 		?>
-	</table>
+	</div>
 	<script src="Scripts/CreateOrder.js"></script>
 	<?php
 }

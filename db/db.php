@@ -102,7 +102,7 @@ class DB
 							"inner join MEALS M on M.MEAL_ID = O.ORDER_MEAL_ID ".
 							"inner join RICE R on R.RICE_ID = O.ORDER_RICE ".
 							"WHERE O.ORDER_USER_ID = :userid ".
-							"order by O.ORDER_DATE DESC limit 5;";
+							"order by O.ORDER_ID DESC limit 3;";
 			
 			//Pull the optgroup information
 			$PStatement = $this->db->prepare($historyQuery);
@@ -145,7 +145,7 @@ class DB
 							"inner join MEALS M on M.MEAL_ID = O.ORDER_MEAL_ID ".
 							"where O.ORDER_USER_ID = :userid ".
 							"group by O.ORDER_MEAL_ID ".
-							"order by count(O.ORDER_MEAL_ID) DESC limit 5;";
+							"order by count(O.ORDER_MEAL_ID) DESC limit 1;";
 			
 			//Pull the optgroup information
 			$PStatement = $this->db->prepare($historyQuery);

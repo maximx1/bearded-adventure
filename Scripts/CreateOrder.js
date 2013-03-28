@@ -33,6 +33,7 @@ $(document).ready
 				updatingHistory = true;
 				var uid = $("#userSelect option:selected").val();
 				$("#mealHistorySpace").load("Controllers/LoadUserHistory.php?userId=" + uid);
+				//$("#mealHistorySpace").addClass("tutorial historyArea");
 				updatingMeal = false;
 				updatingHistory = false;
 			}

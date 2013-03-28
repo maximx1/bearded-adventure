@@ -43,4 +43,11 @@ body{
 	border-style: solid;
 }
 
+.historyArea{
+	width: 400px;
+}
+
+.mealHistorySelect{
+	width: 380px;
+}
 

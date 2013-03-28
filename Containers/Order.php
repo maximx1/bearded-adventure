@@ -168,8 +168,8 @@ class Order
 	 */
 	public function CreateHistoryString()
 	{
-		$historyString = "<tr><td>" . $this->MEAL_NAME . "</td><td>&nbsp;</td><td>$" . $this->MEAL_PRICE . "</td><td>&nbsp;</td></tr>".
-						 "<tr><td>&emsp;" . (empty($this->MOB_OPTION) ? "" : "<b>Meal Options:</b>") . "</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+		$historyString = "<tr><td><b>" . $this->MEAL_NAME . "</b></td><td>&nbsp;</td><td>$" . $this->MEAL_PRICE . "</td><td>&nbsp;</td></tr>".
+						 "<tr><td>&emsp;" . (empty($this->MOB_OPTION) ? "" : "Meal Options:") . "</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
 		
 		foreach($this->MOB_OPTION as $option)
 		{
@@ -177,6 +177,7 @@ class Order
 		}
 		
 		$historyString .= "<tr><td>Rice: </td><td>" . $this->RICE_TYPE . "</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+		$historyString .= "<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td><input class='addHistoryItem' id='" . $this->ORDER_ID . "' type='button' value='Add' /></td></tr>";
 		
 		return $historyString;
 	}
