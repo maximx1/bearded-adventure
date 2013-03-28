@@ -162,6 +162,24 @@ class Order
 		
 		return $OrderString.'</p>';
 	}
+	
+	/**
+	 * Prints out the table format for the historical data.
+	 */
+	public function CreateHistoryString()
+	{
+		$historyString = "<tr><td>" . $this->MEAL_NAME . "</td><td>&nbsp;</td><td>$" . $this->MEAL_PRICE . "</td><td>&nbsp;</td></tr>".
+						 "<tr><td>&emsp;" . (empty($this->MOB_OPTION) ? "" : "<b>Meal Options:</b>") . "</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+		
+		foreach($this->MOB_OPTION as $option)
+		{
+			$historyString .= "<tr><td>&nbsp;</td><td>" . $option . "</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+		}
+		
+		$historyString .= "<tr><td>Rice: </td><td>" . $this->RICE_TYPE . "</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+		
+		return $historyString;
+	}
 }
 
 ?>

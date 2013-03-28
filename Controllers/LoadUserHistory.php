@@ -35,14 +35,14 @@ if(isset($_GET["userId"]))
 	
 	<!--Show recent Meals-->
 	<h3>Recent Meals:</h3>
-	<select id='mealHistorySelect' name='mealSelect' size=5>
+	<table id='mealHistorySelect'>
 		<?php
-		foreach ($result as $key => $value)
+		foreach($result as $value)
 		{
-			print "<option value='".$key."'>".$value["name"]." - ".$value["price"]."</option>";
+			print $value->CreateHistoryString();
 		}
 		?>
-	</select>
+	</table>
 	<script src="Scripts/CreateOrder.js"></script>
 	<?php
 }

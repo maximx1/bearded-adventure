@@ -22,7 +22,8 @@
 	constants to represent the host and database information.
 	The const variable names are: host, username, password
  */
-require_once('DBI.php');
+require_once(dirname(__FILE__).'/DBI.php');
+require_once(dirname(__FILE__).'/../Containers/Order.php');
 
 /**
  * DB class that handles connecting, querying, and updating the database.
@@ -86,19 +87,17 @@ class DB
 	/**
 	 * Queries the database to pull out the most recent 5 meals for historical lookup
 	 * @param $userid The userid to search the history for.
-	 * @return List of historical meals, information mapped as $meals[meal id]["name" or "price" or "group" or "order"]
+	 * @return Array of Order objects.
 	 */
 	public function PullRecentMealHistory($userid)
 	{
 		$historyQuery = "";
 		
-		//TODO Need to manipulate this so that the data that is chosen is the complete order.
-		
 		try
 		{
 			$history = array();
 			$historyQuery = "select O.ORDER_ID, ".
-							"M.MEAL_ID, M.MEAL_NAME, M.MEAL_OPTGROUPS_ID, M.MEAL_PRICE, ".
+							"M.MEAL_ID, M.MEAL_NAME, M.MEAL_OPTGROUP_ID, M.MEAL_PRICE, ".
 							"R.RICE_TYPE from ORDERS O ".
 							"inner join MEALS M on M.MEAL_ID = O.ORDER_MEAL_ID ".
 							"inner join RICE R on R.RICE_ID = O.ORDER_RICE ".
@@ -110,15 +109,14 @@ class DB
 			$PStatement->bindValue(":userid", $userid);
 			$PStatement->execute();
 			$rows = $PStatement->fetchAll();
+			$PStatement->closeCursor();
 			foreach ($rows as $row)
 			{
-				$history[$row['MEAL_ID']]["name"] = $row['MEAL_NAME'];
-				$history[$row['MEAL_ID']]["price"] = $row['MEAL_PRICE'];
-				$history[$row['MEAL_ID']]["group"] = $row['MEAL_OPTGROUP_ID'];
-				$history[$row['MEAL_ID']]["order"] = $row['ORDER_ID'];
+				$newItem = new Order($row['ORDER_ID'], "", $row['MEAL_NAME'], $this->PullMobForOrder($row['ORDER_ID']),	$row['RICE_TYPE'], $row['MEAL_PRICE'], "");
+				array_push($history, $newItem);
 			}
 			
-			$PStatement->closeCursor();
+			
 			return($history);
 		}
 		catch(PDOException $er)
@@ -137,8 +135,6 @@ class DB
 	public function PullMostOrderedMealHistory($userid)
 	{
 		$historyQuery = "";
-		
-		//TODO Need to manipulate this so that the data that is chosen is the complete order.
 		
 		try
 		{
