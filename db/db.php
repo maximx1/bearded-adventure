@@ -86,7 +86,7 @@ class DB
 	/**
 	 * Queries the database to pull out the most recent 5 meals for historical lookup
 	 * @param $userid The userid to search the history for.
-	 * @return List of historical meals, information mapped as $meals[meal id]["name" or "price" or "group"]
+	 * @return List of historical meals, information mapped as $meals[meal id]["name" or "price" or "group" or "order"]
 	 */
 	public function PullRecentMealHistory($userid)
 	{
@@ -97,10 +97,12 @@ class DB
 		try
 		{
 			$history = array();
-			$historyQuery = "select M.MEAL_ID, M.MEAL_NAME, M.MEAL_PRICE, M.MEAL_OPTGROUP_ID from ORDERS O ". 
-							"inner join MEALS M on M.MEAL_ID = O.ORDER_MEAL_ID ". 
-							"inner join USERS U on U.USER_ID = O.ORDER_USER_ID ".
-							"WHERE U.USER_ID = :userid ".
+			$historyQuery = "select O.ORDER_ID, ".
+							"M.MEAL_ID, M.MEAL_NAME, M.MEAL_OPTGROUPS_ID, M.MEAL_PRICE, ".
+							"R.RICE_TYPE from ORDERS O ".
+							"inner join MEALS M on M.MEAL_ID = O.ORDER_MEAL_ID ".
+							"inner join RICE R on R.RICE_ID = O.ORDER_RICE ".
+							"WHERE O.ORDER_USER_ID = :userid ".
 							"order by O.ORDER_DATE DESC limit 5;";
 			
 			//Pull the optgroup information
@@ -113,6 +115,53 @@ class DB
 				$history[$row['MEAL_ID']]["name"] = $row['MEAL_NAME'];
 				$history[$row['MEAL_ID']]["price"] = $row['MEAL_PRICE'];
 				$history[$row['MEAL_ID']]["group"] = $row['MEAL_OPTGROUP_ID'];
+				$history[$row['MEAL_ID']]["order"] = $row['ORDER_ID'];
+			}
+			
+			$PStatement->closeCursor();
+			return($history);
+		}
+		catch(PDOException $er)
+		{
+			print "Error: ".$er."<br><br>";
+			print "SQL Statement: ".$optQuery;
+			exit;
+		}
+	}
+	
+	/**
+	 * Queries the database to pull out the 5 most ordered meals from the menu.
+	 * @param $userid The userid to search the history for.
+	 * @return List of historical meals, information mapped as $meals[meal id]["name" or "price" or "group" or "order"]
+	 */
+	public function PullMostOrderedMealHistory($userid)
+	{
+		$historyQuery = "";
+		
+		//TODO Need to manipulate this so that the data that is chosen is the complete order.
+		
+		try
+		{
+			$history = array();
+			$historyQuery = "select O.ORDER_ID, ".
+							"M.MEAL_ID, M.MEAL_NAME, M.MEAL_OPTGROUPS_ID, M.MEAL_PRICE ".
+							"from ORDERS O ".
+							"inner join MEALS M on M.MEAL_ID = O.ORDER_MEAL_ID ".
+							"where O.ORDER_USER_ID = :userid ".
+							"group by O.ORDER_MEAL_ID ".
+							"order by count(O.ORDER_MEAL_ID) DESC limit 5;";
+			
+			//Pull the optgroup information
+			$PStatement = $this->db->prepare($historyQuery);
+			$PStatement->bindValue(":userid", $userid);
+			$PStatement->execute();
+			$rows = $PStatement->fetchAll();
+			foreach ($rows as $row)
+			{
+				$history[$row['MEAL_ID']]["name"] = $row['MEAL_NAME'];
+				$history[$row['MEAL_ID']]["price"] = $row['MEAL_PRICE'];
+				$history[$row['MEAL_ID']]["group"] = $row['MEAL_OPTGROUP_ID'];
+				$history[$row['MEAL_ID']]["order"] = $row['ORDER_ID'];
 			}
 			
 			$PStatement->closeCursor();
