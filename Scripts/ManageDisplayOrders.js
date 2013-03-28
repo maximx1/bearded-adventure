@@ -42,14 +42,15 @@ $(document).ready
 					},
 					function(orderList)
 					{
-						var orderTable = "<table>";
+						var orderTable = "";
 						
 						for(i = 0; i < orderList.length; i += 1)
 						{
+							orderTable += "<table class = 'historyArea tutorial'>";
 							orderTable += orderList[i];
+							orderTable += "</table>";
 						}
 						
-						orderTable += "</table>";
 						orderTable += "<script src='Scripts/ManageDisplayOrders.js'></script>";
 						
 						$("#orderList").html(orderTable);
