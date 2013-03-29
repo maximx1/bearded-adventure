@@ -122,7 +122,8 @@ class Order
 	public function CreateMealString()
 	{
 		//Add the username and the meal name with the side.
-		$OrderString = $this->CreateFirstPartOfOrder();
+		$OrderString = "<tr><td>" . $this->USER_NAME . "</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+		$OrderString .= $this->CreateFirstPartOfOrder();
 		
 		//If there is a session available then check if the order's session ID is the same. If so then generate a delete button.
 		if(isset($_SESSION))
@@ -149,8 +150,7 @@ class Order
 	 */
 	public function CreateHistoryString()
 	{
-		$historyString = "<tr><td>" . $this->USER_NAME . "</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
-		$historyString .= $this->CreateFirstPartOfOrder();
+		$historyString = $this->CreateFirstPartOfOrder();
 		$historyString .= "<td><input class='addHistoryItem' id='" . $this->ORDER_ID . "' type='button' value='Add' /></td></tr>";
 		
 		return $historyString;
