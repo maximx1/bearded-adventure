@@ -46,7 +46,7 @@ $(document).ready
 						
 						for(i = 0; i < orderList.length; i += 1)
 						{
-							orderTable += "<table class = 'historyArea tutorial'>";
+							orderTable += "<table class = 'DisplayOrder tutorial'>";
 							orderTable += orderList[i];
 							orderTable += "</table>";
 						}
