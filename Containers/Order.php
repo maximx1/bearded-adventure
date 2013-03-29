@@ -170,7 +170,7 @@ class Order
 			$OrderString .= "<tr><td>&emsp;" . $option . "</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
 		}
 		
-		$OrderString .= "<tr><td>Rice: </td><td>" . $this->RICE_TYPE . "</td><td>&nbsp;</td></tr>";
+		$OrderString .= "<tr><td>Rice: " . $this->RICE_TYPE . "</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
 		$OrderString .= "<tr><td>&nbsp;</td><td>&nbsp;</td>";
 		
 		return($OrderString);
