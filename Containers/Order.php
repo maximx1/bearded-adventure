@@ -167,7 +167,7 @@ class Order
 		
 		foreach($this->MOB_OPTION as $option)
 		{
-			$OrderString .= "<tr><td>&emsp;" . $option . "</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+			$OrderString .= "<tr><td>&emsp;&emsp;" . $option . "</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
 		}
 		
 		$OrderString .= "<tr><td>Rice: " . $this->RICE_TYPE . "</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
