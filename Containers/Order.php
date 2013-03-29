@@ -162,8 +162,8 @@ class Order
 	private function CreateFirstPartOfOrder()
 	{
 		//Add the username and the meal name with the side.
-		$OrderString = "<tr><td><b>" . $this->MEAL_NAME . "</b></td><td>&nbsp;</td><td>$" . $this->MEAL_PRICE . "</td></tr>".
-					   "<tr><td>" . (empty($this->MOB_OPTION) ? "" : "Meal Options:") . "</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+		$OrderString = "<tr><td><h1>" . $this->MEAL_NAME . "</h1></td><td>&nbsp;</td><td>$" . $this->MEAL_PRICE . "</td></tr>".
+					   "<tr><td>" . (empty($this->MOB_OPTION) ? "" : "<b>Meal Options:</b>") . "</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
 		
 		foreach($this->MOB_OPTION as $option)
 		{
