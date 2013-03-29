@@ -163,11 +163,11 @@ class Order
 	{
 		//Add the username and the meal name with the side.
 		$OrderString = "<tr><td><b>" . $this->MEAL_NAME . "</b></td><td>&nbsp;</td><td>$" . $this->MEAL_PRICE . "</td></tr>".
-					   "<tr><td class = 'rightJustify'>" . (empty($this->MOB_OPTION) ? "" : "Meal Options:") . "</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+					   "<tr><td>" . (empty($this->MOB_OPTION) ? "" : "Meal Options:") . "</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
 		
 		foreach($this->MOB_OPTION as $option)
 		{
-			$OrderString .= "<tr><td>" . $option . "</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+			$OrderString .= "<tr><td>emsp;" . $option . "</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
 		}
 		
 		$OrderString .= "<tr><td>Rice: </td><td>" . $this->RICE_TYPE . "</td><td>&nbsp;</td></tr>";
