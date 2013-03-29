@@ -149,7 +149,8 @@ class Order
 	 */
 	public function CreateHistoryString()
 	{
-		$historyString = $this->CreateFirstPartOfOrder();
+		$historyString = "<tr><td>" . $this->USER_NAME . "</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+		$historyString .= $this->CreateFirstPartOfOrder();
 		$historyString .= "<td><input class='addHistoryItem' id='" . $this->ORDER_ID . "' type='button' value='Add' /></td></tr>";
 		
 		return $historyString;
