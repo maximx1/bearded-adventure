@@ -21,6 +21,26 @@ $(document).ready
 (
 	function()
 	{
+		//Iterate through the created divs and set all of them to the largest height of the lot.
+		var largestHeight = -1;
+		
+		$(".DisplayOrder").each(
+			function()
+			{
+				if(largestHeight < $(this).height())
+				{
+					largestHeight = $(this).height();
+				}
+			}
+		);
+		
+		$(".DisplayOrder").each(
+			function()
+			{
+				$(this).height(largestHeight + 35);
+			}
+		);
+		
 		//Detect if user is clicking delete.
 		$(".delete").click
 		(
