@@ -16,12 +16,7 @@
 //    You should have received a copy of the GNU General Public License
 //    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 //Load as soon as the document is ready.
-
-var updatingHistory = false;
-var updatingMeal = false;
-
 $(document).ready
 (
 	function()
@@ -29,13 +24,8 @@ $(document).ready
 		$("#userSelect").change(
 			function()
 			{
-				updatingMeal = true;
-				updatingHistory = true;
 				var uid = $("#userSelect option:selected").val();
 				$("#mealHistorySpace").load("Controllers/LoadUserHistory.php?userId=" + uid);
-				//$("#mealHistorySpace").addClass("tutorial historyArea");
-				updatingMeal = false;
-				updatingHistory = false;
 			}
 		);
 		
@@ -44,12 +34,10 @@ $(document).ready
 			{
 				if(updatingMeal == false)
 				{
-					updatingHistory = true;
 					var hid = $("#mealHistorySelect option:selected").val();
 					$("#mealSelect option:selected").val([]);
 					$("#mealOptions").load("Controllers/LoadMealOptionsFromBase.php?mealId=" + hid);
 					$("#submitButton").removeAttr('disabled');
-					updatingHistory = false;
 				}
 			}
 		);
@@ -59,12 +47,10 @@ $(document).ready
 			{
 				if(updatingHistory == false)
 				{
-					updatingMeal = true;
 					var id = $("#mealSelect option:selected").val();
 					$("#mealHistorySelect option:selected").val([]);
 					$("#mealOptions").load("Controllers/LoadMealOptionsFromBase.php?mealId=" + id);
 					$("#submitButton").removeAttr('disabled');
-					updatingMeal = false;
 				}
 			}
 		);

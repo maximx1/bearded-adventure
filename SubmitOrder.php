@@ -47,7 +47,7 @@ require_once("Tools/UUID.php");
 				$_SESSION['sessionId'] = UUID::NewUUID();
 			}
 			
-			if(isset($_GET['userSelect']) && isset($_GET['mealSelect']) && isset($_GET['riceSelect']))
+			if(isset($_GET['userSelect']) && isset($_GET['mealSelect']) && isset($_GET['mealOptionsSelect']) && isset($_GET['riceSelect']))
 			{
 				$order = new NewOrder(
 								(int)$_GET['userSelect'], 

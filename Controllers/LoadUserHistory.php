@@ -31,23 +31,26 @@ if(isset($_GET["userId"]))
 	$db = new DB();
 	$result = $db->PullRecentMealHistory($userId);
 	
-	?>
-	
-	<!--Show recent Meals-->
-	<h3>Recent Meals:</h3>
-	<div class = 'tutorial historyArea'>
-		<?php
-		$count = 0;
-		foreach($result as $value)
-		{
-			$count++;
-			print "<table class='mealHistorySelect'>";
-			print $value->CreateHistoryString();
-			print "</table>";
-			(count($result) > $count) ? print "<hr>" : print "";
-		}
+	if(!empty($result))
+	{
 		?>
-	</div>
+		<!--Show recent Meals-->
+		<h3>Recent Meals:</h3>
+		<div class = 'tutorial historyArea'>
+			<?php
+			$count = 0;
+			foreach($result as $value)
+			{
+				$count++;
+				print "<table class='mealHistorySelect'>";
+				print $value->CreateHistoryString();
+				print "</table>";
+				(count($result) > $count) ? print "<hr>" : print "";
+			}
+		print "</div>";
+	}
+	
+	?>
 	<script src="Scripts/CreateOrder.js"></script>
 	<?php
 }
