@@ -22,8 +22,9 @@
 	constants to represent the host and database information.
 	The const variable names are: host, username, password
  */
-require_once(dirname(__FILE__).'/DBI.php');
-require_once(dirname(__FILE__).'/../Containers/Order.php');
+$dname = dirname(__FILE__);
+require_once($dname.'/DBI.php');
+require_once($dname.'/../Containers/Order.php');
 
 /**
  * DB class that handles connecting, querying, and updating the database.
@@ -118,6 +119,56 @@ class DB
 			
 			
 			return($history);
+		}
+		catch(PDOException $er)
+		{
+			print "Error: ".$er."<br><br>";
+			print "SQL Statement: ".$optQuery;
+			exit;
+		}
+	}
+	
+	/**
+	 * Queries the database to pull out the information for the specified order
+	 * @param $orderid The order id to search for.
+	 * @return An Order object.
+	 */
+	public function PullSingleOrder($orderid)
+	{
+		$orderQuery = "";
+		
+		try
+		{
+			$prevOrder = null;
+			$orderQuery = 	"select O.ORDER_ID, O.ORDER_USER_ID, O.ORDER_RICE,".
+							"M.MEAL_ID, M.MEAL_NAME, M.MEAL_OPTGROUP_ID, M.MEAL_PRICE, ".
+							"R.RICE_TYPE from ORDERS O ".
+							"inner join MEALS M on M.MEAL_ID = O.ORDER_MEAL_ID ".
+							"inner join RICE R on R.RICE_ID = O.ORDER_RICE ".
+							"WHERE O.ORDER_ID = :orderid ".
+							"limit 1;";
+			
+			//Pull the optgroup information
+			$PStatement = $this->db->prepare($orderQuery);
+			$PStatement->bindValue(":orderid", $orderid);
+			$PStatement->execute();
+			//$rows = $PStatement->fetchAll();
+			$row = $PStatement->fetch(PDO::FETCH_ASSOC);
+			$PStatement->closeCursor();
+			if($row)
+			{
+				$orderow = new Order($row['ORDER_ID'], "", $row['MEAL_NAME'], $this->PullMobForOrder($row['ORDER_ID']),	$row['RICE_TYPE'], $row['MEAL_PRICE'], "");
+				$orderow->AddIdsForDuplication($row['ORDER_USER_ID'], $row['MEAL_ID'], $row['ORDER_RICE']);
+			}
+			
+			//foreach ($rows as $row)
+			//{
+				//$newItem = new Order($row['ORDER_ID'], "", $row['MEAL_NAME'], $this->PullMobForOrder($row['ORDER_ID']),	$row['RICE_TYPE'], $row['MEAL_PRICE'], "");
+				//array_push($history, $newItem);
+			//}
+			
+			
+			return($prevOrder);
 		}
 		catch(PDOException $er)
 		{

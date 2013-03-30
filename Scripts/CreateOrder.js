@@ -44,7 +44,7 @@ $(document).ready
 								historySpace += historyList[i];
 								historySpace += "</table>";
 								
-								if(i != history.length - 1)
+								if(i < historyList.length - 1)
 								{
 									historySpace += "<hr>";
 								}

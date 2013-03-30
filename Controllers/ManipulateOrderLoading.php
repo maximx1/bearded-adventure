@@ -90,6 +90,16 @@ class ManipulateOrderLoading
 	{
 		return($this->db->PullRecentMealHistory($userid));
 	}
+	
+	/**
+	 * Loads an order by it's Id number.
+	 * @param $orderid The orders Id number to load.
+	 * @return An Order object that contains a single historical object.
+	 */
+	public function LoadOrderById($orderid)
+	{
+		return($this->db->PullSingleOrder($orderid));
+	}
 }
 
 ?>

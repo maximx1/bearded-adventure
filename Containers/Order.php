@@ -29,10 +29,20 @@ class Order
 	public $ORDER_ID = "";
 	
 	/**
+	 * The ordering user's Id number
+	 */
+	public $USER_ID;
+	
+	/**
 	 * The Orderer's name
 	 */
 	public $USER_NAME = "";
 	
+	/**
+	 * The meal's Id number
+	 */
+	public $MEAL_ID;
+	 
 	/**
 	 * The meal's name.
 	 */
@@ -42,6 +52,11 @@ class Order
 	 * List of meal options as descriptions.
 	 */
 	public $MOB_OPTION = array();
+	
+	/**
+	 * The id number of the ricetypes
+	 */
+	public $RICE_ID;
 	
 	/**
 	 * The type sides like rice/roast pork.
@@ -77,6 +92,9 @@ class Order
 		$this->RICE_TYPE = $riceType;
 		$this->MEAL_PRICE = $mealprice;
 		$this->SESSION_ID = $sessionId;
+		
+		//Set the extra stuff to 0
+		$this->AddIdsForDuplication(0, 0, 0);
 		
 		//Reset the session lifetime
 		$lifetime = 36000;
@@ -175,6 +193,19 @@ class Order
 		$OrderString .= "<tr><td>&nbsp;</td><td>&nbsp;</td>";
 		
 		return($OrderString);
+	}
+	
+	/**
+	 * Used for obtaining the keys to duplicate this order elsewhere.
+	 * @param $userid The User's Id number.
+	 * @param $mealid The meal Id associated with the order.
+	 * @param $riceid The Rice Id associated with the order.
+	 */
+	public function AddIdsForDuplication($userid, $mealid, $riceid)
+	{
+		$this->USER_ID = $userid;
+		$this->MEAL_ID = $mealid;
+		$this->RICE_ID = $riceid;
 	}
 }
 
