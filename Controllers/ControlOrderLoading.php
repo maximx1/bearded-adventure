@@ -63,7 +63,6 @@ function createJson($combinedOrders)
 {
 	//Encode the output into 2 seperate arrays to avoid browser reordering.
 	$jsonWrapper = array();
-	$count = 0;
 	
 	//Run through the orders and generate meal strings from them.
 	foreach($combinedOrders as $order)

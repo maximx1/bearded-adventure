@@ -25,33 +25,57 @@ $(document).ready
 			function()
 			{
 				var uid = $("#userSelect option:selected").val();
-				$("#mealHistorySpace").load("Controllers/LoadUserHistory.php?userId=" + uid);
+				$.getJSON("Controllers/ControlCreateOrderLoading.php",
+					{
+						actionControl: "loadHistory",
+						id: uid
+					},
+					function(historyList)
+					{
+						if(historyList.length != 0)
+						{
+							var historySpace = "";
+							historySpace += "<h3>Recent Meals:</h3>";
+							historySpace += "<div class = 'tutorial historyArea'>";
+							
+							for(i = 0; i < historyList.length; i++)
+							{
+								historySpace += "<table class='mealHistorySelect'>";
+								historySpace += historyList[i];
+								historySpace += "</table>";
+								
+								if(i != history.length - 1)
+								{
+									historySpace += "<hr>";
+								}
+							}
+							historySpace += "</div>";
+							historySpace += "<script src='Scripts/CreateOrder.js'></script>";
+							$("#mealHistorySpace").html(historySpace);
+						}
+					}
+				);
+				//$("#mealHistorySpace").load("Controllers/LoadUserHistory.php?userId=" + uid);
 			}
 		);
 		
-		$("mealHistorySelect").change(
+		$(".addHistoryItem").click(
 			function()
 			{
-				if(updatingMeal == false)
-				{
-					var hid = $("#mealHistorySelect option:selected").val();
-					$("#mealSelect option:selected").val([]);
-					$("#mealOptions").load("Controllers/LoadMealOptionsFromBase.php?mealId=" + hid);
-					$("#submitButton").removeAttr('disabled');
-				}
+				var hid = $(this).attr('id');
+				$("#mealSelect option:selected").val([]);
+				$("#mealOptions").load("Controllers/LoadMealOptionsFromBase.php?mealId=" + hid);
+				$("#submitButton").removeAttr('disabled');
 			}
 		);
 		
 		$("#mealSelect").change(
 			function()
 			{
-				if(updatingHistory == false)
-				{
-					var id = $("#mealSelect option:selected").val();
-					$("#mealHistorySelect option:selected").val([]);
-					$("#mealOptions").load("Controllers/LoadMealOptionsFromBase.php?mealId=" + id);
-					$("#submitButton").removeAttr('disabled');
-				}
+				var id = $("#mealSelect option:selected").val();
+				$("#mealHistorySelect option:selected").val([]);
+				$("#mealOptions").load("Controllers/LoadMealOptionsFromBase.php?mealId=" + id);
+				$("#submitButton").removeAttr('disabled');
 			}
 		);
 	}

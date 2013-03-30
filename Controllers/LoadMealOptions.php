@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once("db/db.php");
-require_once("Containers/MealTrackingData.php");
+require_once(dirname(__FILE__)."/../db/db.php");
+require_once(dirname(__FILE__)."/../Containers/MealTrackingData.php");
 
 /**
  * Controller that calls the db functions and pulls the available meals. 
@@ -56,16 +56,6 @@ class LoadMealOptions
 	public function LoadAllMobs()
 	{
 		return($this->db->PullAllMobs());
-	}
-	
-	/**
-	 * Load historical meals from the orders.
-	 * @param $userid The user id to pull the meal history for.
-	 * @return List of historical meals, information mapped as $meals[meal id]["name" or "price" or "group"]
-	 */
-	public function LoadHistoricalMealData($userid)
-	{
-		return($this->db->PullRecentMealHistory($userid));
 	}
 }
 

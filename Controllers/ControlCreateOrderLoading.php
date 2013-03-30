@@ -16,7 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once('ManipulateOrderLoading.php');
+require_once(dirname(__FILE__).'/ManipulateOrderLoading.php');
 
 /**
  * Controller class to be called by ajax to load new information.
@@ -29,7 +29,7 @@ require_once('ManipulateOrderLoading.php');
 
 if(isset($_GET["actionControl"]))
 {
-	$loader = new LoadMealOptions();	//Class to populate available meal data
+	$loader = new ManipulateOrderLoading();	//Class to populate available meal data
 	if(strcasecmp($_GET["actionControl"], "loadOrders") == 0)
 	{
 		//Pull all of the users in the database
@@ -66,7 +66,6 @@ function createJson($combinedOrders)
 {
 	//Encode the output into 2 seperate arrays to avoid browser reordering.
 	$jsonWrapper = array();
-	$count = 0;
 	
 	//Run through the orders and generate meal strings from them.
 	foreach($combinedOrders as $order)
@@ -86,7 +85,21 @@ function createJson($combinedOrders)
  */
 function createHistoricalJson($history)
 {
+	$jsonwrapper = array();
 	
+	foreach($history as $value)
+	{
+		//"<table class='mealHistorySelect'>";
+		array_push($jsonwrapper, $value->CreateHistoryString());
+		//print "</table>";
+		//(count($result) > $count) ? print "<hr>" : print "";
+		//$count++;
+	}
+	
+	//Specify that it is returning some JSON data for the ajax.
+	header('Content-Type:text/json');
+	
+	echo json_encode($jsonwrapper);
 }
 
 ?>

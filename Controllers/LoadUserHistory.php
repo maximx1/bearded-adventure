@@ -16,7 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once('../db/db.php');
+require_once(dirname(__FILE__).'../db/db.php');
 
 /**
  * Loads the Historical meal data for the user.

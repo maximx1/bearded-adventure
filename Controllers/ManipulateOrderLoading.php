@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once '../db/db.php';
-require_once '../Containers/Order.php';
+require_once(dirname(__FILE__).'/../db/db.php');
+require_once(dirname(__FILE__).'/../Containers/Order.php');
 
 /**
  * Loads the orders for the display page.
@@ -79,6 +79,16 @@ class ManipulateOrderLoading
 	public function DeleteOrder($orderId)
 	{
 		$this->db->DeleteOrder($orderId);
+	}
+	
+	/**
+	 * Load historical meals from the orders.
+	 * @param $userid The user id to pull the meal history for.
+	 * @return List of historical meals, information mapped as $meals[meal id]["name" or "price" or "group"]
+	 */
+	public function LoadHistoricalMealData($userid)
+	{
+		return($this->db->PullRecentMealHistory($userid));
 	}
 }
 
