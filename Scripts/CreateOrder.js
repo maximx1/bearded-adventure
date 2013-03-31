@@ -55,7 +55,6 @@ $(document).ready
 						}
 					}
 				);
-				//$("#mealHistorySpace").load("Controllers/LoadUserHistory.php?userId=" + uid);
 			}
 		);
 		
@@ -64,7 +63,36 @@ $(document).ready
 			{
 				var hid = $(this).attr('id');
 				$("#mealSelect option:selected").val([]);
-				$("#mealOptions").load("Controllers/LoadMealOptionsFromBase.php?mealId=" + hid);
+				$.getJSON("Controllers/ControlCreateOrderLoading.php",
+					{
+						actionControl: "loadHistory",
+						id: uid
+					},
+					function(cartInformation)
+					{
+						if(cartInformation.length != 0)
+						{
+							var cartSpace = "";
+							cartSpace += "<h3>Recent Meals:</h3>";
+							cartSpace += "<div class = 'tutorial historyArea'>";
+							
+							for(i = 0; i < historyList.length; i++)
+							{
+								cartSpace += "<table class='mealHistorySelect'>";
+								cartSpace += historyList[i];
+								cartSpace += "</table>";
+								
+								if(i < historyList.length - 1)
+								{
+									cartSpace += "<hr>";
+								}
+							}
+							historySpace += "</div>";
+							historySpace += "<script src='Scripts/CreateOrder.js'></script>";
+							$("#mealHistorySpace").html(historySpace);
+						}
+					}
+				);
 				$("#submitButton").removeAttr('disabled');
 			}
 		);

@@ -59,6 +59,8 @@ require_once("Controllers/LoadMealOptions.php");
 			
 			<div id='mealHistorySpace'></div>
 			
+			<div id='mealCartSpace'></div>
+			
 			<br>
 			
 			<!--Show Meals-->

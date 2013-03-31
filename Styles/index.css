@@ -33,6 +33,10 @@ body{
 	margin-top: 7em;
 }
 
+#mealCartSpace{
+	float: left;
+}
+
 .tutorial{
 	padding: 1em;
 	margin: 1em;
