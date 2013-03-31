@@ -140,7 +140,7 @@ class DB
 		try
 		{
 			$prevOrder = null;
-			$orderQuery = 	"select O.ORDER_ID, O.ORDER_USER_ID, O.ORDER_RICE,".
+			$orderQuery = 	"select O.ORDER_ID, O.ORDER_USER_ID, O.ORDER_RICE, ".
 							"M.MEAL_ID, M.MEAL_NAME, M.MEAL_OPTGROUP_ID, M.MEAL_PRICE, ".
 							"R.RICE_TYPE from ORDERS O ".
 							"inner join MEALS M on M.MEAL_ID = O.ORDER_MEAL_ID ".
@@ -152,21 +152,13 @@ class DB
 			$PStatement = $this->db->prepare($orderQuery);
 			$PStatement->bindValue(":orderid", $orderid);
 			$PStatement->execute();
-			//$rows = $PStatement->fetchAll();
-			$row = $PStatement->fetch(PDO::FETCH_ASSOC);
+			$row = $PStatement->fetch();
 			$PStatement->closeCursor();
 			if($row)
 			{
-				$orderow = new Order($row['ORDER_ID'], "", $row['MEAL_NAME'], $this->PullMobForOrder($row['ORDER_ID']),	$row['RICE_TYPE'], $row['MEAL_PRICE'], "");
-				$orderow->AddIdsForDuplication($row['ORDER_USER_ID'], $row['MEAL_ID'], $row['ORDER_RICE']);
+				$prevOrder = new Order($row['ORDER_ID'], "", $row['MEAL_NAME'], $this->PullMobForOrder($row['ORDER_ID']),	$row['RICE_TYPE'], $row['MEAL_PRICE'], "");
+				$prevOrder->AddIdsForDuplication($row['ORDER_USER_ID'], $row['MEAL_ID'], $row['ORDER_RICE']);
 			}
-			
-			//foreach ($rows as $row)
-			//{
-				//$newItem = new Order($row['ORDER_ID'], "", $row['MEAL_NAME'], $this->PullMobForOrder($row['ORDER_ID']),	$row['RICE_TYPE'], $row['MEAL_PRICE'], "");
-				//array_push($history, $newItem);
-			//}
-			
 			
 			return($prevOrder);
 		}
