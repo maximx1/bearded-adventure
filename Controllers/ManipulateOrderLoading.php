@@ -109,6 +109,15 @@ class ManipulateOrderLoading
 	{
 		return($this->db->PullRiceTypes());
 	}
+	
+	/**
+	 * Loads all of currently available meals.
+	 * @return A list of meals mapped as $meals[meal id]["name" or "price" or "group"]
+	 */
+	public function LoadMeals()
+	{
+		
+	}
 }
 
 ?>

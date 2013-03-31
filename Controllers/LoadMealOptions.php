@@ -43,6 +43,7 @@ class LoadMealOptions
 	/**
 	 * Loads the meal data from the database.
 	 * @return A MealTrackingData Container object built from the database.
+	 * @deprecated No longer used to load the create order page. Use ManipulateOrderLoading.
 	 */
 	public function LoadMealData()
 	{
