@@ -62,14 +62,6 @@ if(isset($_GET["actionControl"]))
 			$OrderLoader = new ManipulateOrderLoading();
 			$prevOrder = $OrderLoader->LoadOrderById($_GET['orderId']);
 			
-			//$order = new NewOrder(
-			//				$prevOrder->USER_ID,
-			//				$prevOrder->MEAL_ID,
-			//				$prevOrder->MOB_OPTION,
-			//				$prevOrder->RICE_ID,
-			//				$_SESSION['sessionId']
-			//			 );
-			
 			array_push($orderList, $prevOrder);
 		}
 		else if($_GET['userSelect'] && isset($_GET['mealSelect']) && isset($_GET['riceSelect']))

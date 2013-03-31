@@ -22,66 +22,110 @@ $(document).ready
 	function()
 	{
 		//Load the user data immediately once the rest of the page loads
-		//$("#userData").load("Controllers/ControlUserManip.php?actionControl=loadUser");
 		$.getJSON("Controllers/ControlUserManip.php",
 			{ 
 				actionControl: "loadUser"
 			},
 			function(userList)
 			{
-				populateUserTable(data);
+				var userListString = "<h3>Choose User:</h3>"
+				usserListString += "<select id='userSelect' name='userSelect'>";
+				userListString += "<option value='nil' selected='selected'></option>";
+				for(i = 0; i < userList['key'].length; i++)
+				{
+					userListString += "<option value='" + userList['key'][i] + "'>" + userList['val'][i] + "</option>";
+				}
+				userListString += "</select>";
+				
+				$("#userSpace").html(userListString);
 			}
 		);
 		
-		$.getJSON("Controllers/ManageCart.php",
-		{
-			actionControl: "loadCart"
-		},
-		function(cartInformation)
-		{
-			if(cartInformation.length != 0)
-			{
-				var cartSpace = "";
-				cartSpace += "<h3>Order Cart:</h3>";
-				cartSpace += "<div class = 'tutorial historyArea'>";
-				
-				for(i = 0; i < cartInformation.length; i++)
-				{
-					cartSpace += "<table class='cartItem'>";
-					cartSpace += cartInformation[i];
-					cartSpace += "</table>";
-					
-					if(i < cartInformation.length - 1)
+		
+		/*
+		<!--Show Meals-->
+				<h3>Choose Meal:</h3>
+				<select id='mealSelect' name='mealSelect' size=25>
+					<?php
+					foreach ($meals->Optgroups as $optKey => $optValue)
 					{
-						cartSpace += "<hr>";
+						print "<optgroup label='".$optValue."'>";
+						
+						foreach ($meals->Meal as $key => $value)
+						{
+							if($optKey == $value["group"])
+							{
+								print "<option value='".$key."'>".$value["name"]." - ".$value["price"]."</option>";
+							}
+						}
+						
+						print "</optgroup>";
 					}
-				}
-				cartSpace += "<input id='SubmitOrderButton' type='button' value='Place Order' />";
-				cartSpace += "</div>";
-				cartSpace += "<script src='Scripts/CreateOrder.js'></script>";
-				$("#mealCartSpace").html(cartSpace);
+					?>
+				</select>
+				*/
+				
+		//Load the list of them meals.
+		$.getJSON("Controllers/ControlCreateOrderLoading.php",
+			{
+				actionControl: "loadMeals"
+			},
+			function(mealList)
+			{
+				
 			}
-		}
-	);
+		);
+		
+		//Load the ricetypes for the new meal.
+		$.getJSON("Controllers/ControlCreateOrderLoading.php",
+			{
+				actionControl: "loadRice"
+			},
+			function(riceList)
+			{
+				var riceListString = "<h3>Choose Side:</h3>";
+				riceListString += "<select id='riceSelect' name='riceSelect'>";
+				for(i = 0; i < riceList['key'].length; i++)
+				{
+					riceListString += "<option value='" + riceList['key'][i] +"'>" + riceList['val'][i] + "</option>";
+				}
+				riceListString += "</select>";
+				
+				$("#riceSpace").html(riceListString);
+			}
+		);
+		
+		//Load the cart if there is any items.
+		$.getJSON("Controllers/ManageCart.php",
+			{
+				actionControl: "loadCart"
+			},
+			function(cartInformation)
+			{
+				if(cartInformation.length != 0)
+				{
+					var cartSpace = "";
+					cartSpace += "<h3>Order Cart:</h3>";
+					cartSpace += "<div class = 'tutorial historyArea'>";
+					
+					for(i = 0; i < cartInformation.length; i++)
+					{
+						cartSpace += "<table class='cartItem'>";
+						cartSpace += cartInformation[i];
+						cartSpace += "</table>";
+						
+						if(i < cartInformation.length - 1)
+						{
+							cartSpace += "<hr>";
+						}
+					}
+					cartSpace += "<input id='SubmitOrderButton' type='button' value='Place Order' />";
+					cartSpace += "</div>";
+					$("#mealCartSpace").html(cartSpace);
+				}
+			}
+		);
+		
+		$("#scripts").html("<script src='Scripts/CreateOrder.js'></script>");
 	}
 );
-
-function PopulateMenu(data)
-{
-	var userTable = "<table>";
-	
-	//Create the user rows from the json wrapper
-	for(i = 0; i < userList['key'].length; i += 1)
-	{
-		userTable += "<tr><td>"+ userList['val'][i] + "</td><td><input class='delete' id='" + userList['key'][i] + "' type='button' value='Delete' /></td></tr>";
-	}
-	userTable += "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>";
-	userTable += "<tr><td><input id='usernameBox' type='text'/></td>";
-	userTable += "<td><input class='add' type='button' value='Add User'/></td></tr>";
-	
-	userTable += "</table>";
-	userTable += "<script src='Scripts/ManageUsers.js'></script>";
-	
-	//Place the table data into the main page
-	$("#userData").html(userTable);
-}

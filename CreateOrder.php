@@ -44,16 +44,7 @@ require_once("Controllers/LoadMealOptions.php");
 		<div id="leftPane">
 			<form action='SubmitOrder.php' onsubmit="return validations()">
 				<!--Show users-->
-				<h3>Choose User:</h3>
-				<select id='userSelect' name='userSelect'>
-					<option value="nil" selected="selected"></option>
-					<?php
-					foreach ($meals->User as $key => $value)
-					{
-						print "<option value='".$key."'>".$value."</option>";
-					}
-					?>
-				</select>
+				<div id='userSpace'></div>
 				
 				<br>
 				
@@ -62,7 +53,8 @@ require_once("Controllers/LoadMealOptions.php");
 				<br>
 				
 				<!--Show Meals-->
-				<h3>Choose Meal:</h3>
+				<div id="mealSpace"></div>
+				<!--<h3>Choose Meal:</h3>
 				<select id='mealSelect' name='mealSelect' size=25>
 					<?php
 					foreach ($meals->Optgroups as $optKey => $optValue)
@@ -80,21 +72,14 @@ require_once("Controllers/LoadMealOptions.php");
 						print "</optgroup>";
 					}
 					?>
-				</select>
+				</select>-->
+				
+				<!--Show Meal options for the meal.-->
 				<div id = 'mealOptions'></div>
 				
 				<!--Show Rice Options-->
-				<h3>Choose Side:</h3>
-				<select id='riceSelect' name='riceSelect'>
-					<?php
-					foreach ($meals->Rice as $key => $value)
-					{
-						print "<option value='".$key."'>".$value."</option>";
-					}
-					?>
-				</select>
-				<br>
-				<br>
+				<div id="riceSpace"></div>
+				<!--
 				<input id="submitButton" type="submit" value="Submit" disabled="disabled"/>
 				<!--<input class='addNewOrder' id='" . $this->ORDER_ID . "' type='button' value='Add' />-->
 			</form>
@@ -106,6 +91,7 @@ require_once("Controllers/LoadMealOptions.php");
 	
 	<!--Load scripts at the end so as to not freeze shit up.-->
 	<script src="Scripts/jquery-1.9.0.min.js"></script>
-	<script src="Scripts/CreateOrder.js"></script>
+	<script src="Scripts/LoadCreateOrder.js"></script>
+	<div id="scripts"></div>
 </body>
 </html>

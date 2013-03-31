@@ -59,13 +59,6 @@ require_once("Tools/UUID.php");
 								$item->RICE_ID,
 								$_SESSION['sessionId']
 							 );
-					//$order = new NewOrder(
-					//				(int)$_GET['userSelect'], 
-					//				(int)$_GET['mealSelect'], 
-					//				$_GET['mealOptionsSelect'], 
-					//				(int)$_GET['riceSelect'], 
-					//				$_SESSION['sessionId']
-					//			 );
 					$orderer = new StoreOrder();
 					$successMessage = $orderer->RecordOrder($order);
 					$_SESSION['cartList'] = array();

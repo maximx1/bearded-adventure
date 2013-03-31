@@ -16,6 +16,9 @@
 //    You should have received a copy of the GNU General Public License
 //    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+//NOTE: We can use $("form").serialize() to just pass the form data without having to parse everything.
+
+
 //Load as soon as the document is ready.
 $(document).ready
 (

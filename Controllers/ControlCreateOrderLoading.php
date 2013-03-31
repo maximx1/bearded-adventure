@@ -47,6 +47,14 @@ if(isset($_GET["actionControl"]))
 	{
 		createHistoricalJson($loader->LoadHistoricalMealData($_GET["id"]));
 	}
+	else if(strcasecmp($_GET["actionControl"], "loadMeals") == 0)
+	{
+		
+	}
+	else if(strcasecmp($_GET["actionControl"], "loadRice") == 0)
+	{
+		createRiceJSON($loader->LoadRiceTypes());
+	}
 }
 else
 {
@@ -73,11 +81,7 @@ function createJson($combinedOrders)
 		array_push($jsonWrapper, $order->CreateMealString());
 	}
 	
-	//Specify that it is returning some JSON data for the ajax.
-	header('Content-Type:text/json');
-	
-	//Encode the array as JSON.
-	echo json_encode($jsonWrapper);
+	encodeJSON($jsonwrapper);
 }
 
 /**
@@ -89,13 +93,32 @@ function createHistoricalJson($history)
 	
 	foreach($history as $value)
 	{
-		//"<table class='mealHistorySelect'>";
 		array_push($jsonwrapper, $value->CreateHistoryString());
-		//print "</table>";
-		//(count($result) > $count) ? print "<hr>" : print "";
-		//$count++;
 	}
 	
+	encodeJSON($jsonwrapper);
+}
+
+/**
+ * Creates the JSON to load the rice into the page.
+ * @param $rice The rice types with their key as the id.
+ */
+function createRiceJSON($rice)
+{
+	$jsonwrapper = array();
+	
+	$jsonwrapper['key'] = array_keys($rice);
+	$jsonwrapper['val'] = array_values($rice);
+	
+	encodeJSON($jsonwrapper);
+}
+
+/**
+ * A quick encoder function.
+ * @param $jsonwrapper An array that is to be encoded as Json.
+ */
+function encodeJSON($jsonwrapper)
+{
 	//Specify that it is returning some JSON data for the ajax.
 	header('Content-Type:text/json');
 	

@@ -100,6 +100,15 @@ class ManipulateOrderLoading
 	{
 		return($this->db->PullSingleOrder($orderid));
 	}
+	
+	/**
+	 * Loads the ricetypes from the database.
+	 * @return A list of ricetypes with the id as the key.
+	 */
+	public function LoadRiceTypes()
+	{
+		return($this->db->PullRiceTypes());
+	}
 }
 
 ?>
