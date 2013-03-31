@@ -21,8 +21,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once("Controllers/LoadMealOptions.php");
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -35,12 +33,6 @@ require_once("Controllers/LoadMealOptions.php");
 		<h1>Create an order</h1>
 		<a href="index.php">Go Back</a><br>
 		
-		<?php
-		
-		$loader = new LoadMealOptions();	//Class to populate available meal data
-		$meals = $loader->LoadMealData();	//MealData class.
-		
-		?>
 		<div id="leftPane">
 			<form action='SubmitOrder.php' onsubmit="return validations()">
 				<!--Show users-->
@@ -48,6 +40,7 @@ require_once("Controllers/LoadMealOptions.php");
 				
 				<br>
 				
+				<!--Show the historical items-->
 				<div id='mealHistorySpace'></div>
 				
 				<br>

@@ -256,18 +256,11 @@ class DB
 		
 		$outputPacket;
 		try
-		{
-			//Pull the users
-			$users = $this->PullAllUsers();
-			
-			//Pull the rice information
-			$rice = $this->PullRiceTypes();
-			
+		{			
 			//Pull the optgroup information
 			$optgroup = $this->PullOptgroups();
 			
-			$mealQuery = "select M.MEAL_ID, M.MEAL_NAME, M.MEAL_PRICE, M.MEAL_OPTGROUP_ID from MEALS M ".
-					"order by M.MEAL_NAME;";
+			$mealQuery = "select M.MEAL_ID, M.MEAL_NAME, M.MEAL_PRICE, M.MEAL_OPTGROUP_ID from MEALS M order by M.MEAL_NAME;";
 			
 			//Pull the meal information
 			$PStatement = $this->db->prepare($mealQuery);
@@ -283,7 +276,7 @@ class DB
 			//Close the database connection.
 			$PStatement->closeCursor();
 			
-			$outputPacket = new MealTrackingData($users, $meals, $rice, $optgroup);
+			$outputPacket = new MealTrackingData($meals, $optgroup);
 			
 			return($outputPacket);
 		}
