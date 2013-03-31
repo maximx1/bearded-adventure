@@ -86,12 +86,24 @@ if(isset($_GET["actionControl"]))
 		
 		//Pass the updated cart to the session variable.
 		$_SESSION["cartList"] = $orderList;
+		CreateJSONFromCart($orderList);
 	}
 }
 
-function CreateJsonFromCart($error)
+/**
+ * Encodes the Json for the cart.
+ * @param $cart the cart to encode.
+ */
+function CreateJSONFromCart($cart)
 {
-	json_encode($error);
+	$jsonwrapper = array();
+	
+	foreach($cart as $item)
+	{
+		array_push($jsonwrapper, $item->CreateCartString());
+	}
+	
+	echo json_encode($jsonwrapper);
 }
 
 ?>
