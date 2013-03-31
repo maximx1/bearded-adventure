@@ -47,25 +47,6 @@
 				
 				<!--Show Meals-->
 				<div id="mealSpace"></div>
-				<!--<h3>Choose Meal:</h3>
-				<select id='mealSelect' name='mealSelect' size=25>
-					<?php
-					foreach ($meals->Optgroups as $optKey => $optValue)
-					{
-						print "<optgroup label='".$optValue."'>";
-						
-						foreach ($meals->Meal as $key => $value)
-						{
-							if($optKey == $value["group"])
-							{
-								print "<option value='".$key."'>".$value["name"]." - ".$value["price"]."</option>";
-							}
-						}
-						
-						print "</optgroup>";
-					}
-					?>
-				</select>-->
 				
 				<!--Show Meal options for the meal.-->
 				<div id = 'mealOptions'></div>

@@ -16,7 +16,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+//Database connectivity
 require_once(dirname(__FILE__).'/../db/db.php');
+
+//Containers classes
+require_once(dirname(__FILE__).'/../Containers/MealTrackingData.php');
 require_once(dirname(__FILE__).'/../Containers/Order.php');
 
 /**
@@ -112,11 +116,11 @@ class ManipulateOrderLoading
 	
 	/**
 	 * Loads all of currently available meals.
-	 * @return A list of meals mapped as $meals[meal id]["name" or "price" or "group"]
+	 * @return A MealTrackingData object containing all the meals and optgroups.
 	 */
 	public function LoadMeals()
 	{
-		
+		return($this->db->PullMealData());
 	}
 }
 

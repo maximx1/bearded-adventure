@@ -29,41 +29,18 @@ $(document).ready
 			function(userList)
 			{
 				var userListString = "<h3>Choose User:</h3>"
-				usserListString += "<select id='userSelect' name='userSelect'>";
+				userListString += "<select id='userSelect' name='userSelect'>";
 				userListString += "<option value='nil' selected='selected'></option>";
 				for(i = 0; i < userList['key'].length; i++)
 				{
 					userListString += "<option value='" + userList['key'][i] + "'>" + userList['val'][i] + "</option>";
 				}
 				userListString += "</select>";
+				userListString += "<script src='Scripts/CreateOrder.js'></script>";
 				
 				$("#userSpace").html(userListString);
 			}
 		);
-		
-		
-		/*
-		<!--Show Meals-->
-				<h3>Choose Meal:</h3>
-				<select id='mealSelect' name='mealSelect' size=25>
-					<?php
-					foreach ($meals->Optgroups as $optKey => $optValue)
-					{
-						print "<optgroup label='".$optValue."'>";
-						
-						foreach ($meals->Meal as $key => $value)
-						{
-							if($optKey == $value["group"])
-							{
-								print "<option value='".$key."'>".$value["name"]." - ".$value["price"]."</option>";
-							}
-						}
-						
-						print "</optgroup>";
-					}
-					?>
-				</select>
-				*/
 				
 		//Load the list of them meals.
 		$.getJSON("Controllers/ControlCreateOrderLoading.php",
@@ -72,7 +49,28 @@ $(document).ready
 			},
 			function(mealList)
 			{
+				var mealListString = "<h3>Choose Meal:</h3>";
+				mealListString += "<select id='mealSelect' name='mealSelect' size=25>";
 				
+				for(i = 0; i < mealList['gkey'].length; i++)
+				{
+					mealListString += "<optgroup label='" + mealList['gval'][i] + "'>";
+					
+					for(j = 0; j < mealList['key'].length; j++)
+					{
+						if(mealList['gkey'][i] == mealList['val'][j].group)
+						{
+							mealListString += "<option value='" + mealList['key'][j] + "'>" + mealList['val'][j].name + " - " + mealList['val'][j].price + "</option>";
+						}
+					}
+					
+					mealListString += "</optgroup>";
+				}
+				
+				mealListString += "</select>";
+				mealListString += "<script src='Scripts/CreateOrder.js'></script>";
+				
+				$("#mealSpace").html(mealListString);
 			}
 		);
 		
@@ -90,6 +88,7 @@ $(document).ready
 					riceListString += "<option value='" + riceList['key'][i] +"'>" + riceList['val'][i] + "</option>";
 				}
 				riceListString += "</select>";
+				riceListString += "<script src='Scripts/CreateOrder.js'></script>";
 				
 				$("#riceSpace").html(riceListString);
 			}
@@ -121,11 +120,10 @@ $(document).ready
 					}
 					cartSpace += "<input id='SubmitOrderButton' type='button' value='Place Order' />";
 					cartSpace += "</div>";
+					cartSpace += "<script src='Scripts/CreateOrder.js'></script>";
 					$("#mealCartSpace").html(cartSpace);
 				}
 			}
 		);
-		
-		$("#scripts").html("<script src='Scripts/CreateOrder.js'></script>");
 	}
 );

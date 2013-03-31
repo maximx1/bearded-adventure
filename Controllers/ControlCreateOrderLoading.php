@@ -17,6 +17,7 @@
  */
 
 require_once(dirname(__FILE__).'/ManipulateOrderLoading.php');
+require_once(dirname(__FILE__).'/../Containers/MealTrackingData.php');
 
 /**
  * Controller class to be called by ajax to load new information.
@@ -49,7 +50,7 @@ if(isset($_GET["actionControl"]))
 	}
 	else if(strcasecmp($_GET["actionControl"], "loadMeals") == 0)
 	{
-		
+		createMealJSON($loader->LoadMeals());
 	}
 	else if(strcasecmp($_GET["actionControl"], "loadRice") == 0)
 	{
@@ -109,6 +110,23 @@ function createRiceJSON($rice)
 	
 	$jsonwrapper['key'] = array_keys($rice);
 	$jsonwrapper['val'] = array_values($rice);
+	
+	encodeJSON($jsonwrapper);
+}
+
+/**
+ * Creates the JSON to load the meals into the create order page.
+ * @param $meals A meal tracking object that contains the meals and the optgroups.
+ */
+function createMealJSON($meals)
+{
+	$jsonwrapper = array();
+	$tmp = new MealTrackingData();
+	
+	$jsonwrapper['key'] = array_keys($meals->Meal);
+	$jsonwrapper['val'] = array_values($meals->Meal);
+	$jsonwrapper['gkey'] = array_keys($meals->Optgroups);
+	$jsonwrapper['gval'] = array_values($meals->Optgroups);
 	
 	encodeJSON($jsonwrapper);
 }

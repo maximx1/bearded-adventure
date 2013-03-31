@@ -242,12 +242,10 @@ class DB
 	
 	/**
 	 * Pulls the meal data from the database for selection.
-	 * @return Pulls and calls all the information related to generating the order options.
+	 * @return A meal tracking data object containing all of the meals.
 	 */
 	public function PullMealData()
 	{
-		$users = array();
-		$rice = array();
 		$meals = array();
 		$optgroup = array();
 		
