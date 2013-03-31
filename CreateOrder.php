@@ -41,64 +41,67 @@ require_once("Controllers/LoadMealOptions.php");
 		$meals = $loader->LoadMealData();	//MealData class.
 		
 		?>
-		
-		<form action='SubmitOrder.php' onsubmit="return validations()">
-			<!--Show users-->
-			<h3>Choose User:</h3>
-			<select id='userSelect' name='userSelect'>
-				<option value="nil" selected="selected"></option>
-				<?php
-				foreach ($meals->User as $key => $value)
-				{
-					print "<option value='".$key."'>".$value."</option>";
-				}
-				?>
-			</select>
-			
-			<br>
-			
-			<div id='mealHistorySpace'></div>
-			
-			<div id='mealCartSpace'></div>
-			
-			<br>
-			
-			<!--Show Meals-->
-			<h3>Choose Meal:</h3>
-			<select id='mealSelect' name='mealSelect' size=25>
-				<?php
-				foreach ($meals->Optgroups as $optKey => $optValue)
-				{
-					print "<optgroup label='".$optValue."'>";
-					
-					foreach ($meals->Meal as $key => $value)
+		<div id="leftPane">
+			<form action='SubmitOrder.php' onsubmit="return validations()">
+				<!--Show users-->
+				<h3>Choose User:</h3>
+				<select id='userSelect' name='userSelect'>
+					<option value="nil" selected="selected"></option>
+					<?php
+					foreach ($meals->User as $key => $value)
 					{
-						if($optKey == $value["group"])
-						{
-							print "<option value='".$key."'>".$value["name"]." - ".$value["price"]."</option>";
-						}
+						print "<option value='".$key."'>".$value."</option>";
 					}
-					
-					print "</optgroup>";
-				}
-				?>
-			</select>
-			<div id = 'mealOptions'></div>
-			
-			<!--Show Rice Options-->
-			<h3>Choose Side:</h3>
-			<select id='riceSelect' name='riceSelect'>
-				<?php
-				foreach ($meals->Rice as $key => $value)
-				{
-					print "<option value='".$key."'>".$value."</option>";
-				}
-				?>
-			</select>
-			<br>
-			<input id="submitButton" type="submit" value="Submit" disabled="disabled"/>
-			
-		</form>
+					?>
+				</select>
+				
+				<br>
+				
+				<div id='mealHistorySpace'></div>
+				
+				<br>
+				
+				<!--Show Meals-->
+				<h3>Choose Meal:</h3>
+				<select id='mealSelect' name='mealSelect' size=25>
+					<?php
+					foreach ($meals->Optgroups as $optKey => $optValue)
+					{
+						print "<optgroup label='".$optValue."'>";
+						
+						foreach ($meals->Meal as $key => $value)
+						{
+							if($optKey == $value["group"])
+							{
+								print "<option value='".$key."'>".$value["name"]." - ".$value["price"]."</option>";
+							}
+						}
+						
+						print "</optgroup>";
+					}
+					?>
+				</select>
+				<div id = 'mealOptions'></div>
+				
+				<!--Show Rice Options-->
+				<h3>Choose Side:</h3>
+				<select id='riceSelect' name='riceSelect'>
+					<?php
+					foreach ($meals->Rice as $key => $value)
+					{
+						print "<option value='".$key."'>".$value."</option>";
+					}
+					?>
+				</select>
+				<br>
+				<br>
+				<input id="submitButton" type="submit" value="Submit" disabled="disabled"/>
+				<!--<input class='addNewOrder' id='" . $this->ORDER_ID . "' type='button' value='Add' />-->
+			</form>
+		</div>
+		<div id="rightPane">
+			<div id='mealCartSpace'></div>
+		</div>	
 	</div>
 	
 	<!--Load scripts at the end so as to not freeze shit up.-->

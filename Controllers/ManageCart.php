@@ -25,13 +25,15 @@ require_once($dname."/../Containers/Order.php");
 //Controllers
 require_once($dname."/../Controllers/ManipulateOrderLoading.php");
 
+//Tools
+require_once($dname."/../Tools/UUID.php");
+
 /**
  * Controller that Handles loading, adding, and deleting from the cart.
  * 
  * @author Justin Walrath <walrathjaw@gmail.com>
  * @since 3/30/2013
  */
-
 if(isset($_GET["actionControl"]))
 {
 	//Reset the session lifetime
@@ -48,28 +50,27 @@ if(isset($_GET["actionControl"]))
 		$orderList = $_SESSION["cartList"];
 	}
 	
-	if(strcasecmp($_GET["actionControl"], "addToCart") == 0)
+	//Load the cart upon start.
+	if(strcasecmp($_GET["actionControl"], "loadCart") == 0)
 	{
-		//Generate a session ID if it has expired.
-		if(!isset($_SESSION['sessionId']))
-		{
-			$_SESSION['sessionId'] = UUID::NewUUID();
-		}
-		
+		CreateJSONFromCart($orderList);
+	}
+	else if(strcasecmp($_GET["actionControl"], "addToCart") == 0)
+	{
 		if(isset($_GET['orderId']))
 		{
 			$OrderLoader = new ManipulateOrderLoading();
 			$prevOrder = $OrderLoader->LoadOrderById($_GET['orderId']);
 			
-			$order = new NewOrder(
-							$prevOrder->USER_ID,
-							$prevOrder->MEAL_ID,
-							$prevOrder->MOB_OPTION,
-							$prevOrder->RICE_ID,
-							$_SESSION['sessionId']
-						 );
+			//$order = new NewOrder(
+			//				$prevOrder->USER_ID,
+			//				$prevOrder->MEAL_ID,
+			//				$prevOrder->MOB_OPTION,
+			//				$prevOrder->RICE_ID,
+			//				$_SESSION['sessionId']
+			//			 );
 			
-			array_push($orderList, $order);
+			array_push($orderList, $prevOrder);
 		}
 		else if($_GET['userSelect'] && isset($_GET['mealSelect']) && isset($_GET['riceSelect']))
 		{

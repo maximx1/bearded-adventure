@@ -222,7 +222,7 @@ class DB
 	 public function PullMobForOrder($orderId)
 	 {
 	 	$mobOptions = array();
-		$query = "select MOB.MOB_OPTION from ORDERS O ".
+		$query = "select MOB.MOB_OPTION, MOB.MOB_ID from ORDERS O ".
 				"inner join SELECTED_MEAL_OPTIONS SMO on O.ORDER_ID = SMO.SMO_ORDER_ID ".
 				"inner join MEAL_OPTIONS_BASE MOB on MOB.MOB_ID = SMO.SMO_MOB_ID ".
 				"where O.ORDER_ID = :orderId;";
@@ -234,7 +234,7 @@ class DB
 		
 		foreach($rows as $row)
 		{
-			array_push($mobOptions, $row['MOB_OPTION']);
+			$mobOptions[$row['MOB_ID']] = $row['MOB_OPTION'];
 		}
 		
 		return($mobOptions);

@@ -47,17 +47,29 @@ require_once("Tools/UUID.php");
 				$_SESSION['sessionId'] = UUID::NewUUID();
 			}
 			
-			if(isset($_GET['userSelect']) && isset($_GET['mealSelect']) && isset($_GET['riceSelect']))
+			if(isset($_SESSION['cartList']))
 			{
-				$order = new NewOrder(
-								(int)$_GET['userSelect'], 
-								(int)$_GET['mealSelect'], 
-								$_GET['mealOptionsSelect'], 
-								(int)$_GET['riceSelect'], 
+				foreach ($_SESSION['cartList'] as $item)
+				{
+					echo array_keys($item->MOB_OPTION);
+					$order = new NewOrder(
+								$item->USER_ID,
+								$item->MEAL_ID,
+								array_keys($item->MOB_OPTION),
+								$item->RICE_ID,
 								$_SESSION['sessionId']
 							 );
-				$orderer = new StoreOrder();
-				$successMessage = $orderer->RecordOrder($order);
+					//$order = new NewOrder(
+					//				(int)$_GET['userSelect'], 
+					//				(int)$_GET['mealSelect'], 
+					//				$_GET['mealOptionsSelect'], 
+					//				(int)$_GET['riceSelect'], 
+					//				$_SESSION['sessionId']
+					//			 );
+					$orderer = new StoreOrder();
+					$successMessage = $orderer->RecordOrder($order);
+					$_SESSION['cartList'] = array();
+				}
 				print "<h1>".$successMessage."</h1>";
 			}
 			else

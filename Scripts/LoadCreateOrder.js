@@ -32,6 +32,37 @@ $(document).ready
 				populateUserTable(data);
 			}
 		);
+		
+		$.getJSON("Controllers/ManageCart.php",
+		{
+			actionControl: "loadCart"
+		},
+		function(cartInformation)
+		{
+			if(cartInformation.length != 0)
+			{
+				var cartSpace = "";
+				cartSpace += "<h3>Order Cart:</h3>";
+				cartSpace += "<div class = 'tutorial historyArea'>";
+				
+				for(i = 0; i < cartInformation.length; i++)
+				{
+					cartSpace += "<table class='cartItem'>";
+					cartSpace += cartInformation[i];
+					cartSpace += "</table>";
+					
+					if(i < cartInformation.length - 1)
+					{
+						cartSpace += "<hr>";
+					}
+				}
+				cartSpace += "<input id='SubmitOrderButton' type='button' value='Place Order' />";
+				cartSpace += "</div>";
+				cartSpace += "<script src='Scripts/CreateOrder.js'></script>";
+				$("#mealCartSpace").html(cartSpace);
+			}
+		}
+	);
 	}
 );
 

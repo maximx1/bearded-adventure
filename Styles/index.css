@@ -1,3 +1,5 @@
+
+
 .frontPageButtons{
 	width: 200px;
 	text-align: center;
@@ -64,4 +66,13 @@ body{
 
 .rightJustify{
 	text-align: right;
+}
+
+#rightPane{
+	width: 475;
+	float: left;
+}
+
+#leftPane{
+	width: 475;
 }

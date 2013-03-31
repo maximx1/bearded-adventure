@@ -49,7 +49,6 @@ $(document).ready
 									historySpace += "<hr>";
 								}
 							}
-							historySpace += "<input id='SubmitOrderButton' type='button' value='Place Order' />";
 							historySpace += "</div>";
 							historySpace += "<script src='Scripts/CreateOrder.js'></script>";
 							$("#mealHistorySpace").html(historySpace);
@@ -74,7 +73,7 @@ $(document).ready
 						if(cartInformation.length != 0)
 						{
 							var cartSpace = "";
-							cartSpace += "<h3>Recent Meals:</h3>";
+							cartSpace += "<h3>Order Cart:</h3>";
 							cartSpace += "<div class = 'tutorial historyArea'>";
 							
 							for(i = 0; i < cartInformation.length; i++)
@@ -88,6 +87,7 @@ $(document).ready
 									cartSpace += "<hr>";
 								}
 							}
+							cartSpace += "<input id='SubmitOrderButton' type='button' value='Place Order' />";
 							cartSpace += "</div>";
 							cartSpace += "<script src='Scripts/CreateOrder.js'></script>";
 							$("#mealCartSpace").html(cartSpace);
@@ -104,9 +104,16 @@ $(document).ready
 				var id = $("#mealSelect option:selected").val();
 				$("#mealHistorySelect option:selected").val([]);
 				$("#mealOptions").load("Controllers/LoadMealOptionsFromBase.php?mealId=" + id);
-				$("#submitButton").removeAttr('disabled');
+				$(".addNewOrder").removeAttr('disabled');
+				//<input id="submitButton" type="submit" value="Submit" disabled="disabled"/>
 			}
 		);
+		
+		$(".addNewOrder").click(
+			
+		);
+		//<input id="submitButton" type="submit" value="Submit" disabled="disabled"/>
+				//<input class='addNewOrder' id='" . $this->ORDER_ID . "' type='button' value='Add' />
 	}
 );
 
