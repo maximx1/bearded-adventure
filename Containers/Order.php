@@ -165,6 +165,7 @@ class Order
 	
 	/**
 	 * Prints out the table format for the historical data.
+	 * @return HTML representation of the object as a history order with add button.
 	 */
 	public function CreateHistoryString()
 	{
@@ -172,6 +173,15 @@ class Order
 		$historyString .= "<td><input class='addHistoryItem' id='" . $this->ORDER_ID . "' type='button' value='Add' /></td></tr>";
 		
 		return $historyString;
+	}
+	
+	/**
+	 * Prints out the table format for the cart data.
+	 * @return HTML representation of the object as cart item without the add button.
+	 */
+	public function CreateCartString()
+	{
+		return($this->CreateFirstPartOfOrder());
 	}
 	
 	/**

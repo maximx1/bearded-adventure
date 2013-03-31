@@ -56,40 +56,42 @@ if(isset($_GET["actionControl"]))
 			$_SESSION['sessionId'] = UUID::NewUUID();
 		}
 		
-		if(isset($_GET['userSelect']) && isset($_GET['mealSelect']) && isset($_GET['riceSelect']))
+		if(isset($_GET['orderId']))
 		{
-			if(strcasecmp($_GET["prevOrder"], "true") == 0)
-			{
-				$OrderLoader = new ManipulateOrderLoading();
-				$prevOrder = $OrderLoader->LoadOrderById($_GET['orderId']);
-				
-				$order = new NewOrder(
-								$prevOrder->USER_ID,
-								$prevOrder->MEAL_ID,
-								$prevOrder->MOB_OPTION,
-								$prevOrder->RICE_ID,
-								$_SESSION['sessionId']
-							 );
-				
-				array_push($orderList, $order);
-			}
-			else
-			{
-				$order = new NewOrder(
-								$_GET['userSelect'], 
-								$_GET['mealSelect'], 
-								$_GET['mealOptionsSelect'], 
-								$_GET['riceSelect'], 
-								$_SESSION['sessionId']
-							 );
-				
-				array_push($orderList, $order);
-			}
+			$OrderLoader = new ManipulateOrderLoading();
+			$prevOrder = $OrderLoader->LoadOrderById($_GET['orderId']);
+			
+			$order = new NewOrder(
+							$prevOrder->USER_ID,
+							$prevOrder->MEAL_ID,
+							$prevOrder->MOB_OPTION,
+							$prevOrder->RICE_ID,
+							$_SESSION['sessionId']
+						 );
+			
+			array_push($orderList, $order);
+		}
+		else if($_GET['userSelect'] && isset($_GET['mealSelect']) && isset($_GET['riceSelect']))
+		{
+			$order = new NewOrder(
+							$_GET['userSelect'], 
+							$_GET['mealSelect'], 
+							$_GET['mealOptionsSelect'], 
+							$_GET['riceSelect'], 
+							$_SESSION['sessionId']
+						 );
+			
+			array_push($orderList, $order);
 		}
 		
 		//Pass the updated cart to the session variable.
 		$_SESSION["cartList"] = $orderList;
 	}
+}
+
+function CreateJsonFromCart($error)
+{
+	json_encode($error);
 }
 
 ?>

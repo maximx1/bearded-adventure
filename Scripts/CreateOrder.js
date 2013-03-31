@@ -49,6 +49,7 @@ $(document).ready
 									historySpace += "<hr>";
 								}
 							}
+							historySpace += "<input id='SubmitOrderButton' type='button' value='Place Order' />";
 							historySpace += "</div>";
 							historySpace += "<script src='Scripts/CreateOrder.js'></script>";
 							$("#mealHistorySpace").html(historySpace);
@@ -63,10 +64,10 @@ $(document).ready
 			{
 				var hid = $(this).attr('id');
 				$("#mealSelect option:selected").val([]);
-				$.getJSON("Controllers/ControlCreateOrderLoading.php",
+				$.getJSON("Controllers/ManageCart.php",
 					{
-						actionControl: "loadHistory",
-						id: uid
+						actionControl: "addToCart",
+						orderId: hid
 					},
 					function(cartInformation)
 					{
@@ -76,24 +77,24 @@ $(document).ready
 							cartSpace += "<h3>Recent Meals:</h3>";
 							cartSpace += "<div class = 'tutorial historyArea'>";
 							
-							for(i = 0; i < historyList.length; i++)
+							for(i = 0; i < cartInformation.length; i++)
 							{
-								cartSpace += "<table class='mealHistorySelect'>";
-								cartSpace += historyList[i];
+								cartSpace += "<table class='cartItem'>";
+								cartSpace += cartInformation[i];
 								cartSpace += "</table>";
 								
-								if(i < historyList.length - 1)
+								if(i < cartInformation.length - 1)
 								{
 									cartSpace += "<hr>";
 								}
 							}
-							historySpace += "</div>";
-							historySpace += "<script src='Scripts/CreateOrder.js'></script>";
-							$("#mealHistorySpace").html(historySpace);
+							cartSpace += "</div>";
+							cartSpace += "<script src='Scripts/CreateOrder.js'></script>";
+							$("#mealCartSpace").html(cartSpace);
 						}
 					}
 				);
-				$("#submitButton").removeAttr('disabled');
+				//$("#submitButton").removeAttr('disabled');
 			}
 		);
 		
