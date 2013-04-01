@@ -165,7 +165,7 @@ class DB
 		catch(PDOException $er)
 		{
 			print "Error: ".$er."<br><br>";
-			print "SQL Statement: ".$optQuery;
+			print "SQL Statement: ".$orderQuery;
 			exit;
 		}
 	}
@@ -239,10 +239,32 @@ class DB
 		
 		return($mobOptions);
 	 }
+	 
+	 /**
+	  * Pulls the Mob information for the Mob ids.
+	  * @param $mobIds A list of mobIds.
+	  * @return List of meal options for the specified order.
+	  */
+	 public function PullMobByIds($mobIds)
+	 {
+	 	$mobOptions = array();
+		
+		$query = "select M.MOB_ID, M.MOB_OPTION from MEAL_OPTIONS_BASE M where M.MOB_ID in (" . implode(",", $mobIds) . ")";
+		$PStatement = $this->db->prepare($query);
+		$PStatement->execute();
+		$rows = $PStatement->fetchAll();
+		
+		foreach($rows as $row)
+		{
+			$mobOptions[$row['MOB_ID']] = $row['MOB_OPTION'];
+		}
+		
+		return($mobOptions);
+	 }
 	
 	/**
 	 * Pulls the meal data from the database for selection.
-	 * @return A meal tracking data object containing all of the meals.
+	 * @return MealTrackingData
 	 */
 	public function PullMealData()
 	{
@@ -282,6 +304,43 @@ class DB
 		{
 			print "Error: ".$er;
 			print $mealQuery;
+			exit;
+		}
+	}
+	
+	/**
+	 * Information of a specific meal.
+	 * @param $mealId The id of the meal to look up.
+	 * @return array() Meal mapped as $meal[meal id]["name" or "price"].
+	 */
+	public function PullSingleMealInformation($mealId)
+	{
+		$query = "";
+		$meal = array();
+		
+		try
+		{
+			$prevOrder = null;
+			$query = "select M.MEAL_ID, M.MEAL_NAME, M.MEAL_PRICE from MEALS M where M.MEAL_ID = :mealId;";
+			
+			//Pull the optgroup information
+			$PStatement = $this->db->prepare($query);
+			$PStatement->bindValue(":mealId", $mealId);
+			$PStatement->execute();
+			$row = $PStatement->fetch();
+			$PStatement->closeCursor();
+			if($row)
+			{
+				$meal[$row["MEAL_ID"]]["name"] = $row["MEAL_NAME"];
+				$meal[$row["MEAL_ID"]]["price"] = $row["MEAL_PRICE"];
+			}
+			
+			return($meal);
+		}
+		catch(PDOException $er)
+		{
+			print "Error: ".$er."<br><br>";
+			print "SQL Statement: ".$query;
 			exit;
 		}
 	}

@@ -108,15 +108,44 @@ $(document).ready
 				$("#mealHistorySelect option:selected").val([]);
 				$("#mealOptions").load("Controllers/LoadMealOptionsFromBase.php?mealId=" + id);
 				$(".addNewOrder").removeAttr('disabled');
-				//<input id="submitButton" type="submit" value="Submit" disabled="disabled"/>
 			}
 		);
 		
 		$(".addNewOrder").click(
-			
+			function()
+			{
+				var formdata = $("form").serialize();
+				$.getJSON("Controllers/ManageCart.php?" + formdata + "&actionControl=addToCart",
+					function(cartInformation)
+					{
+						if(cartInformation.length != 0)
+						{
+							var cartSpace = "";
+							cartSpace += "<h3>Order Cart:</h3>";
+							cartSpace += "<div class = 'tutorial historyArea'>";
+							
+							for(i = 0; i < cartInformation.length; i++)
+							{
+								cartSpace += "<table class='cartItem'>";
+								cartSpace += cartInformation[i];
+								cartSpace += "</table>";
+								
+								if(i < cartInformation.length - 1)
+								{
+									cartSpace += "<hr>";
+								}
+							}
+							cartSpace += "<input id='SubmitOrderButton' type='button' value='Place Order' />";
+							cartSpace += "</div>";
+							cartSpace += "<script src='Scripts/CreateOrder.js'></script>";
+							$("#mealCartSpace").html(cartSpace);
+						}
+					}
+				);
+				
+				//$(".addNewOrder").removeAttr('disabled');
+			}
 		);
-		//<input id="submitButton" type="submit" value="Submit" disabled="disabled"/>
-				//<input class='addNewOrder' id='" . $this->ORDER_ID . "' type='button' value='Add' />
 	}
 );
 

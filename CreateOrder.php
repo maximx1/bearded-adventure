@@ -34,7 +34,7 @@
 		<a href="index.php">Go Back</a><br>
 		
 		<div id="leftPane">
-			<form action='SubmitOrder.php' onsubmit="return validations()">
+			<form method="get">
 				<!--Show users-->
 				<div id='userSpace'></div>
 				
@@ -53,9 +53,9 @@
 				
 				<!--Show Rice Options-->
 				<div id="riceSpace"></div>
-				<!--
-				<input id="submitButton" type="submit" value="Submit" disabled="disabled"/>
-				<!--<input class='addNewOrder' id='" . $this->ORDER_ID . "' type='button' value='Add' />-->
+				
+				<!--<input id="submitButton" type="submit" value="Submit" disabled="disabled"/>-->
+				<input class='addNewOrder' type='button' value='Add' disabled='disabled'/>
 			</form>
 		</div>
 		<div id="rightPane">

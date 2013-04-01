@@ -122,6 +122,21 @@ class ManipulateOrderLoading
 	{
 		return($this->db->PullMealData());
 	}
+	
+	/**
+	 * Loads the full mob information based on the ids.
+	 * @param $mobIds A list of mobIds.
+	 * @return List of Mobs with Id's as keys.
+	 */
+	public function LoadMobsFromIds($mobIds)
+	{
+		return($this->db->PullMobByIds());
+	}
+	
+	public function LoadMealFromId($LoadMealInformation)
+	{
+		return($this->db->PullMealData());
+	}
 }
 
 ?>
