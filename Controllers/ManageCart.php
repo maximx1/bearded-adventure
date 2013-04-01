@@ -65,20 +65,25 @@ if(isset($_GET["actionControl"]))
 		}
 		else if($_GET['userSelect'] && isset($_GET['mealSelect']) && isset($_GET['riceSelect']))
 		{
-			$userid = $_GET['userSelect'];
-			$meal = $OrderLoader->PullSingleMealInformation($userid);
+			$mealid = $_GET['mealSelect'];
+			$meal = $OrderLoader->LoadMealFromId($mealid);
+			$rice = $OrderLoader->LoadSideFromId($_GET['riceSelect']);
 			
-			$order = new Order(0, "", $meal[$userid]["name"], $OrderLoader->LoadMobsFromIds($_GET['mealOptionsSelect']),"", $meal[$userid]["price"], "");
+			if(isset($_GET['mealOptionsSelect']))
+			{
+				if(empty($_GET['mealOptionsSelect']))
+				{
+					$moboptions = array();
+				}
+				else
+				{
+					$moboptions = $OrderLoader->LoadMobsFromIds($_GET['mealOptionsSelect']);
+				}
+			}
+			
+			$order = new Order(0, "", $meal[$mealid]["name"], $moboptions, $rice, $meal[$mealid]["price"], "");
 			$order->AddIdsForDuplication($_GET['userSelect'], $_GET['mealSelect'], $_GET['riceSelect']);
-			
-			//$order = new NewOrder(
-			//				$_GET['userSelect'], 
-			//				$_GET['mealSelect'], 
-			//				$_GET['mealOptionsSelect'], 
-			//				$_GET['riceSelect'], 
-			//				$_SESSION['sessionId']
-			//			 );
-			
+
 			array_push($orderList, $order);
 		}
 		

@@ -130,12 +130,36 @@ class ManipulateOrderLoading
 	 */
 	public function LoadMobsFromIds($mobIds)
 	{
-		return($this->db->PullMobByIds());
+		return($this->db->PullMobByIds($mobIds));
 	}
 	
-	public function LoadMealFromId($LoadMealInformation)
+	/**
+	 * Loads the information of a single meal by the mealId.
+	 * @param $mealId the id of the meal to pull the rest of the information for.
+	 * @return array() Meal mapped as $meal[meal id]["name" or "price"].
+	 */
+	public function LoadMealFromId($mealId)
 	{
-		return($this->db->PullMealData());
+		return($this->db->PullSingleMealInformation($mealId));
+	}
+	
+	/**
+	 * Gets the rice type from the database by the id number.
+	 * @param $riceId The rice id to search.
+	 * @return string The rice type string.
+	 */
+	public function LoadSideFromId($riceId)
+	{
+		$rices = $this->db->PullRiceTypes();
+		foreach($rices as $key => $rice)
+		{
+			if($key == $riceId)
+			{
+				return($rice);
+			}
+		}
+		
+		return "";
 	}
 }
 
