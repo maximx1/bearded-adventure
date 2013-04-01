@@ -47,13 +47,13 @@ require_once("Tools/UUID.php");
 				$_SESSION['sessionId'] = UUID::NewUUID();
 			}
 			
-			if(isset($_SESSION['cartList']))
+			if(isset($_SESSION['cartList']) && isset($_GET['userid']))
 			{
 				foreach ($_SESSION['cartList'] as $item)
 				{
 					echo array_keys($item->MOB_OPTION);
 					$order = new NewOrder(
-								$item->USER_ID,
+								$_GET['userid'],
 								$item->MEAL_ID,
 								array_keys($item->MOB_OPTION),
 								$item->RICE_ID,

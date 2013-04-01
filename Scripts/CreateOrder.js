@@ -90,14 +90,13 @@ $(document).ready
 									cartSpace += "<hr>";
 								}
 							}
-							cartSpace += "<input id='SubmitOrderButton' type='button' value='Place Order' />";
+							cartSpace += "<input class='SubmitOrderButton' type='button' value='Place Order' />";
 							cartSpace += "</div>";
 							cartSpace += "<script src='Scripts/CreateOrder.js'></script>";
 							$("#mealCartSpace").html(cartSpace);
 						}
 					}
 				);
-				//$("#submitButton").removeAttr('disabled');
 			}
 		);
 		
@@ -135,15 +134,26 @@ $(document).ready
 									cartSpace += "<hr>";
 								}
 							}
-							cartSpace += "<input id='SubmitOrderButton' type='button' value='Place Order' />";
+							cartSpace += "<input class='SubmitOrderButton' type='button' value='Place Order' />";
 							cartSpace += "</div>";
 							cartSpace += "<script src='Scripts/CreateOrder.js'></script>";
 							$("#mealCartSpace").html(cartSpace);
 						}
 					}
 				);
-				
-				//$(".addNewOrder").removeAttr('disabled');
+			}
+		);
+		
+		//Commit the cart to the order and then clean the cart.
+		$(".SubmitOrderButton").on("click",
+			function()
+			{				
+				if(validations())
+				{
+					var uid = $("#userSelect option:selected").val();
+					var newURL = String(window.location);
+					window.location = newURL.substring(0, newURL.length - 15) + "SubmitOrder.php?userid=" + uid;
+				}
 			}
 		);
 	}
@@ -158,4 +168,5 @@ function validations()
 		alert("You must choose a user!");
 		return false;	
 	}
+	return true;
 }

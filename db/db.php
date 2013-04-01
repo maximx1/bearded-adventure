@@ -249,17 +249,26 @@ class DB
 	 {
 	 	$mobOptions = array();
 		
-		$query = "select M.MOB_ID, M.MOB_OPTION from MEAL_OPTIONS_BASE M where M.MOB_ID in (" . implode(",", $mobIds) . ")";
-		$PStatement = $this->db->prepare($query);
-		$PStatement->execute();
-		$rows = $PStatement->fetchAll();
-		
-		foreach($rows as $row)
+		try
 		{
-			$mobOptions[$row['MOB_ID']] = $row['MOB_OPTION'];
+			$query = "select M.MOB_ID, M.MOB_OPTION from MEAL_OPTIONS_BASE M where M.MOB_ID in (" . implode(",", $mobIds) . ")";
+			$PStatement = $this->db->prepare($query);
+			$PStatement->execute();
+			$rows = $PStatement->fetchAll();
+			
+			foreach($rows as $row)
+			{
+				$mobOptions[$row['MOB_ID']] = $row['MOB_OPTION'];
+			}
+			
+			return($mobOptions);
 		}
-		
-		return($mobOptions);
+		catch(PDOException $er)
+		{
+			print "Error: ".$er;
+			print $mealQuery;
+			exit;
+		}
 	 }
 	
 	/**
@@ -322,7 +331,7 @@ class DB
 		{
 			$prevOrder = null;
 			$query = "select M.MEAL_ID, M.MEAL_NAME, M.MEAL_PRICE from MEALS M where M.MEAL_ID = :mealId;";
-			
+
 			//Pull the optgroup information
 			$PStatement = $this->db->prepare($query);
 			$PStatement->bindValue(":mealId", $mealId);
@@ -531,7 +540,7 @@ class DB
 	
 	/**
 	 * Pull all of the rice type sides.
-	 * @return List of the sides.
+	 * @return array() List of the sides.
 	 */
 	public function PullRiceTypes()
 	{

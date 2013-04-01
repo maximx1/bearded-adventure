@@ -118,7 +118,7 @@ $(document).ready
 							cartSpace += "<hr>";
 						}
 					}
-					cartSpace += "<input id='SubmitOrderButton' type='button' value='Place Order' />";
+					cartSpace += "<input class='SubmitOrderButton' type='button' value='Place Order' />";
 					cartSpace += "</div>";
 					cartSpace += "<script src='Scripts/CreateOrder.js'></script>";
 					$("#mealCartSpace").html(cartSpace);
