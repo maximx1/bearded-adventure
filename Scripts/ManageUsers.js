@@ -43,12 +43,10 @@ $(document).ready
 					function(userList)
 					{
 						populateUserTable(userList);
+						//Display a message of success
+						$("#message").text("User removed");
 					}
-				);
-				//$("#userData").load("Controllers/ControlUserManip.php?actionControl=deleteUser&id=" + id);
-				
-				//Display a message of success
-				$("#message").text("User removed");
+				);	
 			}
 		);
 		
@@ -73,11 +71,10 @@ $(document).ready
 					function(userList)
 					{
 						populateUserTable(userList);
+						//Display a successful load
+						$("#message").text("User added");
 					}
-				);
-				
-				//Display a successful load
-				$("#message").text("User added");
+				);	
 			}
 		);
 	}
