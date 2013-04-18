@@ -53,6 +53,7 @@
 				
 				<!--Show Rice Options-->
 				<div id="riceSpace"></div>
+				<a href="CreateSide.php">New Side</a><br>&nbsp;<br>
 				
 				<!--<input id="submitButton" type="submit" value="Submit" disabled="disabled"/>-->
 				<input class='addNewOrder' type='button' value='Add' disabled='disabled'/>
