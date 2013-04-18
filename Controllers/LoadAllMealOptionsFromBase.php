@@ -48,6 +48,14 @@ class LoadAllMealOptionsFromBase
 	{
 		return($this->db->PullAllMobs());
 	}
+
+	/** [deprecated]
+	 * Pulls the rice from the database.
+	 */
+	public function LoadRice()
+	{
+		return($this->db->PullRiceTypes());
+	}
 }
 
 ?>

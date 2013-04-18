@@ -448,6 +448,32 @@ class DB
 		}
 	}
 
+	/*
+	 * Stores the side into the database.
+	 * @param string The side name.
+	 */
+	public function StoreSide($side)
+	{
+		$insert = "";
+		try
+		{			
+			$insert = "INSERT INTO RICE VALUES(null, :side);";
+			
+			$PStatement = $this->db->prepare($insert);
+			$PStatement->bindValue(':side', $side);
+			$PStatement->execute();
+			$PStatement->closeCursor();
+			return;
+		}
+		catch(PDOException $er)
+		{
+			print "Error: ".$er."<br><br>";
+			print "SQL Statement: ".$insert;
+			exit;
+		}
+	}
+
+
 	/**
 	 * Stores the order into the database.
 	 * @param A new order object to place into the database.
