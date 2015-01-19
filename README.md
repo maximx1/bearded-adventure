@@ -1,5 +1,7 @@
 This is the website for chinese friday. A chinese food ordering system for IDI.
 
+Ha now isn't this a bastard child... [Rewriting](https://github.com/maximx1/bearded-adventure-2)
+
 Authors:
 	Justin Walrath <walrathjaw@gmail.com>
 	Tessa Seiders <tessa.seiders@gmail.com>
